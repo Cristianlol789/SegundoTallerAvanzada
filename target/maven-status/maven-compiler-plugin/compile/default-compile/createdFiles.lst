@@ -1,9 +1,11 @@
 edu\progAvUD\taller2\modelo\Persona.class
 edu\progAvUD\taller2\vista\VentanaPrincipal.class
 edu\progAvUD\taller2\modelo\Carta$Palo.class
+edu\progAvUD\taller2\vista\panelMesa.class
 edu\progAvUD\taller2\control\ControlGrafico.class
 edu\progAvUD\taller2\control\ControlPrincipal.class
 edu\progAvUD\taller2\control\ControlCarta.class
+edu\progAvUD\taller2\vista\panelCarta.class
 edu\progAvUD\taller2\modelo\Crupier.class
 edu\progAvUD\taller2\modelo\Serializacion.class
 edu\progAvUD\taller2\control\ControlPersona.class
