@@ -1,7 +1,10 @@
 package edu.progAvUD.taller2.control;
 
+import edu.progAvUD.taller2.modelo.Carta;
 import edu.progAvUD.taller2.modelo.ConexionPropiedades;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Properties;
 
 public class ControlPrincipal {
@@ -12,12 +15,13 @@ public class ControlPrincipal {
     private ConexionPropiedades conexionPropiedades;
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
+    private ArrayList<Carta> mazo;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
         controlPersona = new ControlPersona(this);
         controlCarta = new ControlCarta(this);
-
+        mazo = new ArrayList<Carta>();
     }
 
     public void crearConexionPropiedades() {
@@ -83,5 +87,14 @@ public class ControlPrincipal {
             mostrarMensajeError("Algun dato del jugador no corresponde");
         }
     }
-
+    
+    public void crearMazo() {
+        for (Carta.Palo palo : Carta.Palo.values()) {
+            for (Carta.Denominacion denominacion : Carta.Denominacion.values()) {
+                Carta carta = controlCarta.crearCarta(palo.name(), denominacion.name());
+                mazo.add(carta);
+            }
+        }
+        Collections.shuffle(mazo);
+    }
 }
