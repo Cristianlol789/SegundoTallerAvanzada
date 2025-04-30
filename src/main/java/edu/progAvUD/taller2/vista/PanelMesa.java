@@ -8,12 +8,12 @@ package edu.progAvUD.taller2.vista;
  *
  * @author Andres Felipe
  */
-public class panelMesa extends javax.swing.JPanel {
+public class PanelMesa extends javax.swing.JPanel {
 
     /**
      * Creates new form panelMesa
      */
-    public panelMesa() {
+    public PanelMesa() {
         initComponents();
     }
 

@@ -9,10 +9,10 @@ package edu.progAvUD.taller2.vista;
  *
  * @author Andres Felipe
  */
-public class panelCarta extends javax.swing.JPanel {
+public class PanelCarta extends javax.swing.JPanel {
 
     /** Creates new form panelCarta */
-    public panelCarta() {
+    public PanelCarta() {
         initComponents();
     }
 

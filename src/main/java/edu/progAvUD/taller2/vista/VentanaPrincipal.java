@@ -8,6 +8,7 @@ import edu.progAvUD.taller2.control.ControlGrafico;
 import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -17,6 +18,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlGrafico controlGrafico;
+    public PanelPrincipal panelPrincipal;
+    public PanelMesa panelMesa;
 
     /**
      * Creates new form VentanaPrincipal
@@ -24,6 +27,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public VentanaPrincipal(ControlGrafico controlGrafico) {
         this.controlGrafico = controlGrafico;
         initComponents();
+        setVisible(true);
+        this.panelPrincipal = new PanelPrincipal();
+        this.panelMesa = new PanelMesa();
+        
     }
 
     /**
@@ -45,15 +52,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public File pedirArchivo() {
-        JFileChooser fileChooser = new JFileChooser();
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/edu/progAvUD/taller2/data");
 
         // Aplica un filtro para archivos .properties
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .properties", "properties"));
-
+        fileChooser.showOpenDialog(null);
         // Mostrar el diálogo
-        return fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION
-                ? fileChooser.getSelectedFile()
-                : null;
+        return fileChooser.getSelectedFile();
+    }
+    
+    public void mostrarPanel(JPanel panel) {
+        setContentPane(panel);
+        pack(); // Ajusta el tamaño de la ventana según el contenido
+        setLocationRelativeTo(null); // Centra la ventana en la pantalla
+        revalidate();
+        repaint();
     }
 
     /**

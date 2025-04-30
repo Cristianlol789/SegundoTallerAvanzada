@@ -9,17 +9,12 @@ import java.util.Properties;
  *
  * @author Andres Felipe
  */
-public class Conexion {
+public class ConexionPropiedades {
 
     private FileInputStream fileIn;
 
-    public Conexion(File archivo) throws Exception{
+    public ConexionPropiedades(File archivo) throws Exception{
         this.fileIn = new FileInputStream(archivo);
-    }
-
-    public String leer(){
-        
-        return null;
     }
     
     public Properties cargarPropiedades() throws IOException{
