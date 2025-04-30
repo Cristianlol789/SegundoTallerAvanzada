@@ -1,7 +1,10 @@
 package edu.progAvUD.taller2.modelo;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
@@ -11,45 +14,60 @@ import java.io.ObjectOutputStream;
  */
 public class Serializacion {
 
-    private FileOutputStream fileOut;
-    private ObjectOutputStream salida;
-    private FileInputStream fileIn;
-    private ObjectInputStream entrada;
+    private FileOutputStream fileOutSerializacion;
+    private ObjectOutputStream salidaSerializacion;
+    private FileInputStream fileInSerializacion;
+    private ObjectInputStream entradaSerializacion;
 
-    public Serializacion() {
-
+    public Serializacion(File archivo) throws FileNotFoundException, IOException {
+        fileOutSerializacion = new FileOutputStream(archivo);
+        salidaSerializacion = new ObjectOutputStream(fileOutSerializacion);
+        fileInSerializacion = new FileInputStream(archivo);
+        entradaSerializacion = new ObjectInputStream(fileInSerializacion);
     }
 
-    public FileOutputStream getFileOut() {
-        return fileOut;
+    public void cerrarArchivoSerializadoOut() throws IOException {
+        salidaSerializacion.close();
     }
 
-    public void setFileOut(FileOutputStream fileOut) {
-        this.fileOut = fileOut;
+    public void cerrarArchivoSerializadoIn() throws IOException {
+        entradaSerializacion.close();
     }
 
-    public ObjectOutputStream getSalida() {
-        return salida;
+    public void escribirArchivoSerializado(Persona persona) throws IOException {
+        salidaSerializacion.writeObject(persona);
     }
 
-    public void setSalida(ObjectOutputStream salida) {
-        this.salida = salida;
+    public FileOutputStream getFileOutSerializacion() {
+        return fileOutSerializacion;
     }
 
-    public FileInputStream getFileIn() {
-        return fileIn;
+    public void setFileOutSerializacion(FileOutputStream fileOutSerializacion) {
+        this.fileOutSerializacion = fileOutSerializacion;
     }
 
-    public void setFileIn(FileInputStream fileIn) {
-        this.fileIn = fileIn;
+    public ObjectOutputStream getSalidaSerializacion() {
+        return salidaSerializacion;
     }
 
-    public ObjectInputStream getEntrada() {
-        return entrada;
+    public void setSalidaSerializacion(ObjectOutputStream salidaSerializacion) {
+        this.salidaSerializacion = salidaSerializacion;
     }
 
-    public void setEntrada(ObjectInputStream entrada) {
-        this.entrada = entrada;
+    public FileInputStream getFileInSerializacion() {
+        return fileInSerializacion;
+    }
+
+    public void setFileInSerializacion(FileInputStream fileInSerializacion) {
+        this.fileInSerializacion = fileInSerializacion;
+    }
+
+    public ObjectInputStream getEntradaSerializacion() {
+        return entradaSerializacion;
+    }
+
+    public void setEntradaSerializacion(ObjectInputStream entradaSerializacion) {
+        this.entradaSerializacion = entradaSerializacion;
     }
 
 }

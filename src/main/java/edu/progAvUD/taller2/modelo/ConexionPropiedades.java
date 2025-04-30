@@ -11,16 +11,16 @@ import java.util.Properties;
  */
 public class ConexionPropiedades {
 
-    private FileInputStream fileIn;
+    private FileInputStream fileInPropiedades;
 
     public ConexionPropiedades(File archivo) throws Exception{
-        this.fileIn = new FileInputStream(archivo);
+        this.fileInPropiedades = new FileInputStream(archivo);
     }
     
     public Properties cargarPropiedades() throws IOException{
         Properties propiedades = new Properties();
-        propiedades.load(fileIn);
-        fileIn.close();
+        propiedades.load(fileInPropiedades);
+        fileInPropiedades.close();
         return propiedades;
     }
     
