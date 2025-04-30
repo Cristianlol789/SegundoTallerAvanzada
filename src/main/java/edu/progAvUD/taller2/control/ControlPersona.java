@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,8 +21,7 @@ public class ControlPersona {
 
     private ControlPrincipal controlPrincipal;
     private Persona crupier;
-    private Persona[] jugadores;
-    private int contadorJugadores;
+    private ArrayList<Persona> jugadores;
     private Serializacion serializar;
     private FileOutputStream fileOut;
     private ObjectOutputStream salida;
@@ -30,44 +30,40 @@ public class ControlPersona {
 
     public ControlPersona(ControlPrincipal controlPrincipal) {
         this.controlPrincipal = controlPrincipal;
-        this.jugadores = new Persona[6];
-        this.contadorJugadores = 0;
+        this.jugadores = new ArrayList<Persona>();
         crearSerializacion();
     }
 
     public String crearPersona(String identificador, String nombre, String cedula, String apellido, String telefono, String direccion) {
         if (identificador.equals("Crupier")) {
-            if (cedula == null) {
+            if (cedula == null || cedula.equals("")) {
                 controlPrincipal.mostrarMensajeError("No se puede crear el jurado ya que no tiene cedula");
-            } else if (nombre == null || apellido == null) {
+            } else if (nombre == null || apellido == null || nombre.equals("") || apellido.equals("")) {
                 Persona crupier = new Crupier(cedula);
+                controlPrincipal.mostrarMensajeExito("Se creo la persona con solo cedula");
             } else {
                 Persona crupier = new Crupier(nombre, cedula, apellido);
             }
-        } else if (identificador.equals("Jugador") && contadorJugadores != 5) {
-            if (cedula == null) {
+        } else if (identificador.equals("Jugador")) {
+            if (cedula == null || cedula.equals("")) {
                 controlPrincipal.mostrarMensajeError("No se puede crear el jugador ya que no tiene cedula");
-            } else if (nombre == null || apellido == null || telefono == null || direccion == null) {
+            } else if (nombre == null || apellido == null || telefono == null || direccion == null || nombre.equals("") || apellido.equals("") || telefono.equals("") || direccion.equals("")) {
                 Persona jugador = new Jugador(cedula);
-                jugadores[contadorJugadores] = jugador;
-                contadorJugadores += 1;
+                controlPrincipal.mostrarMensajeExito("Se creo la persona con solo cedula");
             } else {
                 Persona jugador = new Jugador(direccion, telefono, nombre, cedula, apellido);
-                jugadores[contadorJugadores] = jugador;
-                contadorJugadores += 1;
+                jugadores.add(jugador);
             }
-        } else if (contadorJugadores == 5) {
-            controlPrincipal.mostrarMensajeError("No se puede crear mas de 6 jugadores");
-        }
+        } 
         return "0";
     }
 
     public String crearSerializacion() {
         serializar = new Serializacion();
         try {
-            FileOutputStream fileOut = new FileOutputStream("crupier.bin");
+            FileOutputStream fileOut = new FileOutputStream("src/main/java/edu/progAvUD/taller2/data/crupier.bin");
             ObjectOutputStream salida = new ObjectOutputStream(fileOut);
-            FileInputStream fileIn = new FileInputStream("crupier.bin");
+            FileInputStream fileIn = new FileInputStream("src/main/java/edu/progAvUD/taller2/data/crupier.bin");
             ObjectInputStream entrada = new ObjectInputStream(fileIn);
         } catch (FileNotFoundException ex) {
             return "No se ha encontrado el archivo";

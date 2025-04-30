@@ -5,7 +5,10 @@
 package edu.progAvUD.taller2.vista;
 
 import edu.progAvUD.taller2.control.ControlGrafico;
+import java.io.File;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -14,7 +17,7 @@ import javax.swing.JOptionPane;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlGrafico controlGrafico;
-    
+
     /**
      * Creates new form VentanaPrincipal
      */
@@ -22,7 +25,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.controlGrafico = controlGrafico;
         initComponents();
     }
-    
+
     /**
      * Muestra un cuadro de diálogo con un mensaje de éxito.
      *
@@ -40,8 +43,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public void mostrarMensajeError(String mensaje) {
         JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
-    
-    
+
+    public File pedirArchivo() {
+        JFileChooser fileChooser = new JFileChooser();
+
+        // Aplica un filtro para archivos .properties
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .properties", "properties"));
+
+        // Mostrar el diálogo
+        return fileChooser.showOpenDialog(null) == JFileChooser.APPROVE_OPTION
+                ? fileChooser.getSelectedFile()
+                : null;
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always

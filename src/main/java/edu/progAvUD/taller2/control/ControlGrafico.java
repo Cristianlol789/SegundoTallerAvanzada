@@ -1,6 +1,7 @@
 package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.vista.VentanaPrincipal;
+import java.io.File;
 
 /**
  *
@@ -28,5 +29,7 @@ public class ControlGrafico {
         ventanaPrincipal.mostrarMensajeExito(mensaje);
     }
     
-    
+    public File pedirArchivo(){
+        return ventanaPrincipal.pedirArchivo();
+    }
 }
