@@ -19,6 +19,9 @@ public class ControlPrincipal {
     private ArrayList<Carta> mazo;
     private int contadorRondas;
     private ArrayList<String> cedulasJugadoresEnMano;
+    private ArrayList<Carta> cartasJugador1;
+    private ArrayList<Carta> cartasJugador2;
+    private ArrayList<Carta> cartasCrupier;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
@@ -26,6 +29,9 @@ public class ControlPrincipal {
         controlCarta = new ControlCarta(this);
         mazo = new ArrayList<Carta>();
         cedulasJugadoresEnMano = new ArrayList<String>();
+        cartasJugador1 = new ArrayList<Carta>();
+        cartasJugador2 = new ArrayList<Carta>();
+        cartasCrupier = new ArrayList<Carta>();
         contadorRondas = 1;
     }
 
@@ -213,7 +219,6 @@ public class ControlPrincipal {
                 unidades2 = -1;
             }
         } else {
-            // Jugador 1
             if (valorCartasJugador1 > 21) {
                 unidades1 = -1;
             } else if (valorCartasJugador1 > valorCartasCrupier) {
@@ -227,7 +232,6 @@ public class ControlPrincipal {
             } else {
                 unidades1 = -1;
             }
-            // Jugador 2
             if (valorCartasJugador2 > 21) {
                 unidades2 = -1;
             } else if (valorCartasJugador2 > valorCartasCrupier) {
@@ -245,5 +249,43 @@ public class ControlPrincipal {
 
         double pago1 = unidades1 * apuestaJugador1 + netoSeguro1;
         double pago2 = unidades2 * apuestaJugador2 + netoSeguro2;
+    }
+
+    public void obtenerPosicion(String nombrePropietarioCarta) {
+        Carta cartaAleatoria = mazo.getFirst();
+        if (nombrePropietarioCarta.equals("Jugador1")) {
+            cartasJugador1.add(cartaAleatoria);
+        } else if (nombrePropietarioCarta.equals("Jugador2")) {
+            cartasJugador2.add(cartaAleatoria);
+        } else {
+            cartasCrupier.add(cartaAleatoria);
+        }
+        mazo.removeFirst();
+    }
+
+    public int sumarCartas(ArrayList<Carta> mano) {
+        int suma = 0;
+        int cantidadAses = 0;
+        for (Carta carta : mano) {
+            String denominacion = carta.getDenominacion().name();
+            switch (denominacion) {
+                case "J":
+                case "Q":
+                case "K":
+                    suma += 10;
+                    break;
+                case "A":
+                    suma += 11;
+                    cantidadAses++;
+                    break;
+                default:
+                    suma += Integer.parseInt(denominacion); 
+            }
+        }
+        while (suma > 21 && cantidadAses > 0) {
+            suma -= 10; 
+            cantidadAses--;
+        }
+        return suma;
     }
 }

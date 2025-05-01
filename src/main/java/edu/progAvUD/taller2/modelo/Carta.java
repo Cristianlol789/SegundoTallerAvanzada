@@ -7,7 +7,7 @@ public class Carta {
     }
     
     public enum Denominacion{
-        AZ, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, OCHO, NUEVE, DIEZ, J, Q, K
+        A, DOS, TRES, CUATRO, CINCO, SEIS, SIETE, OCHO, NUEVE, DIEZ, J, Q, K
     }
     
     private Palo palo;
