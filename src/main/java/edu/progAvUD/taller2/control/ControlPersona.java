@@ -4,6 +4,7 @@ import edu.progAvUD.taller2.modelo.Crupier;
 import edu.progAvUD.taller2.modelo.Jugador;
 import edu.progAvUD.taller2.modelo.Persona;
 import edu.progAvUD.taller2.modelo.Serializacion;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -58,9 +59,10 @@ public class ControlPersona {
             }
         }
     }
-    
-    public void crearSerializacion(File archivo) {
+
+    public void crearPersonaSerializacion() {
         try {
+            File archivo = controlPrincipal.archivoSerializado();
             serializacion = new Serializacion(archivo);
         } catch (FileNotFoundException ex) {
             controlPrincipal.mostrarMensajeError("El archivo no ha sido encontrado");
@@ -84,7 +86,7 @@ public class ControlPersona {
             try {
                 serializacion.cerrarArchivoSerializadoIn();
             } catch (IOException ex) {
-                controlPrincipal.mostrarMensajeError("no se puede cerrar la entrada");
+                controlPrincipal.mostrarMensajeError("No se puede cerrar la entrada");
             }
         }
     }
@@ -98,6 +100,31 @@ public class ControlPersona {
             }
         }
     }
-    
-    
+
+    public Persona leerArchivoSerializado() {
+        Persona persona = null;
+        if (serializacion.getEntradaSerializacion() != null) {
+            try {
+                persona = (Persona) serializacion.leerArchivoSerializado();
+            } catch (EOFException eof) {
+                controlPrincipal.mostrarMensajeError("Fin de archivo inesperado al leer la persona.");
+            } catch (IOException io) {
+                controlPrincipal.mostrarMensajeError("Error al leer el archivo serializado: " + io.getMessage());
+            } catch (ClassNotFoundException cnfe) {
+                controlPrincipal.mostrarMensajeError("No se ha encontrado la clase");
+            }
+        }
+        return persona;
+    }
+
+    public void desSerializacion() {
+        for (Persona personaEncontrada : personas) {
+            escribirArchivoSerializado(personaEncontrada);
+            Persona personaDesSerializada = new Persona();
+            personaDesSerializada = (Persona) leerArchivoSerializado();
+            controlPrincipal.mostrarMensajeExito("Se ha deserializado");
+            controlPrincipal.mostrarMensajeExito("Persona DesSerializada: " + personaDesSerializada.getNombre() + " " + personaDesSerializada.getApellido());
+        }
+    }
+
 }

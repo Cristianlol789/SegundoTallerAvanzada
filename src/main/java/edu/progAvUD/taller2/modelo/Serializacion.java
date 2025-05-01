@@ -38,6 +38,11 @@ public class Serializacion {
         salidaSerializacion.writeObject(persona);
     }
 
+    public Persona leerArchivoSerializado() throws IOException, ClassNotFoundException {
+        Persona persona = (Persona) entradaSerializacion.readObject();
+        return persona;
+    }
+
     public FileOutputStream getFileOutSerializacion() {
         return fileOutSerializacion;
     }

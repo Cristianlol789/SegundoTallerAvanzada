@@ -2,6 +2,7 @@ package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.modelo.Carta;
 import edu.progAvUD.taller2.modelo.ConexionPropiedades;
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -31,6 +32,17 @@ public class ControlPrincipal {
             mostrarMensajeError("No se pudo crear la conexion correctamente");
             crearConexionPropiedades();
         }
+    }
+
+    public File archivoSerializado() {
+        File archivo = null;
+        try {
+            archivo = controlGrafico.pedirArchivo();
+        } catch (Exception ex) {
+            mostrarMensajeError("No se ha podido encontrar el archivo");
+            archivoSerializado();
+        }
+        return archivo;
     }
 
     public void mostrarMensajeError(String mensaje) {
@@ -80,14 +92,14 @@ public class ControlPrincipal {
             double cedulaDouble = Double.parseDouble(cedula);
             controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null);
             mostrarMensajeExito("Crupier \n"
-                        + "nombre :" + nombre + "\n"
-                        + "apellido :" + apellido + "\n"
-                        + "cedula :" + cedula + "\n");
+                    + "nombre :" + nombre + "\n"
+                    + "apellido :" + apellido + "\n"
+                    + "cedula :" + cedula + "\n");
         } catch (Exception ex) {
             mostrarMensajeError("Algun dato del jugador no corresponde");
         }
     }
-    
+
     public void crearMazo() {
         for (Carta.Palo palo : Carta.Palo.values()) {
             for (Carta.Denominacion denominacion : Carta.Denominacion.values()) {
