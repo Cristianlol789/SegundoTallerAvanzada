@@ -157,4 +157,21 @@ public class ControlPersona {
         }
         return "Crupier";
     }
+    
+    public String buscarPersonaPorCedula(String cedula){
+        for(Persona persona: personas){
+            if (persona.getCedula().equals(cedula)){
+                String nombrePersona = persona.getNombre();
+                String cedulaPersona = persona.getCedula();
+                String apellidoPersona = persona.getApellido();
+                if (nombrePersona == null || nombrePersona.equals("") || apellidoPersona == null || apellidoPersona.equals("")){
+                    return "La cedula del jugador es" + cedulaPersona;
+                }
+                else{
+                    return "El nombre de la persona es " + nombrePersona + " " + apellidoPersona + " con cedula " + cedulaPersona;
+                }
+            }
+        }
+        return null;
+    }
 }

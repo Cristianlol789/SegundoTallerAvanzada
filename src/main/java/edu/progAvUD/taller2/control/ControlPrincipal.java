@@ -17,14 +17,16 @@ public class ControlPrincipal {
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
     private ArrayList<Carta> mazo;
-    private ArrayList<String> cedulas;
+    private int contadorRondas;
+    private ArrayList<String> cedulasJugadoresEnMano;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
         controlPersona = new ControlPersona(this);
         controlCarta = new ControlCarta(this);
         mazo = new ArrayList<Carta>();
-        cedulas = new ArrayList<String>();
+        cedulasJugadoresEnMano = new ArrayList<String>();
+        contadorRondas = 1;
     }
 
     public void crearConexionPropiedades() {
@@ -72,13 +74,8 @@ public class ControlPrincipal {
                 String cantidadFichas = propiedadesJugadores.getProperty("jugador" + i + ".cantidadFichas");
                 double cantidadFichasDouble = Double.parseDouble(cantidadFichas);
                 controlPersona.crearPersona(identificador, nombre, cedula, apellido, telefono, direccion, dineroDouble, cantidadFichasDouble);
-                mostrarMensajeExito("Jugador" + i + "\n"
-                        + "nombre :" + nombre + "\n"
-                        + "apellido :" + apellido + "\n"
-                        + "cedula :" + cedula + "\n"
-                        + "telefono :" + telefono + "\n"
-                        + "direccion:" + direccion + "");
             }
+            controlGrafico.mostrarMensajeExito("Se han creado correctamente los jugadores");
         } catch (IOException ex) {
             mostrarMensajeError("No se pudo cargar el archivo propiedades de los jugadores");
         } catch (NumberFormatException ex) {
@@ -97,10 +94,7 @@ public class ControlPrincipal {
             String cedula = propiedadesCrupier.getProperty("crupier.cedula");
             double cedulaDouble = Double.parseDouble(cedula);
             controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null, 0, 0);
-            mostrarMensajeExito("Crupier \n"
-                    + "nombre :" + nombre + "\n"
-                    + "apellido :" + apellido + "\n"
-                    + "cedula :" + cedula + "\n");
+            mostrarMensajeExito("Se ha creado correctamente el crupier");
         } catch (Exception ex) {
             mostrarMensajeError("Algun dato del jugador no corresponde");
         }
@@ -118,7 +112,7 @@ public class ControlPrincipal {
 
     public boolean buscarCedulasRepetidas(String cedula) {
         boolean flag = true;
-        for (String cedulaBuscada : cedulas) {
+        for (String cedulaBuscada : cedulasJugadoresEnMano) {
             if (cedulaBuscada.equals(cedula)) {
                 flag = false;
                 return flag;
@@ -151,14 +145,105 @@ public class ControlPrincipal {
             boolean flag1 = buscarCedulasRepetidas(cedula1);
             boolean flag2 = buscarCedulasRepetidas(cedula2);
             if (flag1 && flag2) {
-                cedulas.add(cedula1);
-                cedulas.add(cedula2);
+                cedulasJugadoresEnMano.add(cedula1);
+                cedulasJugadoresEnMano.add(cedula2);
+                informacionJugadores();
                 flag = false;
             }
         } while (flag);
     }
-    
-    public void conteoJugadores(){
+
+    public void informacionJugadores() {
+        if (contadorRondas == 1) {
+            String persona1 = cedulasJugadoresEnMano.get(0);
+            String persona2 = cedulasJugadoresEnMano.get(1);
+            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
+            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
+        } else if (contadorRondas == 2) {
+            String persona1 = cedulasJugadoresEnMano.get(2);
+            String persona2 = cedulasJugadoresEnMano.get(3);
+            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
+            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
+        } else {
+            String persona1 = cedulasJugadoresEnMano.get(4);
+            String persona2 = cedulasJugadoresEnMano.get(5);
+            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
+            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
+        }
+    }
+
+    public void conteoJugadores() {
         controlPersona.contarCantidadPersonas();
+    }
+
+    public void pagosBlackJack(int valorCartasCrupier, int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1, int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
+        double unidades1 = 0;
+        double unidades2 = 0;
+        double netoSeguro1 = 0;
+        double netoSeguro2 = 0;
+
+        boolean crupierBlackJack = valorCartasCrupier == 21;
+        boolean jugador1BlackJack = valorCartasJugador1 == 21;
+        boolean jugador2BlackJack = valorCartasJugador2 == 21;
+
+        if (crupierBlackJack) {
+            if ("SI".equalsIgnoreCase(seguroJugador1)) {
+                netoSeguro1 = seguroApostado1 * 2;
+            }
+            if ("SI".equalsIgnoreCase(seguroJugador2)) {
+                netoSeguro2 = seguroApostado2 * 2;
+            }
+        } else {
+            if ("SI".equalsIgnoreCase(seguroJugador1)) {
+                netoSeguro1 = -seguroApostado1;
+            }
+            if ("SI".equalsIgnoreCase(seguroJugador2)) {
+                netoSeguro2 = -seguroApostado2;
+            }
+        }
+        if (valorCartasCrupier > 21) {
+            if (valorCartasJugador1 <= 21) {
+                unidades1 = 1;
+            } else {
+                unidades1 = -1;
+            }
+            if (valorCartasJugador2 <= 21) {
+                unidades2 = 1;
+            } else {
+                unidades2 = -1;
+            }
+        } else {
+            // Jugador 1
+            if (valorCartasJugador1 > 21) {
+                unidades1 = -1;
+            } else if (valorCartasJugador1 > valorCartasCrupier) {
+                if (jugador1BlackJack && !crupierBlackJack) {
+                    unidades1 = 1.5;
+                } else {
+                    unidades1 = 1;
+                }
+            } else if (valorCartasJugador1 == valorCartasCrupier) {
+                unidades1 = 0;
+            } else {
+                unidades1 = -1;
+            }
+            // Jugador 2
+            if (valorCartasJugador2 > 21) {
+                unidades2 = -1;
+            } else if (valorCartasJugador2 > valorCartasCrupier) {
+                if (jugador2BlackJack && !crupierBlackJack) {
+                    unidades2 = 1.5;
+                } else {
+                    unidades2 = 1;
+                }
+            } else if (valorCartasJugador2 == valorCartasCrupier) {
+                unidades2 = 0;
+            } else {
+                unidades2 = -1;
+            }
+        }
+
+        double pago1 = unidades1 * apuestaJugador1 + netoSeguro1;
+        double pago2 = unidades2 * apuestaJugador2 + netoSeguro2;
     }
 }

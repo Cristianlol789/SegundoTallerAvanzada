@@ -63,6 +63,7 @@ public class ControlGrafico implements ActionListener{
             ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
             ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);
             controlprincipal.conteoJugadores();
+            controlprincipal.seleccionarJugadores();
         }
 
     }
