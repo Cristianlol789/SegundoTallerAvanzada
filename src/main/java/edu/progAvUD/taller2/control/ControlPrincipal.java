@@ -65,7 +65,11 @@ public class ControlPrincipal {
                 double cedulaDouble = Double.parseDouble(cedula);
                 String telefono = propiedadesJugadores.getProperty("jugador" + i + ".telefono");
                 String direccion = propiedadesJugadores.getProperty("jugador" + i + ".direccion");
-                controlPersona.crearPersona(identificador, nombre, cedula, apellido, telefono, direccion);
+                String dinero = propiedadesJugadores.getProperty("jugador" + i + ".dinero");
+                double dineroDouble = Double.parseDouble(dinero);
+                String cantidadFichas = propiedadesJugadores.getProperty("jugador" + i + ".cantidadFichas");
+                double cantidadFichasDouble = Double.parseDouble(cantidadFichas);
+                controlPersona.crearPersona(identificador, nombre, cedula, apellido, telefono, direccion, dineroDouble, cantidadFichasDouble);
                 mostrarMensajeExito("Jugador" + i + "\n"
                         + "nombre :" + nombre + "\n"
                         + "apellido :" + apellido + "\n"
@@ -80,6 +84,7 @@ public class ControlPrincipal {
         } catch (Exception ex) {
             mostrarMensajeError("Algun dato del jugador no corresponde");
         }
+        controlPersona.contarCantidadPersonas();
     }
 
     public void cargarCrupier() {
@@ -90,7 +95,7 @@ public class ControlPrincipal {
             String apellido = propiedadesCrupier.getProperty("crupier.apellido");
             String cedula = propiedadesCrupier.getProperty("crupier.cedula");
             double cedulaDouble = Double.parseDouble(cedula);
-            controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null);
+            controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null, 0, 0);
             mostrarMensajeExito("Crupier \n"
                     + "nombre :" + nombre + "\n"
                     + "apellido :" + apellido + "\n"

@@ -25,7 +25,7 @@ public class ControlPersona {
         this.personas = new ArrayList<Persona>();
     }
 
-    public void crearPersona(String identificador, String nombre, String cedula, String apellido, String telefono, String direccion) {
+    public void crearPersona(String identificador, String nombre, String cedula, String apellido, String telefono, String direccion, double dineroDouble, double cantidadFichasDouble) {
         boolean flag = true;
         for (Persona personaEncontrada : personas) {
             if (cedula.equals(personaEncontrada.getCedula())) {
@@ -36,7 +36,7 @@ public class ControlPersona {
         if (flag) {
             if (identificador.equals("Crupier")) {
                 if (cedula == null || cedula.equals("")) {
-                    controlPrincipal.mostrarMensajeError("No se puede crear el jurado ya que no tiene cedula");
+                    controlPrincipal.mostrarMensajeError("No se puede crear el crupier ya que no tiene cedula");
                 } else if (nombre == null || apellido == null || nombre.equals("") || apellido.equals("")) {
                     Persona crupier = new Crupier(cedula);
                     personas.add(crupier);
@@ -53,10 +53,27 @@ public class ControlPersona {
                     personas.add(jugador);
                     controlPrincipal.mostrarMensajeExito("Se creo la persona con solo cedula");
                 } else {
-                    Persona jugador = new Jugador(direccion, telefono, nombre, cedula, apellido);
+                    Persona jugador = new Jugador(nombre, cedula, apellido, direccion, telefono, dineroDouble, cantidadFichasDouble);
                     personas.add(jugador);
                 }
             }
+        }
+    }
+    
+    public void contarCantidadPersonas(){
+        int cantidadCrupieres = 0;
+        int cantidadJugadores = 0;
+        for (Persona personaEncontrada : personas) {
+            if(personaEncontrada instanceof Crupier){
+                cantidadCrupieres += 1;
+            }
+            else{
+                cantidadJugadores += 1;
+            }
+        }
+        if (cantidadCrupieres < 1 || cantidadJugadores < 6){
+            controlPrincipal.mostrarMensajeError("No hay suficientes personas para empezar el juego verifique que minimo todas las personas tengan cedula para poder ser creadas");
+            System.exit(0);
         }
     }
 
@@ -117,13 +134,13 @@ public class ControlPersona {
         return persona;
     }
 
-    public void desSerializacion() {
+    public void deserializacion() {
         for (Persona personaEncontrada : personas) {
             escribirArchivoSerializado(personaEncontrada);
-            Persona personaDesSerializada = new Persona();
-            personaDesSerializada = (Persona) leerArchivoSerializado();
+            Persona personaDeserializada = new Persona();
+            personaDeserializada = (Persona) leerArchivoSerializado();
             controlPrincipal.mostrarMensajeExito("Se ha deserializado");
-            controlPrincipal.mostrarMensajeExito("Persona DesSerializada: " + personaDesSerializada.getNombre() + " " + personaDesSerializada.getApellido());
+            controlPrincipal.mostrarMensajeExito("Cedula de la persona deserializada: " + personaDeserializada.getCedula());
         }
     }
 
