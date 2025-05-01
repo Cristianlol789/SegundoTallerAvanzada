@@ -81,9 +81,7 @@ public class ControlPrincipal {
                 String direccion = propiedadesJugadores.getProperty("jugador" + i + ".direccion");
                 String dinero = propiedadesJugadores.getProperty("jugador" + i + ".dinero");
                 double dineroDouble = Double.parseDouble(dinero);
-                String cantidadFichas = propiedadesJugadores.getProperty("jugador" + i + ".cantidadFichas");
-                double cantidadFichasDouble = Double.parseDouble(cantidadFichas);
-                controlPersona.crearPersona(identificador, nombre, cedula, apellido, telefono, direccion, dineroDouble, cantidadFichasDouble);
+                controlPersona.crearPersona(identificador, nombre, cedula, apellido, telefono, direccion, dineroDouble, 0);
             }
             controlGrafico.mostrarMensajeExito("Se han creado correctamente los jugadores");
         } catch (IOException ex) {
