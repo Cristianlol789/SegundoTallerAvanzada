@@ -1,11 +1,16 @@
 package edu.progAvUD.taller2.control;
 
+import edu.progAvUD.taller2.modelo.ArchivoAleatorio;
 import edu.progAvUD.taller2.modelo.Carta;
 import edu.progAvUD.taller2.modelo.ConexionPropiedades;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class ControlPrincipal {
@@ -16,6 +21,7 @@ public class ControlPrincipal {
     private ConexionPropiedades conexionPropiedades;
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
+    private ArchivoAleatorio archivoAleatorio;
     private ArrayList<Carta> mazo;
     private int contadorRondas;
     private ArrayList<String> cedulasJugadoresEnMano;
@@ -24,6 +30,7 @@ public class ControlPrincipal {
     private ArrayList<Carta> cartasCrupier;
     private ArrayList<Carta> dividirCartasJugador1;
     private ArrayList<Carta> dividirCartasJugador2;
+    private HashMap<Integer, String> ganadorRonda;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
@@ -37,13 +44,14 @@ public class ControlPrincipal {
         dividirCartasJugador1 = new ArrayList<Carta>();
         dividirCartasJugador2 = new ArrayList<Carta>();
         contadorRondas = 1;
+        ganadorRonda = new HashMap<Integer, String>();
     }
 
     public void crearConexionPropiedades() {
         try {
             conexionPropiedades = new ConexionPropiedades(controlGrafico.pedirArchivo());
         } catch (Exception ex) {
-            mostrarMensajeError("No se pudo crear la conexion correctamente");
+            controlGrafico.mostrarMensajeError("No se pudo crear la conexion correctamente");
             crearConexionPropiedades();
         }
     }
@@ -53,10 +61,33 @@ public class ControlPrincipal {
         try {
             archivo = controlGrafico.pedirArchivo();
         } catch (Exception ex) {
-            mostrarMensajeError("No se ha podido encontrar el archivo");
+            controlGrafico.mostrarMensajeError("No se ha podido encontrar el archivo");
             archivoSerializado();
         }
         return archivo;
+    }
+
+    public void crearArchivoAleatorio() {
+        try {
+            archivoAleatorio = new ArchivoAleatorio(controlGrafico.pedirArchivo());
+        } catch (FileNotFoundException fnfe) {
+            controlGrafico.mostrarMensajeError("No se ha encontrado el archivo");
+            crearArchivoAleatorio();
+        }
+    }
+
+    public void escrituraArchivoAleatorio() {
+        RandomAccessFile raf = archivoAleatorio.getArchivo();
+        try {
+            for (Map.Entry<Integer, String> entry : ganadorRonda.entrySet()) {
+                raf.writeInt(entry.getKey());
+                raf.writeUTF(entry.getValue());
+            }
+        } catch (FileNotFoundException fnfe) {
+            controlGrafico.mostrarMensajeError("El archivo no ha sido encontrado");
+        } catch (IOException ioe) {
+            controlGrafico.mostrarMensajeError("Hay un error al momento de escribir el archivo");
+        }
     }
 
     public void mostrarMensajeError(String mensaje) {
