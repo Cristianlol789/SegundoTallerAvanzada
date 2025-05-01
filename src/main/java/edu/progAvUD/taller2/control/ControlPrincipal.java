@@ -157,4 +157,8 @@ public class ControlPrincipal {
             }
         } while (flag);
     }
+    
+    public void conteoJugadores(){
+        controlPersona.contarCantidadPersonas();
+    }
 }
