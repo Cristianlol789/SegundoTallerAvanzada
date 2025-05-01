@@ -174,4 +174,15 @@ public class ControlPersona {
         }
         return null;
     }
+    
+    public double darCantidadFichasJugador(String cedula){
+        for(Persona persona: personas){
+            if (persona.getCedula().equals(cedula)){
+                return ((Jugador) persona).getCantidadFichas();
+            }
+        }
+        return 0;
+    }
+    
+    
 }

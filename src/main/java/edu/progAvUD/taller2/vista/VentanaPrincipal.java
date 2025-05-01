@@ -20,6 +20,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private ControlGrafico controlGrafico;
     public PanelPrincipal panelPrincipal;
     public PanelMesa panelMesa;
+    public DialogComprarFichas dialogComprarFichas;
 
     /**
      * Creates new form VentanaPrincipal
@@ -30,8 +31,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setVisible(true);
         this.panelPrincipal = new PanelPrincipal();
         this.panelMesa = new PanelMesa();
-        
+        this.dialogComprarFichas = new DialogComprarFichas(this, true);
     }
+    
 
     /**
      * Muestra un cuadro de diálogo con un mensaje de éxito.

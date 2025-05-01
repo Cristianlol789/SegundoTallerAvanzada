@@ -198,16 +198,19 @@ public class ControlPrincipal {
             String persona2 = cedulasJugadoresEnMano.get(1);
             controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
             controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
+            controlGrafico.mostrarDatosJugadores(persona1, persona2,controlPersona.darCantidadFichasJugador(persona1),controlPersona.darCantidadFichasJugador(persona2));
         } else if (contadorRondas == 2) {
             String persona1 = cedulasJugadoresEnMano.get(2);
             String persona2 = cedulasJugadoresEnMano.get(3);
             controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
             controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
+            controlGrafico.mostrarDatosJugadores(persona1, persona2,controlPersona.darCantidadFichasJugador(persona1),controlPersona.darCantidadFichasJugador(persona2));
         } else {
             String persona1 = cedulasJugadoresEnMano.get(4);
             String persona2 = cedulasJugadoresEnMano.get(5);
             controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
             controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
+            controlGrafico.mostrarDatosJugadores(persona1, persona2,controlPersona.darCantidadFichasJugador(persona1),controlPersona.darCantidadFichasJugador(persona2));
         }
     }
 
@@ -330,5 +333,9 @@ public class ControlPrincipal {
             cantidadAses--;
         }
         return suma;
+    }
+    
+    public double darCantidadFichasJugador(String cedula){
+        return controlPersona.darCantidadFichasJugador(cedula);
     }
 }
