@@ -22,6 +22,8 @@ public class ControlPrincipal {
     private ArrayList<Carta> cartasJugador1;
     private ArrayList<Carta> cartasJugador2;
     private ArrayList<Carta> cartasCrupier;
+    private ArrayList<Carta> dividirCartasJugador1;
+    private ArrayList<Carta> dividirCartasJugador2;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
@@ -32,6 +34,8 @@ public class ControlPrincipal {
         cartasJugador1 = new ArrayList<Carta>();
         cartasJugador2 = new ArrayList<Carta>();
         cartasCrupier = new ArrayList<Carta>();
+        dividirCartasJugador1 = new ArrayList<Carta>();
+        dividirCartasJugador2 = new ArrayList<Carta>();
         contadorRondas = 1;
     }
 
@@ -257,7 +261,17 @@ public class ControlPrincipal {
             cartasJugador1.add(cartaAleatoria);
         } else if (nombrePropietarioCarta.equals("Jugador2")) {
             cartasJugador2.add(cartaAleatoria);
-        } else {
+        } else if (nombrePropietarioCarta.equals("Jugador1Division")) {
+            dividirCartasJugador1.add(cartaAleatoria);
+            cartasJugador1.removeLast();
+        } else if (nombrePropietarioCarta.equals("Jugador2Division")) {
+            dividirCartasJugador2.add(cartaAleatoria);
+            cartasJugador2.removeLast();
+        } else if (nombrePropietarioCarta.equals("Jugador1NuevoMazo")) {
+            dividirCartasJugador1.add(cartaAleatoria);
+        } else if (nombrePropietarioCarta.equals("Jugador2NuevoMazo")) {
+            dividirCartasJugador2.add(cartaAleatoria);
+        } else if (nombrePropietarioCarta.equals("Crupier")) {
             cartasCrupier.add(cartaAleatoria);
         }
         mazo.removeFirst();
@@ -279,11 +293,11 @@ public class ControlPrincipal {
                     cantidadAses++;
                     break;
                 default:
-                    suma += Integer.parseInt(denominacion); 
+                    suma += Integer.parseInt(denominacion);
             }
         }
         while (suma > 21 && cantidadAses > 0) {
-            suma -= 10; 
+            suma -= 10;
             cantidadAses--;
         }
         return suma;

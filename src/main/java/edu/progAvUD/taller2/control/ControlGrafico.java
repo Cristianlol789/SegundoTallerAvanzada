@@ -37,7 +37,7 @@ public class ControlGrafico implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getSource()== ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores){
+        if(e.getSource()==ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores){
             ventanaPrincipal.setVisible(false);
             controlprincipal.crearConexionPropiedades();
             ventanaPrincipal.setVisible(true);
@@ -45,7 +45,7 @@ public class ControlGrafico implements ActionListener{
             ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.setEnabled(false);
             mostrarBotonJugar();
         }
-        if(e.getSource()== ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier){
+        if(e.getSource()==ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier){
             ventanaPrincipal.setVisible(false);
             controlprincipal.crearConexionPropiedades();
             ventanaPrincipal.setVisible(true);
@@ -53,7 +53,7 @@ public class ControlGrafico implements ActionListener{
             ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.setEnabled(false);
             mostrarBotonJugar();
         }
-        if (e.getSource()== ventanaPrincipal.panelPrincipal.jButtonJugar){
+        if (e.getSource()==ventanaPrincipal.panelPrincipal.jButtonJugar){
             ventanaPrincipal.mostrarPanel(ventanaPrincipal.panelMesa);
             ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
             ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
@@ -65,7 +65,24 @@ public class ControlGrafico implements ActionListener{
             controlprincipal.conteoJugadores();
             controlprincipal.seleccionarJugadores();
         }
-
+        if (e.getSource()==ventanaPrincipal.panelMesa.jButtonApostarFichas){
+            
+        }
+        if (e.getSource()==ventanaPrincipal.panelMesa.jButtonDividir){
+            
+        }
+        if (e.getSource()==ventanaPrincipal.panelMesa.jButtonDoblar){
+            
+        }
+        if (e.getSource()==ventanaPrincipal.panelMesa.jButtonPedir){
+            
+        }
+        if (e.getSource()==ventanaPrincipal.panelMesa.jButtonPlantarse){
+            
+        }
+        if (e.getSource()==ventanaPrincipal.panelMesa.jButtonRepartir){
+            
+        }
     }
     
     public void mostrarBotonJugar(){
