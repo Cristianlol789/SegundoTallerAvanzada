@@ -18,11 +18,21 @@ public class ControlGrafico implements ActionListener{
         this.controlprincipal = controlprincipal;
         this.ventanaPrincipal = new VentanaPrincipal(this);
         ventanaPrincipal.mostrarPanel(ventanaPrincipal.panelPrincipal);
-        ventanaPrincipal.panelPrincipal.jButtonJugar.setVisible(false);
+        ventanaPrincipal.panelPrincipal.jButtonJugar.setEnabled(false);
         
         ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.addActionListener(this);
         ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.addActionListener(this);
         ventanaPrincipal.panelPrincipal.jButtonJugar.addActionListener(this);
+        
+        ventanaPrincipal.panelMesa.jButtonRepartir.addActionListener(this);
+        ventanaPrincipal.panelMesa.jButtonPedir.addActionListener(this);
+        ventanaPrincipal.panelMesa.jButtonPlantarse.addActionListener(this);
+        ventanaPrincipal.panelMesa.jButtonDoblar.addActionListener(this);
+        ventanaPrincipal.panelMesa.jButtonDividir.addActionListener(this);
+        ventanaPrincipal.panelMesa.jButtonApostarFichas.addActionListener(this);
+        
+        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.addActionListener(this);
+        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.addActionListener(this);
     }
 
     @Override
@@ -32,7 +42,7 @@ public class ControlGrafico implements ActionListener{
             controlprincipal.crearConexionPropiedades();
             ventanaPrincipal.setVisible(true);
             controlprincipal.cargarJugadores();
-            ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.setVisible(false);
+            ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.setEnabled(false);
             mostrarBotonJugar();
         }
         if(e.getSource()==ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier){
@@ -40,17 +50,25 @@ public class ControlGrafico implements ActionListener{
             controlprincipal.crearConexionPropiedades();
             ventanaPrincipal.setVisible(true);
             controlprincipal.cargarCrupier();
-            ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.setVisible(false);
+            ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.setEnabled(false);
             mostrarBotonJugar();
         }
         if (e.getSource()==ventanaPrincipal.panelPrincipal.jButtonJugar){
             ventanaPrincipal.mostrarPanel(ventanaPrincipal.panelMesa);
+            ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+            ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+            ventanaPrincipal.panelMesa.jButtonRepartir.setEnabled(false);
+            ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+            ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+            ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+            ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);
         }
+
     }
     
     public void mostrarBotonJugar(){
-        if(!ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.isVisible() && !ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.isVisible()){
-            ventanaPrincipal.panelPrincipal.jButtonJugar.setVisible(true);
+        if(!ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.isEnabled()&& !ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.isEnabled()){
+            ventanaPrincipal.panelPrincipal.jButtonJugar.setEnabled(true);
         }
     }
     
