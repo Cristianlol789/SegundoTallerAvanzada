@@ -8,6 +8,7 @@ import java.io.EOFException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Random;
 import java.util.ArrayList;
 
 /**
@@ -19,10 +20,12 @@ public class ControlPersona {
     private ControlPrincipal controlPrincipal;
     private Serializacion serializacion;
     private ArrayList<Persona> personas;
+    private Random random;
 
     public ControlPersona(ControlPrincipal controlPrincipal) {
         this.controlPrincipal = controlPrincipal;
         this.personas = new ArrayList<Persona>();
+        random = new Random();
     }
 
     public void crearPersona(String identificador, String nombre, String cedula, String apellido, String telefono, String direccion, double dineroDouble, double cantidadFichasDouble) {
@@ -72,7 +75,7 @@ public class ControlPersona {
             }
         }
         if (cantidadCrupieres < 1 || cantidadJugadores < 6){
-            controlPrincipal.mostrarMensajeError("No hay suficientes personas para empezar el juego verifique que minimo todas las personas tengan cedula para poder ser creadas");
+            controlPrincipal.mostrarMensajeError("No hay suficientes personas para empezar el juego verifique que minimo todas las personas tengan cedula para poder ser creadas (jugadores y crupier)");
             System.exit(0);
         }
     }
@@ -143,5 +146,15 @@ public class ControlPersona {
             controlPrincipal.mostrarMensajeExito("Cedula de la persona deserializada: " + personaDeserializada.getCedula());
         }
     }
-
+    
+    public String jugadoresAleatoriosAJugar(){
+        int posicionJugadorAleatorio = random.nextInt(personas.size());
+        String cedulaPersonaAleatoria = personas.get(posicionJugadorAleatorio).getCedula();
+        for (Persona personaEncontrada : personas) {
+            if (cedulaPersonaAleatoria.equals(personaEncontrada.getCedula()) && personaEncontrada instanceof Jugador) {
+                return cedulaPersonaAleatoria;
+            }
+        }
+        return "Crupier";
+    }
 }

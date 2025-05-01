@@ -17,12 +17,14 @@ public class ControlPrincipal {
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
     private ArrayList<Carta> mazo;
+    private ArrayList<String> cedulas;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
         controlPersona = new ControlPersona(this);
         controlCarta = new ControlCarta(this);
         mazo = new ArrayList<Carta>();
+        cedulas = new ArrayList<String>();
     }
 
     public void crearConexionPropiedades() {
@@ -84,7 +86,6 @@ public class ControlPrincipal {
         } catch (Exception ex) {
             mostrarMensajeError("Algun dato del jugador no corresponde");
         }
-        controlPersona.contarCantidadPersonas();
     }
 
     public void cargarCrupier() {
@@ -113,5 +114,47 @@ public class ControlPrincipal {
             }
         }
         Collections.shuffle(mazo);
+    }
+
+    public boolean buscarCedulasRepetidas(String cedula) {
+        boolean flag = true;
+        for (String cedulaBuscada : cedulas) {
+            if (cedulaBuscada.equals(cedula)) {
+                flag = false;
+                return flag;
+            }
+        }
+        return flag;
+    }
+
+    public String[] cedulasJugadores() {
+        String cedula1;
+        String cedula2;
+        do {
+            cedula1 = controlPersona.jugadoresAleatoriosAJugar();
+        } while (cedula1.equals("Crupier"));
+        do {
+            cedula2 = controlPersona.jugadoresAleatoriosAJugar();
+        } while (cedula2.equals("Crupier") || cedula2.equals(cedula1));
+        String[] cedulasLocal = new String[2];
+        cedulasLocal[0] = cedula1;
+        cedulasLocal[1] = cedula2;
+        return cedulasLocal;
+    }
+
+    public void seleccionarJugadores() {
+        boolean flag = true;
+        do {
+            String[] cedulasLocal = cedulasJugadores();
+            String cedula1 = cedulasLocal[0];
+            String cedula2 = cedulasLocal[1];
+            boolean flag1 = buscarCedulasRepetidas(cedula1);
+            boolean flag2 = buscarCedulasRepetidas(cedula2);
+            if (flag1 && flag2) {
+                cedulas.add(cedula1);
+                cedulas.add(cedula2);
+                flag = false;
+            }
+        } while (flag);
     }
 }
