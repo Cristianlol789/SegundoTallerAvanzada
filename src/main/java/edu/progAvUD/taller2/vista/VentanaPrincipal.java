@@ -6,6 +6,7 @@ package edu.progAvUD.taller2.vista;
 
 import edu.progAvUD.taller2.control.ControlGrafico;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -82,6 +83,15 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         setLocationRelativeTo(null); // Centra la ventana en la pantalla
         revalidate();
         repaint();
+    }
+    
+    public PanelCarta crearCarta(String numeroCarta, String palo){
+        PanelCarta carta = new PanelCarta();
+        ImageIcon imagenCarta = new ImageIcon(getClass().getResource("/edu/progAvUD/taller2/imagenes/"+palo+".png"));
+        carta.jLabelFiguraCarta.setIcon(imagenCarta);
+        carta.jLabelDenominacionCarta1.setText(numeroCarta);
+        carta.jLabelDenominacionCarta2.setText(numeroCarta);
+        return carta;
     }
 
     /**

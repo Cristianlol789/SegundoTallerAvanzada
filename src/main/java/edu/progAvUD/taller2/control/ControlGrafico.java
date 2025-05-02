@@ -1,5 +1,6 @@
 package edu.progAvUD.taller2.control;
 
+import edu.progAvUD.taller2.vista.PanelCarta;
 import edu.progAvUD.taller2.vista.VentanaPrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -151,7 +152,12 @@ public class ControlGrafico implements ActionListener {
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonRepartir) {
-
+            controlPrincipal.crearMazo();
+            for (int i=0; i<=2; i++){
+                controlPrincipal.darCartas("Jugador1");
+                controlPrincipal.darCartas("Jugador2");
+                controlPrincipal.darCartas("Crupier");
+            }
         }
         if (e.getSource() == ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas) {
             if (jugadorQuePrecionoComprar == 1) {
@@ -171,6 +177,19 @@ public class ControlGrafico implements ActionListener {
                     mostrarMensajeError("No tiene suficientes fondos");
                 }
             }
+        }
+    }
+    
+    public void mostrarCarta(String palo, String denominacion, String duenoCarta){
+        if(duenoCarta.equals("Jugador1")){
+            PanelCarta carta = ventanaPrincipal.crearCarta(denominacion, palo);
+            ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+        } else if (duenoCarta.equals("Jugador2")){
+            PanelCarta carta = ventanaPrincipal.crearCarta(denominacion, palo);
+            ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+        } else if(duenoCarta.equals("Crupier")){
+            PanelCarta carta = ventanaPrincipal.crearCarta(denominacion, palo);
+            ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
         }
     }
 

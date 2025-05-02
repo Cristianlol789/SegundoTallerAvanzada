@@ -21,7 +21,7 @@ public class ControlPrincipal {
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
     private ConexionArchivoAleatorio archivoAleatorio;
-    
+
     private ArrayList<Carta> mazo;
     private int contadorRondas;
     private ArrayList<String> cedulasJugadoresEnMano;
@@ -38,7 +38,6 @@ public class ControlPrincipal {
         controlGrafico = new ControlGrafico(this);
         controlPersona = new ControlPersona(this);
         controlCarta = new ControlCarta(this);
-        
         mazo = new ArrayList<Carta>();
         cedulasJugadoresEnMano = new ArrayList<String>();
         cartasJugador1 = new ArrayList<Carta>();
@@ -48,8 +47,7 @@ public class ControlPrincipal {
         dividirCartasJugador2 = new ArrayList<Carta>();
         contadorRondas = 1;
         ganadorRonda = new HashMap<Integer, String>();
-        
-        
+
     }
 
     public void crearConexionPropiedades() {
@@ -211,36 +209,35 @@ public class ControlPrincipal {
             controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
         }
     }
-    
-    public String darCedulaJugadoresEnPartida(String jugador){
+
+    public String darCedulaJugadoresEnPartida(String jugador) {
         if (contadorRondas == 1) {
             String persona1 = cedulasJugadoresEnMano.get(0);
             String persona2 = cedulasJugadoresEnMano.get(1);
-            if("jugador1".equals(jugador)){
+            if ("jugador1".equals(jugador)) {
                 return persona1;
-            } else if("jugador2".equals(jugador)){
+            } else if ("jugador2".equals(jugador)) {
                 return persona2;
             }
         } else if (contadorRondas == 2) {
             String persona1 = cedulasJugadoresEnMano.get(2);
             String persona2 = cedulasJugadoresEnMano.get(3);
-            if("jugador1".equals(jugador)){
+            if ("jugador1".equals(jugador)) {
                 return persona1;
-            } else if("jugador2".equals(jugador)){
+            } else if ("jugador2".equals(jugador)) {
                 return persona2;
             }
         } else {
             String persona1 = cedulasJugadoresEnMano.get(4);
             String persona2 = cedulasJugadoresEnMano.get(5);
-            if("jugador1".equals(jugador)){
+            if ("jugador1".equals(jugador)) {
                 return persona1;
-            } else if("jugador2".equals(jugador)){
+            } else if ("jugador2".equals(jugador)) {
                 return persona2;
             }
         }
         return null;
     }
-
 
     public void hacerPagosBlackJack(int valorCartasCrupier, int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1, int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
         double unidades1 = 0;
@@ -311,18 +308,12 @@ public class ControlPrincipal {
         double pago2 = unidades2 * apuestaJugador2 + netoSeguro2;
     }
 
-    public void obtenerPosicion(String nombrePropietarioCarta) {
+    public void darCartas(String nombrePropietarioCarta) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
             cartasJugador1.add(cartaAleatoria);
         } else if (nombrePropietarioCarta.equals("Jugador2")) {
             cartasJugador2.add(cartaAleatoria);
-        } else if (nombrePropietarioCarta.equals("Jugador1Division")) {
-            dividirCartasJugador1.add(cartaAleatoria);
-            cartasJugador1.removeLast();
-        } else if (nombrePropietarioCarta.equals("Jugador2Division")) {
-            dividirCartasJugador2.add(cartaAleatoria);
-            cartasJugador2.removeLast();
         } else if (nombrePropietarioCarta.equals("Jugador1NuevoMazo")) {
             dividirCartasJugador1.add(cartaAleatoria);
         } else if (nombrePropietarioCarta.equals("Jugador2NuevoMazo")) {
@@ -330,7 +321,19 @@ public class ControlPrincipal {
         } else if (nombrePropietarioCarta.equals("Crupier")) {
             cartasCrupier.add(cartaAleatoria);
         }
+        controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
         mazo.removeFirst();
+    }
+
+    public void dividirMazoJugador(String nombrePropietarioCarta) {
+        Carta cartaAleatoria = mazo.getFirst();
+        if (nombrePropietarioCarta.equals("Jugador1Division")) {
+            dividirCartasJugador1.add(cartaAleatoria);
+            cartasJugador1.removeLast();
+        } else if (nombrePropietarioCarta.equals("Jugador2Division")) {
+            dividirCartasJugador2.add(cartaAleatoria);
+            cartasJugador2.removeLast();
+        }
     }
 
     public int sumarCartas(ArrayList<Carta> mano) {
@@ -358,42 +361,40 @@ public class ControlPrincipal {
         }
         return suma;
     }
-    
-    public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar){
-        double dinero= controlPersona.darCantidadDineroJugador(cedula);
-        
-        if(dinero>=(cantidadDeFichasAComprar*1000)){
+
+    public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar) {
+        double dinero = controlPersona.darCantidadDineroJugador(cedula);
+
+        if (dinero >= (cantidadDeFichasAComprar * 1000)) {
             controlPersona.comprarFichas(cedula, cantidadDeFichasAComprar);
-            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("jugador1"),darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador1")) );
-            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("jugador2"),darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador2")) );
+            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("jugador1"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador1")));
+            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("jugador2"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador2")));
             return true;
         }
         return false;
     }
-    
-    public boolean verificarFichasAApostar(String cedula, int cantidadDeFichasAApostar){
+
+    public boolean verificarFichasAApostar(String cedula, int cantidadDeFichasAApostar) {
         double fichas = controlPersona.darCantidadFichasJugador(cedula);
-        if(cantidadDeFichasAApostar<= fichas){
+        if (cantidadDeFichasAApostar <= fichas) {
             return true;
         }
         return false;
     }
-    
-    
-    
-    public double darCantidadFichasJugador(String cedula){
+
+    public double darCantidadFichasJugador(String cedula) {
         return controlPersona.darCantidadFichasJugador(cedula);
     }
-    
-    public double darCantidadDineroJugador(String cedula){
+
+    public double darCantidadDineroJugador(String cedula) {
         return controlPersona.darCantidadDineroJugador(cedula);
     }
-    
+
     public void conteoJugadores() {
         controlPersona.personasCon0Dinero();
         controlPersona.contarCantidadPersonas();
     }
-    
+
     public void mostrarMensajeError(String mensaje) {
         controlGrafico.mostrarMensajeError(mensaje);
     }
@@ -425,6 +426,5 @@ public class ControlPrincipal {
     public void setFichasApostadasJugador2(double fichasApostadasJugador2) {
         this.fichasApostadasJugador2 = fichasApostadasJugador2;
     }
-    
-    
+
 }
