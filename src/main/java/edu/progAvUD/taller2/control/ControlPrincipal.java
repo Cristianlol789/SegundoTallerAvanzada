@@ -1,3 +1,4 @@
+
 package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.modelo.ConexionArchivoAleatorio;
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+
 
 public class ControlPrincipal {
 
@@ -293,7 +295,7 @@ public class ControlPrincipal {
 
         if (gana1 && gana2) {
             resultado = String.format("Ganan Jugador 1 y Jugador 2:\nJugador 1 gana %.2f fichas (%.0f en dinero)\nJugador 2 gana %.2f fichas (%.0f en dinero)",
-            pagoFichas1, dinero1, pagoFichas2, dinero2);
+                    pagoFichas1, dinero1, pagoFichas2, dinero2);
         } else if (gana1) {
             resultado = String.format("Gana Jugador 1: %.2f fichas (%.0f en dinero)", pagoFichas1, dinero1);
         } else if (gana2) {
@@ -415,8 +417,6 @@ public class ControlPrincipal {
             sumaCartas = sumarCartas(cartasJugador1);
         } else if (jugadorActivo.equals("Jugador2")) {
             sumaCartas = sumarCartas(cartasJugador2);
-        } else if (jugadorActivo.equals("Crupier")) {
-            sumaCartas = sumarCartas(cartasCrupier);
         } else if (jugadorActivo.equals("Jugador1Mazo2")) {
             sumaCartas = sumarCartas(dividirCartasJugador1);
         } else if (jugadorActivo.equals("Jugador2Mazo2")) {
@@ -427,6 +427,19 @@ public class ControlPrincipal {
             return true;
         }
         return false;
+    }
+
+    public int sumarCartasCrupier() {
+        int sumaCartas = sumarCartas(cartasCrupier);
+        if (sumaCartas >= 17 && sumaCartas <21){
+            controlGrafico.mostrarMensajeExito("El crupier ha decidido detenerse");
+            return 1;
+        }
+        else if (sumaCartas > 21){
+            controlGrafico.mostrarMensajeExito("El crupier se ha pasado por ende los jugadores que se han plantado han ganado esta ronda");
+            return 2;
+        }
+        return 3;
     }
 
     public double darCantidadFichasJugador(String cedula) {
