@@ -1,4 +1,3 @@
-
 package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.modelo.ConexionArchivoAleatorio;
@@ -12,7 +11,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-
 
 public class ControlPrincipal {
 
@@ -363,8 +361,38 @@ public class ControlPrincipal {
                     suma += 11;
                     cantidadAses++;
                     break;
+                case "DOS":
+                    suma += 2;
+                    break;
+                case "TRES":
+                    suma += 3;
+                    break;
+                case "CUATRO":
+                    suma += 4;
+                    break;
+                case "CINCO":
+                    suma += 5;
+                    break;
+                case "SEIS":
+                    suma += 6;
+                    break;
+                case "SIETE":
+                    suma += 7;
+                    break;
+                case "OCHO":
+                    suma += 8;
+                    break;
+                case "NUEVE":
+                    suma += 9;
+                    break;
+                case "DIEZ":
+                    suma += 10;
+                    break;
                 default:
-                    suma += Integer.parseInt(denominacion);
+                    try {
+                        suma += Integer.parseInt(denominacion);
+                    } catch (NumberFormatException e) {
+                    }
             }
         }
         while (suma > 21 && cantidadAses > 0) {
@@ -429,17 +457,39 @@ public class ControlPrincipal {
         return false;
     }
 
-    public int sumarCartasCrupier() {
-        int sumaCartas = sumarCartas(cartasCrupier);
-        if (sumaCartas >= 17 && sumaCartas <21){
-            controlGrafico.mostrarMensajeExito("El crupier ha decidido detenerse");
-            return 1;
-        }
-        else if (sumaCartas > 21){
-            controlGrafico.mostrarMensajeExito("El crupier se ha pasado por ende los jugadores que se han plantado han ganado esta ronda");
-            return 2;
-        }
-        return 3;
+    public void darTurnoCrupier() {
+        boolean flag = true;
+        do {
+            int sumaCartas = sumarCartas(cartasCrupier);
+            if (sumarCartas(cartasJugador1) > 21 && sumarCartas(cartasJugador2) > 21 && sumarCartas(dividirCartasJugador1) > 21 && sumarCartas(dividirCartasJugador2) > 21) {
+                controlGrafico.mostrarMensajeExito("El crupier ha ganado ya que todos se han pasado");
+                setTurnoJugador("Jugador1");
+                flag = false;
+            } else if (sumarCartas(cartasJugador1) > 21 && sumarCartas(cartasJugador2) > 21 && sumarCartas(dividirCartasJugador1) > 21) {
+                controlGrafico.mostrarMensajeExito("El crupier ha ganado ya que todos se han pasado");
+                setTurnoJugador("Jugador1");
+                flag = false;
+            } else if (sumarCartas(cartasJugador1) > 21 && sumarCartas(cartasJugador2) > 21 && sumarCartas(dividirCartasJugador2) > 21) {
+                controlGrafico.mostrarMensajeExito("El crupier ha ganado ya que todos se han pasado");
+                setTurnoJugador("Jugador1");
+                flag = false;
+            } else if (sumarCartas(cartasJugador1) > 21 && sumarCartas(cartasJugador2) > 21) {
+                controlGrafico.mostrarMensajeExito("El crupier ha ganado ya que todos se han pasado");
+                setTurnoJugador("Jugador1");
+                flag = false;
+            }else if (sumaCartas >= 17 && sumaCartas < 21) {
+                controlGrafico.mostrarMensajeExito("El crupier ha decidido detenerse");
+                setTurnoJugador("Jugador1");
+                flag = false;
+            } else if (sumaCartas > 21) {
+                controlGrafico.mostrarMensajeExito("El crupier se ha pasado por ende los jugadores que se han plantado han ganado esta ronda");
+                setTurnoJugador("Jugador1");
+                flag = false;
+            } else if (sumaCartas < 17) {
+                darCartas("Crupier");
+            }
+        } while (flag);
+
     }
 
     public double darCantidadFichasJugador(String cedula) {

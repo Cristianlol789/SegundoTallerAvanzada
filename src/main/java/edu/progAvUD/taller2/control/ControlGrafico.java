@@ -109,7 +109,7 @@ public class ControlGrafico implements ActionListener {
             }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2) {
-            String cedulaJugador2 = controlPrincipal.darCedulaJugadoresEnPartida("jugador2");
+            String cedulaJugador2 = controlPrincipal.darCedulaJugadoresEnPartida("Jugador2");
             jugadorQuePrecionoComprar = 2;
             if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador2)) {
                 ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador2));
@@ -146,10 +146,55 @@ public class ControlGrafico implements ActionListener {
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPedir) {
-
+            String turnoJugador = controlPrincipal.getTurnoJugador();
+            if (!controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) {
+                controlPrincipal.darCartas(turnoJugador);
+            } else {
+                if (turnoJugador.equals("Jugador1")) {
+                    controlPrincipal.setTurnoJugador("Jugador2");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                } else if (turnoJugador.equals("Jugador2")) {
+                    controlPrincipal.setTurnoJugador("Crupier");
+                    ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    controlPrincipal.darTurnoCrupier();
+                } else if (turnoJugador.equals("Crupier")) {
+                    controlPrincipal.setTurnoJugador("Jugador1");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                }
+            }
+            if (controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) { 
+                if (turnoJugador.equals("Jugador1")) {
+                    controlPrincipal.setTurnoJugador("Jugador2");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                } else if (turnoJugador.equals("Jugador2")) {
+                    controlPrincipal.setTurnoJugador("Crupier");
+                    ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    controlPrincipal.darTurnoCrupier();
+                } else if (turnoJugador.equals("Crupier")) {
+                    controlPrincipal.setTurnoJugador("Jugador1");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                }
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPlantarse) {
-
+            String turnoJugador = controlPrincipal.getTurnoJugador();
+            if (turnoJugador.equals("Jugador1")) {
+                    controlPrincipal.setTurnoJugador("Jugador2");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                } else if (turnoJugador.equals("Jugador2")) {
+                    controlPrincipal.setTurnoJugador("Crupier");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    controlPrincipal.darTurnoCrupier();
+                } else if (turnoJugador.equals("Crupier")) {
+                    controlPrincipal.setTurnoJugador("Jugador1");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonRepartir) {
             controlPrincipal.crearMazo();
@@ -162,11 +207,11 @@ public class ControlGrafico implements ActionListener {
             ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(true);
             ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(true);
             ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
-            
+
             controlPrincipal.setTurnoJugador("Jugador1");
             ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText(controlPrincipal.getTurnoJugador());
-            
-            if(controlPrincipal.verificarCartarIguales(controlPrincipal.getTurnoJugador())){
+
+            if (controlPrincipal.verificarCartarIguales(controlPrincipal.getTurnoJugador())) {
                 ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(true);
             }
         }
@@ -193,216 +238,222 @@ public class ControlGrafico implements ActionListener {
 
     public void mostrarCarta(String palo, String denominacion, String duenoCarta) {
         if (duenoCarta.equals("Jugador1")) {
-            if (null != denominacion) switch (denominacion) {
-                case "A":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+            if (null != denominacion) {
+                switch (denominacion) {
+                    case "A": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "DOS":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("2", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "DOS": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("2", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "TRES":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("3", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "TRES": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("3", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "CUATRO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("4", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "CUATRO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("4", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "CINCO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("5", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "CINCO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("5", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "SEIS":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("6", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "SEIS": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("6", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "SIETE":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("7", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "SIETE": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("7", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "OCHO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("8", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "OCHO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("8", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "NUEVE":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("9", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "NUEVE": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("9", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "DIEZ":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("10", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "DIEZ": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("10", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "J":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("J", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "J": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("J", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "Q":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("Q", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "Q": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("Q", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                case "K":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("K", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
+                    case "K": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("K", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
                     }
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
 
         } else if (duenoCarta.equals("Jugador2")) {
-            if (null != denominacion) switch (denominacion) {
-                case "A":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+            if (null != denominacion) {
+                switch (denominacion) {
+                    case "A": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "DOS":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("2", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "DOS": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("2", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "TRES":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("3", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "TRES": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("3", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "CUATRO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("4", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "CUATRO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("4", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "CINCO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("5", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "CINCO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("5", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "SEIS":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("6", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "SEIS": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("6", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "SIETE":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("7", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "SIETE": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("7", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "OCHO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("8", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "OCHO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("8", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "NUEVE":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("9", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "NUEVE": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("9", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "DIEZ":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("10", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "DIEZ": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("10", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "J":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("J", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "J": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("J", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "Q":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("Q", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "Q": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("Q", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                case "K":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("K", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
+                    case "K": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("K", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
                     }
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
 
         } else if (duenoCarta.equals("Crupier")) {
-            if (null != denominacion) switch (denominacion) {
-                case "A":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+            if (null != denominacion) {
+                switch (denominacion) {
+                    case "A": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "DOS":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("2", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "DOS": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("2", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "TRES":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("3", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "TRES": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("3", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "CUATRO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("4", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "CUATRO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("4", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "CINCO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("5", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "CINCO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("5", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "SEIS":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("6", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "SEIS": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("6", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "SIETE":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("7", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "SIETE": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("7", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "OCHO":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("8", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "OCHO": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("8", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "NUEVE":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("9", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "NUEVE": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("9", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "DIEZ":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("10", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "DIEZ": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("10", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "J":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("J", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "J": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("J", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "Q":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("Q", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "Q": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("Q", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                case "K":{
-                    PanelCarta carta = ventanaPrincipal.crearCarta("K", palo);
-                    ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
+                    case "K": {
+                        PanelCarta carta = ventanaPrincipal.crearCarta("K", palo);
+                        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
                     }
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
 
         }
