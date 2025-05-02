@@ -24,8 +24,8 @@ public class ConexionArchivoAleatorio {
         archivo = new RandomAccessFile(fl, "rw");
     }
     
-    public void escribirArchivoAleatorio(int ronda, String info) throws IOException{
-        archivo.writeInt(ronda);
+    public void escribirArchivoAleatorio(String ronda, String info) throws IOException{
+        archivo.writeUTF(ronda);
         archivo.writeUTF(info);
     }
 

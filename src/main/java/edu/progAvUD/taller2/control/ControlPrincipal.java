@@ -34,6 +34,7 @@ public class ControlPrincipal {
     private double fichasApostadasJugador1;
     private double fichasApostadasJugador2;
     private String turnoJugador;
+    private String[] datosGanador;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
@@ -48,7 +49,7 @@ public class ControlPrincipal {
         dividirCartasJugador2 = new ArrayList<Carta>();
         contadorRondas = 1;
         ganadorRonda = new HashMap<Integer, String>();
-
+        datosGanador = new String[3];
     }
 
     public void crearConexionPropiedades() {
@@ -83,7 +84,8 @@ public class ControlPrincipal {
     public void escrituraArchivoAleatorio() {
         try {
             for (Map.Entry<Integer, String> entry : ganadorRonda.entrySet()) {
-                archivoAleatorio.escribirArchivoAleatorio(entry.getKey(), entry.getValue());
+                String ronda = "Se jugó la ronda " + entry.getKey() + " y esta es la información de los ganadores:";
+                archivoAleatorio.escribirArchivoAleatorio(ronda, entry.getValue());
             }
         } catch (FileNotFoundException fnfe) {
             controlGrafico.mostrarMensajeError("El archivo no ha sido encontrado");
@@ -240,7 +242,9 @@ public class ControlPrincipal {
         return null;
     }
 
-    public void hacerPagosBlackJack(int valorCartasCrupier, int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1, int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
+    public void hacerPagosBlackJack(int valorCartasCrupier,
+            int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1,
+            int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
         double unidades1 = 0;
         double unidades2 = 0;
         double netoSeguro1 = 0;
@@ -250,6 +254,7 @@ public class ControlPrincipal {
         boolean jugador1BlackJack = valorCartasJugador1 == 21;
         boolean jugador2BlackJack = valorCartasJugador2 == 21;
 
+        // Cálculo del seguro
         if (crupierBlackJack) {
             if ("SI".equalsIgnoreCase(seguroJugador1)) {
                 netoSeguro1 = seguroApostado1 * 2;
@@ -265,48 +270,52 @@ public class ControlPrincipal {
                 netoSeguro2 = -seguroApostado2;
             }
         }
+
+        // Comparación de resultados
         if (valorCartasCrupier > 21) {
-            if (valorCartasJugador1 <= 21) {
-                unidades1 = 1;
-            } else {
-                unidades1 = -1;
-            }
-            if (valorCartasJugador2 <= 21) {
-                unidades2 = 1;
-            } else {
-                unidades2 = -1;
-            }
+            unidades1 = (valorCartasJugador1 <= 21) ? 1 : -1;
+            unidades2 = (valorCartasJugador2 <= 21) ? 1 : -1;
         } else {
-            if (valorCartasJugador1 > 21) {
-                unidades1 = -1;
-            } else if (valorCartasJugador1 > valorCartasCrupier) {
-                if (jugador1BlackJack && !crupierBlackJack) {
-                    unidades1 = 1.5;
-                } else {
-                    unidades1 = 1;
-                }
-            } else if (valorCartasJugador1 == valorCartasCrupier) {
-                unidades1 = 0;
-            } else {
-                unidades1 = -1;
-            }
-            if (valorCartasJugador2 > 21) {
-                unidades2 = -1;
-            } else if (valorCartasJugador2 > valorCartasCrupier) {
-                if (jugador2BlackJack && !crupierBlackJack) {
-                    unidades2 = 1.5;
-                } else {
-                    unidades2 = 1;
-                }
-            } else if (valorCartasJugador2 == valorCartasCrupier) {
-                unidades2 = 0;
-            } else {
-                unidades2 = -1;
-            }
+            unidades1 = calcularUnidades(valorCartasJugador1, valorCartasCrupier, jugador1BlackJack, crupierBlackJack);
+            unidades2 = calcularUnidades(valorCartasJugador2, valorCartasCrupier, jugador2BlackJack, crupierBlackJack);
         }
 
-        double pago1 = unidades1 * apuestaJugador1 + netoSeguro1;
-        double pago2 = unidades2 * apuestaJugador2 + netoSeguro2;
+        // Pagos en fichas y dinero
+        double pagoFichas1 = unidades1 * apuestaJugador1 + netoSeguro1;
+        double pagoFichas2 = unidades2 * apuestaJugador2 + netoSeguro2;
+        double dinero1 = pagoFichas1 * 1000;
+        double dinero2 = pagoFichas2 * 1000;
+
+        // Determinar ganador(es)
+        String resultado;
+        boolean gana1 = pagoFichas1 > 0;
+        boolean gana2 = pagoFichas2 > 0;
+
+        if (gana1 && gana2) {
+            resultado = String.format("Ganan Jugador 1 y Jugador 2:\nJugador 1 gana %.2f fichas (%.0f en dinero)\nJugador 2 gana %.2f fichas (%.0f en dinero)",
+            pagoFichas1, dinero1, pagoFichas2, dinero2);
+        } else if (gana1) {
+            resultado = String.format("Gana Jugador 1: %.2f fichas (%.0f en dinero)", pagoFichas1, dinero1);
+        } else if (gana2) {
+            resultado = String.format("Gana Jugador 2: %.2f fichas (%.0f en dinero)", pagoFichas2, dinero2);
+        } else {
+            resultado = "Gana el Crupier";
+        }
+        datosGanador[0] = resultado;
+        ganadorRonda.put(contadorRondas, resultado);
+    }
+
+    private double calcularUnidades(int valorJ, int valorC, boolean jBlackJack, boolean cBlackJack) {
+        if (valorJ > 21) {
+            return -1;
+        }
+        if (valorJ > valorC) {
+            return (jBlackJack && !cBlackJack) ? 1.5 : 1;
+        }
+        if (valorJ == valorC) {
+            return 0;
+        }
+        return -1;
     }
 
     public void darCartas(String nombrePropietarioCarta) {
@@ -382,42 +391,38 @@ public class ControlPrincipal {
         }
         return false;
     }
-    
-    public boolean verificarCartarIguales(String jugador){
-        if("Jugador1".equals(jugador)){
+
+    public boolean verificarCartarIguales(String jugador) {
+        if ("Jugador1".equals(jugador)) {
             String carta1 = cartasJugador1.get(0).getDenominacion().name();
             String carta2 = cartasJugador1.get(1).getDenominacion().name();
-            if(carta1.equals(carta2)){
+            if (carta1.equals(carta2)) {
                 return true;
             }
-        } else if("Jugador2". equals(jugador)){
+        } else if ("Jugador2".equals(jugador)) {
             String carta1 = cartasJugador2.get(0).getDenominacion().name();
             String carta2 = cartasJugador2.get(1).getDenominacion().name();
-            if(carta1.equals(carta2)){
+            if (carta1.equals(carta2)) {
                 return true;
             }
         }
         return false;
     }
-    
-    public boolean sumarCantidadCartasJugadorActivo (String jugadorActivo){
+
+    public boolean sumarCantidadCartasJugadorActivo(String jugadorActivo) {
         int sumaCartas = 0;
-        if (jugadorActivo.equals("Jugador1")){
+        if (jugadorActivo.equals("Jugador1")) {
             sumaCartas = sumarCartas(cartasJugador1);
-        }
-        else if (jugadorActivo.equals("Jugador2")){
+        } else if (jugadorActivo.equals("Jugador2")) {
             sumaCartas = sumarCartas(cartasJugador2);
-        }
-        else if (jugadorActivo.equals("Crupier")){
+        } else if (jugadorActivo.equals("Crupier")) {
             sumaCartas = sumarCartas(cartasCrupier);
-        }
-        else if (jugadorActivo.equals("Jugador1Mazo2")){
+        } else if (jugadorActivo.equals("Jugador1Mazo2")) {
             sumaCartas = sumarCartas(dividirCartasJugador1);
-        }
-        else if (jugadorActivo.equals("Jugador2Mazo2")){
+        } else if (jugadorActivo.equals("Jugador2Mazo2")) {
             sumaCartas = sumarCartas(dividirCartasJugador2);
         }
-        if (sumaCartas > 21){
+        if (sumaCartas > 21) {
             controlGrafico.mostrarMensajeError("Ya no se puede jugar mas cartas el limite ha sido exedido");
             return true;
         }
@@ -476,7 +481,5 @@ public class ControlPrincipal {
     public void setTurnoJugador(String turnoJugador) {
         this.turnoJugador = turnoJugador;
     }
-    
-    
 
 }
