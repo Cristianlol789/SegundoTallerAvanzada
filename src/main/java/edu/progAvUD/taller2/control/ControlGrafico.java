@@ -58,6 +58,8 @@ public class ControlGrafico implements ActionListener {
             mostrarBotonJugar();
         }
         if (e.getSource() == ventanaPrincipal.panelPrincipal.jButtonJugar) {
+            controlPrincipal.conteoJugadores();
+            controlPrincipal.seleccionarJugadores();
             ventanaPrincipal.mostrarPanel(ventanaPrincipal.panelMesa);
             ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
             ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
@@ -66,25 +68,31 @@ public class ControlGrafico implements ActionListener {
             ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
             ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
             ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);
-            controlPrincipal.conteoJugadores();
-            controlPrincipal.seleccionarJugadores();
+            ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada1.setVisible(false);
+            ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada2.setVisible(false);
+            ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setVisible(false);
+            ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setVisible(false);
+
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1) {
-            String cedulaJugador1 = ventanaPrincipal.panelMesa.jLabelCedulaJugador1.getText();
+            String cedulaJugador1 = controlPrincipal.darCedulaJugadoresEnPartida(1);
             jugadorQuePrecionoComprar = 1;
             if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador1)) {
                 ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador1));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
-
+            } else{
+                
             }
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2) {
-            String cedulaJugador2 = ventanaPrincipal.panelMesa.jLabelCedulaJugador2.getText();
+            String cedulaJugador2 = controlPrincipal.darCedulaJugadoresEnPartida(1);
             jugadorQuePrecionoComprar = 2;
             if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador2)) {
                 ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador2));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
+            }else {
+                
             }
 
         }
@@ -106,17 +114,17 @@ public class ControlGrafico implements ActionListener {
         if (e.getSource() == ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas) {
             if (jugadorQuePrecionoComprar == 1) {
                 int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
-                if (controlPrincipal.verificarFichasAComprar(ventanaPrincipal.panelMesa.jLabelCedulaJugador1.getText(), cantidadCompra)) {
+                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida(1), cantidadCompra)) {
                     mostrarMensajeExito("Se han comprado correctamente");
-                    ventanaPrincipal.dialogComprarFichas.setVisible(false);
+                    ventanaPrincipal.dialogComprarFichas.dispose();
                 } else {
                     mostrarMensajeError("No tiene suficientes fondos");
                 }
             } else if (jugadorQuePrecionoComprar == 2) {
                 int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
-                if (controlPrincipal.verificarFichasAComprar(ventanaPrincipal.panelMesa.jLabelCedulaJugador2.getText(), cantidadCompra)) {
+                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida(2), cantidadCompra)) {
                     mostrarMensajeExito("Se han comprado correctamente");
-                    ventanaPrincipal.dialogComprarFichas.setVisible(false);
+                    ventanaPrincipal.dialogComprarFichas.dispose();
                 } else {
                     mostrarMensajeError("No tiene suficientes fondos");
                 }
@@ -130,12 +138,18 @@ public class ControlGrafico implements ActionListener {
         }
     }
 
-    public void mostrarDatosJugadores(String cedulaJugador1, String cedulaJugador2, double cantidadFichasJugador1, double cantidadFichasJugador2) {
+    public void mostraDatosJugador1(String cedulaJugador1, double cantidadFichasJugador1) {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador1.setText(cedulaJugador1);
-        ventanaPrincipal.panelMesa.jLabelCedulaJugador2.setText(cedulaJugador2);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador1.setText(cantidadFichasJugador1 + "");
+
+    }
+
+    public void mostraDatosJugador2(String cedulaJugador2, double cantidadFichasJugador2) {
+        ventanaPrincipal.panelMesa.jLabelCedulaJugador2.setText(cedulaJugador2);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setText(cantidadFichasJugador2 + "");
     }
+    
+    
 
     public VentanaPrincipal getVentanaPrincipal() {
         return ventanaPrincipal;

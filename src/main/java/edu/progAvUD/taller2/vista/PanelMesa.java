@@ -16,7 +16,7 @@ public class PanelMesa extends javax.swing.JPanel {
     public PanelMesa() {
         initComponents();
     }
-
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -45,7 +45,7 @@ public class PanelMesa extends javax.swing.JPanel {
         jLabelTextoApostar2 = new javax.swing.JLabel();
         jSpinnerCantidadFichasApostar2 = new javax.swing.JSpinner();
         jButtonApostarFichasJugador2 = new javax.swing.JButton();
-        jLabel6 = new javax.swing.JLabel();
+        jLabelTextoCantidadApostada2 = new javax.swing.JLabel();
         jLabelCantidadFichasApostadasJugador2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jLabelCantidadFichasJugador2 = new javax.swing.JLabel();
@@ -57,7 +57,7 @@ public class PanelMesa extends javax.swing.JPanel {
         jLabelTextoApostar1 = new javax.swing.JLabel();
         jSpinnerCantidadFichasApostar1 = new javax.swing.JSpinner();
         jButtonApostarFichasJugador1 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        jLabelTextoCantidadApostada1 = new javax.swing.JLabel();
         jLabelCantidadFichasApostadasJugador1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabelCantidadFichasJugador1 = new javax.swing.JLabel();
@@ -166,11 +166,11 @@ public class PanelMesa extends javax.swing.JPanel {
 
         jLabelTextoApostar2.setText("Digita la cantidad de fichas que deceas apostar");
 
-        jSpinnerCantidadFichasApostar2.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10000, 1));
+        jSpinnerCantidadFichasApostar2.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         jButtonApostarFichasJugador2.setText("Apostar");
 
-        jLabel6.setText("Cantidad apostada en ronda:");
+        jLabelTextoCantidadApostada2.setText("Cantidad apostada en ronda:");
 
         jLabelCantidadFichasApostadasJugador2.setText("jLabel7");
 
@@ -200,14 +200,14 @@ public class PanelMesa extends javax.swing.JPanel {
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel1)
                                     .addComponent(jLabel12)
-                                    .addComponent(jLabel6))))
+                                    .addComponent(jLabelTextoCantidadApostada2))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelCantidadFichasJugador2)
                             .addComponent(jLabelCedulaJugador2)
                             .addComponent(jLabelCantidadFichasApostadasJugador2)
-                            .addComponent(jSpinnerCantidadFichasApostar2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 26, Short.MAX_VALUE))
+                            .addComponent(jSpinnerCantidadFichasApostar2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -222,7 +222,7 @@ public class PanelMesa extends javax.swing.JPanel {
                     .addComponent(jLabelCantidadFichasJugador2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
+                    .addComponent(jLabelTextoCantidadApostada2)
                     .addComponent(jLabelCantidadFichasApostadasJugador2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -257,11 +257,11 @@ public class PanelMesa extends javax.swing.JPanel {
 
         jLabelTextoApostar1.setText("Digita la cantidad de fichas que deceas apostar");
 
-        jSpinnerCantidadFichasApostar1.setModel(new javax.swing.SpinnerNumberModel(1, 1, 10000, 1));
+        jSpinnerCantidadFichasApostar1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
 
         jButtonApostarFichasJugador1.setText("Apostar");
 
-        jLabel7.setText("Cantidad apostada en ronda:");
+        jLabelTextoCantidadApostada1.setText("Cantidad apostada en ronda:");
 
         jLabelCantidadFichasApostadasJugador1.setText("jLabel7");
 
@@ -274,6 +274,17 @@ public class PanelMesa extends javax.swing.JPanel {
         jPanel7Layout.setHorizontalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(jPanelCartasJugador1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addGap(57, 57, 57)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2)
+                    .addComponent(jLabel14)
+                    .addComponent(jLabelTextoCantidadApostada1))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelCantidadFichasJugador1)
+                    .addComponent(jLabelCedulaJugador1))
+                .addGap(57, 71, Short.MAX_VALUE))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
@@ -286,20 +297,11 @@ public class PanelMesa extends javax.swing.JPanel {
                         .addComponent(jLabelTextoApostar1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCantidadFichasApostadasJugador1)
-                            .addComponent(jSpinnerCantidadFichasApostar1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
-                        .addGap(57, 57, 57)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel7))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabelCantidadFichasJugador1)
-                            .addComponent(jLabelCedulaJugador1))
-                        .addGap(57, 57, 57)))
-                .addGap(0, 14, Short.MAX_VALUE))
+                            .addGroup(jPanel7Layout.createSequentialGroup()
+                                .addComponent(jLabelCantidadFichasApostadasJugador1)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jSpinnerCantidadFichasApostar1, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))))
+                .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -314,7 +316,7 @@ public class PanelMesa extends javax.swing.JPanel {
                     .addComponent(jLabelCantidadFichasJugador1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
+                    .addComponent(jLabelTextoCantidadApostada1)
                     .addComponent(jLabelCantidadFichasApostadasJugador1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -337,7 +339,7 @@ public class PanelMesa extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 333, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
                         .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(10, 10, 10))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
@@ -391,8 +393,6 @@ public class PanelMesa extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel9;
     public javax.swing.JLabel jLabelCantidadFichasApostadasJugador1;
     public javax.swing.JLabel jLabelCantidadFichasApostadasJugador2;
@@ -402,6 +402,8 @@ public class PanelMesa extends javax.swing.JPanel {
     public javax.swing.JLabel jLabelCedulaJugador2;
     public javax.swing.JLabel jLabelTextoApostar1;
     public javax.swing.JLabel jLabelTextoApostar2;
+    public javax.swing.JLabel jLabelTextoCantidadApostada1;
+    public javax.swing.JLabel jLabelTextoCantidadApostada2;
     public javax.swing.JLabel jLabelTurnoJugador;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;

@@ -62,19 +62,18 @@ public class ControlPersona {
             }
         }
     }
-    
-    public void contarCantidadPersonas(){
+
+    public void contarCantidadPersonas() {
         int cantidadCrupieres = 0;
         int cantidadJugadores = 0;
         for (Persona personaEncontrada : personas) {
-            if(personaEncontrada instanceof Crupier){
+            if (personaEncontrada instanceof Crupier) {
                 cantidadCrupieres += 1;
-            }
-            else{
+            } else {
                 cantidadJugadores += 1;
             }
         }
-        if (cantidadCrupieres < 1 || cantidadJugadores < 6){
+        if (cantidadCrupieres < 1 || cantidadJugadores < 6) {
             controlPrincipal.mostrarMensajeError("No hay suficientes personas para empezar el juego verifique que minimo todas las personas tengan cedula para poder ser creadas (jugadores y crupier)");
             System.exit(0);
         }
@@ -146,8 +145,8 @@ public class ControlPersona {
             controlPrincipal.mostrarMensajeExito("Cedula de la persona deserializada: " + personaDeserializada.getCedula());
         }
     }
-    
-    public String jugadoresAleatoriosAJugar(){
+
+    public String jugadoresAleatoriosAJugar() {
         int posicionJugadorAleatorio = random.nextInt(personas.size());
         String cedulaPersonaAleatoria = personas.get(posicionJugadorAleatorio).getCedula();
         for (Persona personaEncontrada : personas) {
@@ -157,39 +156,67 @@ public class ControlPersona {
         }
         return "Crupier";
     }
-    
-    public String buscarPersonaPorCedula(String cedula){
-        for(Persona persona: personas){
-            if (persona.getCedula().equals(cedula)){
+
+    public String darInformacionPersona(String cedula) {
+        for (Persona persona : personas) {
+            if (persona.getCedula().equals(cedula)) {
                 String nombrePersona = persona.getNombre();
                 String cedulaPersona = persona.getCedula();
                 String apellidoPersona = persona.getApellido();
-                if (nombrePersona == null || nombrePersona.equals("") || apellidoPersona == null || apellidoPersona.equals("")){
+                if (nombrePersona == null || nombrePersona.equals("") || apellidoPersona == null || apellidoPersona.equals("")) {
                     return "La cedula del jugador es" + cedulaPersona;
-                }
-                else{
+                } else {
                     return "El nombre de la persona es " + nombrePersona + " " + apellidoPersona + " con cedula " + cedulaPersona;
                 }
             }
         }
         return null;
     }
-    
-    public double darCantidadFichasJugador(String cedula){
-        for(Persona persona: personas){
-            if (persona.getCedula().equals(cedula)){
+
+    public Persona buscarPersonaPorCedula(String cedula) {
+        for (Persona persona : personas) {
+            if (persona.getCedula().equals(cedula)) {
+                return persona;
+            }
+        }
+        return null;
+    }
+
+    public void comprarFichas(String cedula, int cantidadFichas) {
+        double dinero = darCantidadDineroJugador(cedula);
+        double dineroActual = dinero - (cantidadFichas * 1000);
+        ((Jugador) buscarPersonaPorCedula(cedula)).setDinero(dineroActual);
+        ((Jugador) buscarPersonaPorCedula(cedula)).setCantidadFichas(cantidadFichas);
+
+    }
+
+    public double darCantidadFichasJugador(String cedula) {
+        for (Persona persona : personas) {
+            if (persona.getCedula().equals(cedula)) {
                 return ((Jugador) persona).getCantidadFichas();
             }
         }
         return 0;
     }
-    
-    public double darCantidadDineroJugador(String cedula){
-        for(Persona persona: personas){
-            if (persona.getCedula().equals(cedula)){
+
+    public double darCantidadDineroJugador(String cedula) {
+        for (Persona persona : personas) {
+            if (persona.getCedula().equals(cedula)) {
                 return ((Jugador) persona).getDinero();
             }
         }
         return 0;
     }
+
+    public void personasCon0Dinero() {
+        for (Persona persona : personas) {
+            if (persona instanceof Jugador) {
+                if (((Jugador) persona).getDinero() < 1000) {
+                    controlPrincipal.mostrarMensajeError("No puede existir un jugador con menos de 1000 de dinero ya que este no podria jugar");
+                    System.exit(0);
+                }
+            }
+        }
+    }
+
 }

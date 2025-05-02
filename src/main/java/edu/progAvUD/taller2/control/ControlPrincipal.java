@@ -22,6 +22,7 @@ public class ControlPrincipal {
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
     private ArchivoAleatorio archivoAleatorio;
+    
     private ArrayList<Carta> mazo;
     private int contadorRondas;
     private ArrayList<String> cedulasJugadoresEnMano;
@@ -31,11 +32,14 @@ public class ControlPrincipal {
     private ArrayList<Carta> dividirCartasJugador1;
     private ArrayList<Carta> dividirCartasJugador2;
     private HashMap<Integer, String> ganadorRonda;
+    private double fichasApostadasJugador1;
+    private double fichasApostadasJugador2;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
         controlPersona = new ControlPersona(this);
         controlCarta = new ControlCarta(this);
+        
         mazo = new ArrayList<Carta>();
         cedulasJugadoresEnMano = new ArrayList<String>();
         cartasJugador1 = new ArrayList<Carta>();
@@ -45,6 +49,8 @@ public class ControlPrincipal {
         dividirCartasJugador2 = new ArrayList<Carta>();
         contadorRondas = 1;
         ganadorRonda = new HashMap<Integer, String>();
+        
+        
     }
 
     public void crearConexionPropiedades() {
@@ -152,7 +158,7 @@ public class ControlPrincipal {
         return flag;
     }
 
-    public String[] cedulasJugadores() {
+    public String[] darcedulasJugadoresSeleccionados() {
         String cedula1;
         String cedula2;
         do {
@@ -170,7 +176,7 @@ public class ControlPrincipal {
     public void seleccionarJugadores() {
         boolean flag = true;
         do {
-            String[] cedulasLocal = cedulasJugadores();
+            String[] cedulasLocal = darcedulasJugadoresSeleccionados();
             String cedula1 = cedulasLocal[0];
             String cedula2 = cedulasLocal[1];
             boolean flag1 = buscarCedulasRepetidas(cedula1);
@@ -178,36 +184,68 @@ public class ControlPrincipal {
             if (flag1 && flag2) {
                 cedulasJugadoresEnMano.add(cedula1);
                 cedulasJugadoresEnMano.add(cedula2);
-                informacionJugadores();
+                darInformacionJugadores();
                 flag = false;
             }
         } while (flag);
     }
 
-    public void informacionJugadores() {
+    public void darInformacionJugadores() {
         if (contadorRondas == 1) {
             String persona1 = cedulasJugadoresEnMano.get(0);
             String persona2 = cedulasJugadoresEnMano.get(1);
-            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
-            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
-            controlGrafico.mostrarDatosJugadores(persona1, persona2,controlPersona.darCantidadFichasJugador(persona1),controlPersona.darCantidadFichasJugador(persona2));
+            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona1));
+            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona2));
+            controlGrafico.mostraDatosJugador1(persona1, darCantidadFichasJugador(persona1));
+            controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
         } else if (contadorRondas == 2) {
             String persona1 = cedulasJugadoresEnMano.get(2);
             String persona2 = cedulasJugadoresEnMano.get(3);
-            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
-            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
-            controlGrafico.mostrarDatosJugadores(persona1, persona2,controlPersona.darCantidadFichasJugador(persona1),controlPersona.darCantidadFichasJugador(persona2));
+            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona1));
+            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona2));
+            controlGrafico.mostraDatosJugador1(persona1, darCantidadFichasJugador(persona1));
+            controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
         } else {
             String persona1 = cedulasJugadoresEnMano.get(4);
             String persona2 = cedulasJugadoresEnMano.get(5);
-            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona1));
-            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.buscarPersonaPorCedula(persona2));
-            controlGrafico.mostrarDatosJugadores(persona1, persona2,controlPersona.darCantidadFichasJugador(persona1),controlPersona.darCantidadFichasJugador(persona2));
+            controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona1));
+            controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona2));
+            controlGrafico.mostraDatosJugador1(persona1, darCantidadFichasJugador(persona1));
+            controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
         }
+    }
+    
+    public String darCedulaJugadoresEnPartida(int numeroJugador){
+        if (contadorRondas == 1) {
+            String persona1 = cedulasJugadoresEnMano.get(0);
+            String persona2 = cedulasJugadoresEnMano.get(1);
+            if(numeroJugador == 1){
+                return persona1;
+            } else if(numeroJugador == 2){
+                return persona2;
+            }
+        } else if (contadorRondas == 2) {
+            String persona1 = cedulasJugadoresEnMano.get(2);
+            String persona2 = cedulasJugadoresEnMano.get(3);
+            if(numeroJugador == 1){
+                return persona1;
+            } else if(numeroJugador == 2){
+                return persona2;
+            }
+        } else {
+            String persona1 = cedulasJugadoresEnMano.get(4);
+            String persona2 = cedulasJugadoresEnMano.get(5);
+            if(numeroJugador == 1){
+                return persona1;
+            } else if(numeroJugador == 2){
+                return persona2;
+            }
+        }
+        return null;
     }
 
 
-    public void pagosBlackJack(int valorCartasCrupier, int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1, int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
+    public void hacerPagosBlackJack(int valorCartasCrupier, int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1, int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
         double unidades1 = 0;
         double unidades2 = 0;
         double netoSeguro1 = 0;
@@ -327,7 +365,9 @@ public class ControlPrincipal {
     public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar){
         double dinero= controlPersona.darCantidadDineroJugador(cedula);
         if(dinero>=(cantidadDeFichasAComprar*1000)){
-            
+            controlPersona.comprarFichas(cedula, cantidadDeFichasAComprar);
+            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida(1),darCantidadFichasJugador(darCedulaJugadoresEnPartida(1)) );
+            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida(2),darCantidadFichasJugador(darCedulaJugadoresEnPartida(2)) );
             return true;
         }
         return false;
@@ -344,6 +384,7 @@ public class ControlPrincipal {
     }
     
     public void conteoJugadores() {
+        controlPersona.personasCon0Dinero();
         controlPersona.contarCantidadPersonas();
     }
     
@@ -353,6 +394,30 @@ public class ControlPrincipal {
 
     public void mostrarMensajeExito(String mensaje) {
         controlGrafico.mostrarMensajeExito(mensaje);
+    }
+
+    public int getContadorRondas() {
+        return contadorRondas;
+    }
+
+    public void setContadorRondas(int contadorRondas) {
+        this.contadorRondas = contadorRondas;
+    }
+
+    public double getFichasApostadasJugador1() {
+        return fichasApostadasJugador1;
+    }
+
+    public void setFichasApostadasJugador1(double fichasApostadasJugador1) {
+        this.fichasApostadasJugador1 = fichasApostadasJugador1;
+    }
+
+    public double getFichasApostadasJugador2() {
+        return fichasApostadasJugador2;
+    }
+
+    public void setFichasApostadasJugador2(double fichasApostadasJugador2) {
+        this.fichasApostadasJugador2 = fichasApostadasJugador2;
     }
     
     

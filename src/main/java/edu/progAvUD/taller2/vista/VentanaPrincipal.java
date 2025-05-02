@@ -47,7 +47,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fileChooser.showOpenDialog(null);
         return null;
     }
-
+    
     /**
      * Muestra un cuadro de diálogo con un mensaje de éxito.
      *
