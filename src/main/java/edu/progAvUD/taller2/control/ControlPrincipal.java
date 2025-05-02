@@ -1,12 +1,11 @@
 package edu.progAvUD.taller2.control;
 
-import edu.progAvUD.taller2.modelo.ArchivoAleatorio;
+import edu.progAvUD.taller2.modelo.ConexionArchivoAleatorio;
 import edu.progAvUD.taller2.modelo.Carta;
 import edu.progAvUD.taller2.modelo.ConexionPropiedades;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +20,7 @@ public class ControlPrincipal {
     private ConexionPropiedades conexionPropiedades;
     private Properties propiedadesJugadores;
     private Properties propiedadesCrupier;
-    private ArchivoAleatorio archivoAleatorio;
+    private ConexionArchivoAleatorio archivoAleatorio;
     
     private ArrayList<Carta> mazo;
     private int contadorRondas;
@@ -75,7 +74,7 @@ public class ControlPrincipal {
 
     public void crearArchivoAleatorio() {
         try {
-            archivoAleatorio = new ArchivoAleatorio(controlGrafico.pedirArchivoAleatorio());
+            archivoAleatorio = new ConexionArchivoAleatorio(controlGrafico.pedirArchivoAleatorio());
         } catch (FileNotFoundException fnfe) {
             controlGrafico.mostrarMensajeError("No se ha encontrado el archivo");
             crearArchivoAleatorio();
@@ -83,11 +82,9 @@ public class ControlPrincipal {
     }
 
     public void escrituraArchivoAleatorio() {
-        RandomAccessFile raf = archivoAleatorio.getArchivo();
         try {
             for (Map.Entry<Integer, String> entry : ganadorRonda.entrySet()) {
-                raf.writeInt(entry.getKey());
-                raf.writeUTF(entry.getValue());
+                archivoAleatorio.escribirArchivoAleatorio(entry.getKey(), entry.getValue());
             }
         } catch (FileNotFoundException fnfe) {
             controlGrafico.mostrarMensajeError("El archivo no ha sido encontrado");

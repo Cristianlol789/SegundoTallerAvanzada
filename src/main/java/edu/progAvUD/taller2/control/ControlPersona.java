@@ -1,3 +1,4 @@
+
 package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.modelo.Crupier;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
  *
  * @author Andres Felipe
  */
+
 public class ControlPersona {
 
     private ControlPrincipal controlPrincipal;
@@ -110,12 +112,16 @@ public class ControlPersona {
         }
     }
 
-    public void escribirArchivoSerializado(Persona persona) {
-        if (serializacion.getSalidaSerializacion() != null) {
-            try {
-                serializacion.escribirArchivoSerializado(persona);
-            } catch (IOException ex) {
-                controlPrincipal.mostrarMensajeError("No se puede serializar la persona");
+    public void escribirArchivoSerializado() {
+        for (Persona personaEncontrada : personas) {
+            if (personaEncontrada instanceof Crupier) {
+                if (serializacion.getSalidaSerializacion() != null) {
+                    try {
+                        serializacion.escribirArchivoSerializado(personaEncontrada);
+                    } catch (IOException ex) {
+                        controlPrincipal.mostrarMensajeError("No se puede serializar la persona");
+                    }
+                }
             }
         }
     }
@@ -137,12 +143,14 @@ public class ControlPersona {
     }
 
     public void deserializacion() {
-        for (Persona personaEncontrada : personas) {
-            escribirArchivoSerializado(personaEncontrada);
-            Persona personaDeserializada = new Persona();
-            personaDeserializada = (Persona) leerArchivoSerializado();
-            controlPrincipal.mostrarMensajeExito("Se ha deserializado");
-            controlPrincipal.mostrarMensajeExito("Cedula de la persona deserializada: " + personaDeserializada.getCedula());
+        Persona personaDeserializada = new Persona();
+        personaDeserializada = (Persona) leerArchivoSerializado();
+        if (personaDeserializada.getApellido() == null || personaDeserializada.getApellido().equals("") || personaDeserializada.getNombre() == null || personaDeserializada.getNombre().equals("")) {
+            controlPrincipal.mostrarMensajeExito("Se ha deserializado la persona solo con cedula: \n La cedula es: " + personaDeserializada.getCedula());
+            personas.add(personaDeserializada);
+        } else {
+            controlPrincipal.mostrarMensajeExito("Se ha deserializado la persona con nombre, cedula, apellido: \n La cedula es: " + personaDeserializada.getCedula() + " y su nombre es " + personaDeserializada.getNombre() + " " + personaDeserializada.getApellido());
+            personas.add(personaDeserializada);
         }
     }
 
