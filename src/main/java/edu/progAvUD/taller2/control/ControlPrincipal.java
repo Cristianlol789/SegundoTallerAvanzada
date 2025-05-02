@@ -215,25 +215,25 @@ public class ControlPrincipal {
         if (contadorRondas == 1) {
             String persona1 = cedulasJugadoresEnMano.get(0);
             String persona2 = cedulasJugadoresEnMano.get(1);
-            if ("jugador1".equals(jugador)) {
+            if ("Jugador1".equals(jugador)) {
                 return persona1;
-            } else if ("jugador2".equals(jugador)) {
+            } else if ("Jugador2".equals(jugador)) {
                 return persona2;
             }
         } else if (contadorRondas == 2) {
             String persona1 = cedulasJugadoresEnMano.get(2);
             String persona2 = cedulasJugadoresEnMano.get(3);
-            if ("jugador1".equals(jugador)) {
+            if ("Jugador1".equals(jugador)) {
                 return persona1;
-            } else if ("jugador2".equals(jugador)) {
+            } else if ("Jugador2".equals(jugador)) {
                 return persona2;
             }
         } else {
             String persona1 = cedulasJugadoresEnMano.get(4);
             String persona2 = cedulasJugadoresEnMano.get(5);
-            if ("jugador1".equals(jugador)) {
+            if ("Jugador1".equals(jugador)) {
                 return persona1;
-            } else if ("jugador2".equals(jugador)) {
+            } else if ("Jugador2".equals(jugador)) {
                 return persona2;
             }
         }
@@ -368,8 +368,8 @@ public class ControlPrincipal {
 
         if (dinero >= (cantidadDeFichasAComprar * 1000)) {
             controlPersona.comprarFichas(cedula, cantidadDeFichasAComprar);
-            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("jugador1"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador1")));
-            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("jugador2"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador2")));
+            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("Jugador1"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("Jugador1")));
+            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("Jugador2"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("Jugador2")));
             return true;
         }
         return false;
@@ -396,6 +396,30 @@ public class ControlPrincipal {
             if(carta1.equals(carta2)){
                 return true;
             }
+        }
+        return false;
+    }
+    
+    public boolean sumarCantidadCartasJugadorActivo (String jugadorActivo){
+        int sumaCartas = 0;
+        if (jugadorActivo.equals("Jugador1")){
+            sumaCartas = sumarCartas(cartasJugador1);
+        }
+        else if (jugadorActivo.equals("Jugador2")){
+            sumaCartas = sumarCartas(cartasJugador2);
+        }
+        else if (jugadorActivo.equals("Crupier")){
+            sumaCartas = sumarCartas(cartasCrupier);
+        }
+        else if (jugadorActivo.equals("Jugador1Mazo2")){
+            sumaCartas = sumarCartas(dividirCartasJugador1);
+        }
+        else if (jugadorActivo.equals("Jugador2Mazo2")){
+            sumaCartas = sumarCartas(dividirCartasJugador2);
+        }
+        if (sumaCartas > 21){
+            controlGrafico.mostrarMensajeError("Ya no se puede jugar mas cartas el limite ha sido exedido");
+            return true;
         }
         return false;
     }

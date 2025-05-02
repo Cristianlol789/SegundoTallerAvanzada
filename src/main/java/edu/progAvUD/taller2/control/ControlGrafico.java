@@ -76,7 +76,7 @@ public class ControlGrafico implements ActionListener {
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1) {
-            String cedulaJugador1 = controlPrincipal.darCedulaJugadoresEnPartida("jugador1");
+            String cedulaJugador1 = controlPrincipal.darCedulaJugadoresEnPartida("Jugador1");
 
             jugadorQuePrecionoComprar = 1;
             if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador1)) {
@@ -173,7 +173,7 @@ public class ControlGrafico implements ActionListener {
         if (e.getSource() == ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas) {
             if (jugadorQuePrecionoComprar == 1) {
                 int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
-                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida("jugador1"), cantidadCompra)) {
+                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida("Jugador1"), cantidadCompra)) {
                     mostrarMensajeExito("Se han comprado correctamente");
                     ventanaPrincipal.dialogComprarFichas.dispose();
                 } else {
@@ -181,7 +181,7 @@ public class ControlGrafico implements ActionListener {
                 }
             } else if (jugadorQuePrecionoComprar == 2) {
                 int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
-                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida("jugador2"), cantidadCompra)) {
+                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida("Jugador2"), cantidadCompra)) {
                     mostrarMensajeExito("Se han comprado correctamente");
                     ventanaPrincipal.dialogComprarFichas.dispose();
                 } else {
@@ -194,7 +194,7 @@ public class ControlGrafico implements ActionListener {
     public void mostrarCarta(String palo, String denominacion, String duenoCarta) {
         if (duenoCarta.equals("Jugador1")) {
             if (null != denominacion) switch (denominacion) {
-                case "AZ":{
+                case "A":{
                     PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
                     ventanaPrincipal.panelMesa.jPanelCartasJugador1.add(carta);
                         break;
@@ -265,7 +265,7 @@ public class ControlGrafico implements ActionListener {
 
         } else if (duenoCarta.equals("Jugador2")) {
             if (null != denominacion) switch (denominacion) {
-                case "AZ":{
+                case "A":{
                     PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
                     ventanaPrincipal.panelMesa.jPanelCartasJugador2.add(carta);
                         break;
@@ -336,7 +336,7 @@ public class ControlGrafico implements ActionListener {
 
         } else if (duenoCarta.equals("Crupier")) {
             if (null != denominacion) switch (denominacion) {
-                case "AZ":{
+                case "A":{
                     PanelCarta carta = ventanaPrincipal.crearCarta("A", palo);
                     ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(carta);
                         break;
