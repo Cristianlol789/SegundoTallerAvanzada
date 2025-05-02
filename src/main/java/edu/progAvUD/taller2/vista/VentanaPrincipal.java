@@ -34,6 +34,19 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.dialogComprarFichas = new DialogComprarFichas(this, true);
     }
     
+    public File pedirArchivoSerializacion(){
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/edu/progAvUD/taller2/data");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .bin", "bin"));
+        fileChooser.showOpenDialog(null);
+        return fileChooser.getSelectedFile();
+    }
+
+    public File pedirArchivoAleatorio(){
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/edu/progAvUD/taller2/data");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .dat", "dat"));
+        fileChooser.showOpenDialog(null);
+        return null;
+    }
 
     /**
      * Muestra un cuadro de diálogo con un mensaje de éxito.

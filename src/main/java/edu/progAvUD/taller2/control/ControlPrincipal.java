@@ -59,7 +59,7 @@ public class ControlPrincipal {
     public File archivoSerializado() {
         File archivo = null;
         try {
-            archivo = controlGrafico.pedirArchivo();
+            archivo = controlGrafico.pedirArchivoSerializado();
         } catch (Exception ex) {
             controlGrafico.mostrarMensajeError("No se ha podido encontrar el archivo");
             archivoSerializado();
@@ -69,7 +69,7 @@ public class ControlPrincipal {
 
     public void crearArchivoAleatorio() {
         try {
-            archivoAleatorio = new ArchivoAleatorio(controlGrafico.pedirArchivo());
+            archivoAleatorio = new ArchivoAleatorio(controlGrafico.pedirArchivoAleatorio());
         } catch (FileNotFoundException fnfe) {
             controlGrafico.mostrarMensajeError("No se ha encontrado el archivo");
             crearArchivoAleatorio();
@@ -88,14 +88,6 @@ public class ControlPrincipal {
         } catch (IOException ioe) {
             controlGrafico.mostrarMensajeError("Hay un error al momento de escribir el archivo");
         }
-    }
-
-    public void mostrarMensajeError(String mensaje) {
-        controlGrafico.mostrarMensajeError(mensaje);
-    }
-
-    public void mostrarMensajeExito(String mensaje) {
-        controlGrafico.mostrarMensajeExito(mensaje);
     }
 
     public void cargarJugadores() {
@@ -214,9 +206,6 @@ public class ControlPrincipal {
         }
     }
 
-    public void conteoJugadores() {
-        controlPersona.contarCantidadPersonas();
-    }
 
     public void pagosBlackJack(int valorCartasCrupier, int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1, int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
         double unidades1 = 0;
@@ -335,7 +324,36 @@ public class ControlPrincipal {
         return suma;
     }
     
+    public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar){
+        double dinero= controlPersona.darCantidadDineroJugador(cedula);
+        if(dinero>=(cantidadDeFichasAComprar*1000)){
+            
+            return true;
+        }
+        return false;
+    }
+    
+    
+    
     public double darCantidadFichasJugador(String cedula){
         return controlPersona.darCantidadFichasJugador(cedula);
     }
+    
+    public double darCantidadDineroJugador(String cedula){
+        return controlPersona.darCantidadDineroJugador(cedula);
+    }
+    
+    public void conteoJugadores() {
+        controlPersona.contarCantidadPersonas();
+    }
+    
+    public void mostrarMensajeError(String mensaje) {
+        controlGrafico.mostrarMensajeError(mensaje);
+    }
+
+    public void mostrarMensajeExito(String mensaje) {
+        controlGrafico.mostrarMensajeExito(mensaje);
+    }
+    
+    
 }

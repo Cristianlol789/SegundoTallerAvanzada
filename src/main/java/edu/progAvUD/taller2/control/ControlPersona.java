@@ -184,5 +184,12 @@ public class ControlPersona {
         return 0;
     }
     
-    
+    public double darCantidadDineroJugador(String cedula){
+        for(Persona persona: personas){
+            if (persona.getCedula().equals(cedula)){
+                return ((Jugador) persona).getDinero();
+            }
+        }
+        return 0;
+    }
 }

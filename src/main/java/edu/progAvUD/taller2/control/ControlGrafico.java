@@ -13,6 +13,7 @@ public class ControlGrafico implements ActionListener {
 
     private ControlPrincipal controlPrincipal;
     private VentanaPrincipal ventanaPrincipal;
+    private int jugadorQuePrecionoComprar;
 
     public ControlGrafico(ControlPrincipal controlprincipal) {
         this.controlPrincipal = controlprincipal;
@@ -34,6 +35,8 @@ public class ControlGrafico implements ActionListener {
 
         ventanaPrincipal.panelMesa.jButtonSeguroJugador1.addActionListener(this);
         ventanaPrincipal.panelMesa.jButtonSeguroJugador2.addActionListener(this);
+
+        ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas.addActionListener(this);
     }
 
     @Override
@@ -67,14 +70,20 @@ public class ControlGrafico implements ActionListener {
             controlPrincipal.seleccionarJugadores();
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1) {
-            if (0 == controlPrincipal.darCantidadFichasJugador(ventanaPrincipal.panelMesa.jLabelCedulaJugador1.getText())) {
+            String cedulaJugador1 = ventanaPrincipal.panelMesa.jLabelCedulaJugador1.getText();
+            jugadorQuePrecionoComprar = 1;
+            if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador1)) {
+                ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador1));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
+
             }
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2) {
-
-            if (0 == controlPrincipal.darCantidadFichasJugador(ventanaPrincipal.panelMesa.jLabelCedulaJugador2.getText())) {
+            String cedulaJugador2 = ventanaPrincipal.panelMesa.jLabelCedulaJugador2.getText();
+            jugadorQuePrecionoComprar = 2;
+            if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador2)) {
+                ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador2));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
             }
 
@@ -93,6 +102,25 @@ public class ControlGrafico implements ActionListener {
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonRepartir) {
 
+        }
+        if (e.getSource() == ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas) {
+            if (jugadorQuePrecionoComprar == 1) {
+                int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
+                if (controlPrincipal.verificarFichasAComprar(ventanaPrincipal.panelMesa.jLabelCedulaJugador1.getText(), cantidadCompra)) {
+                    mostrarMensajeExito("Se han comprado correctamente");
+                    ventanaPrincipal.dialogComprarFichas.setVisible(false);
+                } else {
+                    mostrarMensajeError("No tiene suficientes fondos");
+                }
+            } else if (jugadorQuePrecionoComprar == 2) {
+                int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
+                if (controlPrincipal.verificarFichasAComprar(ventanaPrincipal.panelMesa.jLabelCedulaJugador2.getText(), cantidadCompra)) {
+                    mostrarMensajeExito("Se han comprado correctamente");
+                    ventanaPrincipal.dialogComprarFichas.setVisible(false);
+                } else {
+                    mostrarMensajeError("No tiene suficientes fondos");
+                }
+            }
         }
     }
 
@@ -123,5 +151,13 @@ public class ControlGrafico implements ActionListener {
 
     public File pedirArchivo() {
         return ventanaPrincipal.pedirArchivo();
+    }
+
+    public File pedirArchivoSerializado() {
+        return ventanaPrincipal.pedirArchivoSerializacion();
+    }
+
+    public File pedirArchivoAleatorio() {
+        return ventanaPrincipal.pedirArchivoAleatorio();
     }
 }

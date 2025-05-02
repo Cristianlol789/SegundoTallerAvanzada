@@ -38,6 +38,7 @@ public class DialogComprarFichas extends javax.swing.JDialog {
         jButtonComprarFichas = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jLabel2.setText("No hay suficientes fichas para poder apostar, en esta pestaña puedes comprar fichas");
 
