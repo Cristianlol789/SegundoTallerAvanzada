@@ -242,19 +242,26 @@ public class ControlPrincipal {
         return null;
     }
 
-    public void hacerPagosBlackJack(int valorCartasCrupier,
-            int valorCartasJugador1, double apuestaJugador1, String seguroJugador1, double seguroApostado1,
-            int valorCartasJugador2, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
+    public void hacerPagosBlackJack(double apuestaJugador1, String seguroJugador1, double seguroApostado1, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
         double unidades1 = 0;
         double unidades2 = 0;
+        double unidades1Div = 0;
+        double unidades2Div = 0;
         double netoSeguro1 = 0;
         double netoSeguro2 = 0;
 
-        boolean crupierBlackJack = valorCartasCrupier == 21;
-        boolean jugador1BlackJack = valorCartasJugador1 == 21;
-        boolean jugador2BlackJack = valorCartasJugador2 == 21;
+        int valorCartasCrupier = sumarCartas(cartasCrupier);
+        int valorCartasJugador1 = sumarCartas(cartasJugador1);
+        int valorCartasJugador2 = sumarCartas(cartasJugador2);
+        int valorCartasJugador1MazoDividido = sumarCartas(dividirCartasJugador1);
+        int valorCartasJugador2MazoDividido = sumarCartas(dividirCartasJugador2);
 
-        // Cálculo del seguro
+        boolean crupierBlackJack = (valorCartasCrupier == 21);
+        boolean jugador1BlackJack = (valorCartasJugador1 == 21);
+        boolean jugador2BlackJack = (valorCartasJugador2 == 21);
+        boolean jugador1DivBlackJack = (valorCartasJugador1MazoDividido == 21);
+        boolean jugador2DivBlackJack = (valorCartasJugador2MazoDividido == 21);
+
         if (crupierBlackJack) {
             if ("SI".equalsIgnoreCase(seguroJugador1)) {
                 netoSeguro1 = seguroApostado1 * 2;
@@ -271,51 +278,112 @@ public class ControlPrincipal {
             }
         }
 
-        // Comparación de resultados
         if (valorCartasCrupier > 21) {
-            unidades1 = (valorCartasJugador1 <= 21) ? 1 : -1;
-            unidades2 = (valorCartasJugador2 <= 21) ? 1 : -1;
+            if (valorCartasJugador1 <= 21) {
+                unidades1 = 1;
+            } else {
+                unidades1 = -1;
+            }
+
+            if (valorCartasJugador2 <= 21) {
+                unidades2 = 1;
+            } else {
+                unidades2 = -1;
+            }
+
+            if (valorCartasJugador1MazoDividido <= 21) {
+                unidades1Div = 1;
+            } else {
+                unidades1Div = -1;
+            }
+
+            if (valorCartasJugador2MazoDividido <= 21) {
+                unidades2Div = 1;
+            } else {
+                unidades2Div = -1;
+            }
         } else {
             unidades1 = calcularUnidades(valorCartasJugador1, valorCartasCrupier, jugador1BlackJack, crupierBlackJack);
             unidades2 = calcularUnidades(valorCartasJugador2, valorCartasCrupier, jugador2BlackJack, crupierBlackJack);
+            unidades1Div = calcularUnidades(valorCartasJugador1MazoDividido, valorCartasCrupier, jugador1DivBlackJack, crupierBlackJack);
+            unidades2Div = calcularUnidades(valorCartasJugador2MazoDividido, valorCartasCrupier, jugador2DivBlackJack, crupierBlackJack);
         }
 
-        // Pagos en fichas y dinero
         double pagoFichas1 = unidades1 * apuestaJugador1 + netoSeguro1;
+        double pagoFichas1Div = unidades1Div * apuestaJugador1;
         double pagoFichas2 = unidades2 * apuestaJugador2 + netoSeguro2;
+        double pagoFichas2Div = unidades2Div * apuestaJugador2;
+
         double dinero1 = pagoFichas1 * 1000;
+        double dinero1Div = pagoFichas1Div * 1000;
         double dinero2 = pagoFichas2 * 1000;
+        double dinero2Div = pagoFichas2Div * 1000;
 
-        // Determinar ganador(es)
-        String resultado;
-        boolean gana1 = pagoFichas1 > 0;
-        boolean gana2 = pagoFichas2 > 0;
+        StringBuilder sb = new StringBuilder();
 
-        if (gana1 && gana2) {
-            resultado = String.format("Ganan Jugador 1 y Jugador 2:\nJugador 1 gana %.2f fichas (%.0f en dinero)\nJugador 2 gana %.2f fichas (%.0f en dinero)",
-                    pagoFichas1, dinero1, pagoFichas2, dinero2);
-        } else if (gana1) {
-            resultado = String.format("Gana Jugador 1: %.2f fichas (%.0f en dinero)", pagoFichas1, dinero1);
-        } else if (gana2) {
-            resultado = String.format("Gana Jugador 2: %.2f fichas (%.0f en dinero)", pagoFichas2, dinero2);
+        if (pagoFichas1 > 0) {
+            sb.append(String.format("Jugador 1 gana %.2f fichas (%.0f en dinero)\n", pagoFichas1, dinero1));
+        } else if (pagoFichas1 < 0) {
+            sb.append(String.format("Jugador 1 pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas1, -dinero1));
         } else {
-            resultado = "Gana el Crupier";
+            sb.append("Jugador 1 empata (push)\n");
         }
+
+        sb.append(" └─ Split 1: ");
+        if (pagoFichas1Div > 0) {
+            sb.append(String.format("gana %.2f fichas (%.0f en dinero)\n", pagoFichas1Div, dinero1Div));
+        } else if (pagoFichas1Div < 0) {
+            sb.append(String.format("pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas1Div, -dinero1Div));
+        } else {
+            sb.append("empata (push)\n");
+        }
+
+        if (pagoFichas2 > 0) {
+            sb.append(String.format("Jugador 2 gana %.2f fichas (%.0f en dinero)\n", pagoFichas2, dinero2));
+        } else if (pagoFichas2 < 0) {
+            sb.append(String.format("Jugador 2 pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas2, -dinero2));
+        } else {
+            sb.append("Jugador 2 empata (push)\n");
+        }
+
+        sb.append(" └─ Split 2: ");
+        if (pagoFichas2Div > 0) {
+            sb.append(String.format("gana %.2f fichas (%.0f en dinero)\n", pagoFichas2Div, dinero2Div));
+        } else if (pagoFichas2Div < 0) {
+            sb.append(String.format("pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas2Div, -dinero2Div));
+        } else {
+            sb.append("empata (push)\n");
+        }
+
+        String resultado = sb.toString().trim();
         datosGanador[0] = resultado;
         ganadorRonda.put(contadorRondas, resultado);
+        contadorRondas += 1;
+        controlGrafico.mostrarMensajeError(resultado);
     }
 
-    private double calcularUnidades(int valorJ, int valorC, boolean jBlackJack, boolean cBlackJack) {
-        if (valorJ > 21) {
-            return -1;
+    public double calcularUnidades(int valorJugador, int valorCrupier, boolean jugadorBlackJack, boolean crupierBlackJack) {
+        double unidades;
+
+        if (jugadorBlackJack && crupierBlackJack) {
+            unidades = 0;
+        } else if (jugadorBlackJack) {
+            unidades = 1.5;
+        } else if (crupierBlackJack) {
+            unidades = -1;
+        } else if (valorJugador > 21) {
+            unidades = -1;
+        } else if (valorCrupier > 21) {
+            unidades = 1;
+        } else if (valorJugador > valorCrupier) {
+            unidades = 1;
+        } else if (valorJugador < valorCrupier) {
+            unidades = -1;
+        } else {
+            unidades = 0;
         }
-        if (valorJ > valorC) {
-            return (jBlackJack && !cBlackJack) ? 1.5 : 1;
-        }
-        if (valorJ == valorC) {
-            return 0;
-        }
-        return -1;
+
+        return unidades;
     }
 
     public void darCartas(String nombrePropietarioCarta) {
@@ -477,7 +545,7 @@ public class ControlPrincipal {
                 controlGrafico.mostrarMensajeExito("El crupier ha ganado ya que todos se han pasado");
                 setTurnoJugador("Jugador1");
                 flag = false;
-            }else if (sumaCartas >= 17 && sumaCartas < 21) {
+            } else if (sumaCartas >= 17 && sumaCartas < 21) {
                 controlGrafico.mostrarMensajeExito("El crupier ha decidido detenerse");
                 setTurnoJugador("Jugador1");
                 flag = false;
