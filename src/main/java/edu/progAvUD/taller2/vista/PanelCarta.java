@@ -40,7 +40,7 @@ public class PanelCarta extends javax.swing.JPanel {
         jLabelDenominacionCarta2.setText("10");
 
         jLabelFiguraCarta.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabelFiguraCarta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/edu/progAvUD/taller2/imagenes/CORAZONES.png"))); // NOI18N
+        jLabelFiguraCarta.setPreferredSize(new java.awt.Dimension(50, 50));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -59,7 +59,7 @@ public class PanelCarta extends javax.swing.JPanel {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jLabelDenominacionCarta1, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
-                .addComponent(jLabelFiguraCarta)
+                .addComponent(jLabelFiguraCarta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, 0)
                 .addComponent(jLabelDenominacionCarta2, javax.swing.GroupLayout.PREFERRED_SIZE, 15, javax.swing.GroupLayout.PREFERRED_SIZE))
         );

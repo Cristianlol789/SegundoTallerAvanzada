@@ -34,21 +34,21 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.panelMesa = new PanelMesa();
         this.dialogComprarFichas = new DialogComprarFichas(this, true);
     }
-    
-    public File pedirArchivoSerializacion(){
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/edu/progAvUD/taller2/data");
+
+    public File pedirArchivoSerializacion() {
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .bin", "bin"));
         fileChooser.showOpenDialog(null);
         return fileChooser.getSelectedFile();
     }
 
-    public File pedirArchivoAleatorio(){
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/edu/progAvUD/taller2/data");
+    public File pedirArchivoAleatorio() {
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .dat", "dat"));
         fileChooser.showOpenDialog(null);
         return null;
     }
-    
+
     /**
      * Muestra un cuadro de diálogo con un mensaje de éxito.
      *
@@ -68,7 +68,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     public File pedirArchivo() {
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir")+"/src/main/java/edu/progAvUD/taller2/data");
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
 
         // Aplica un filtro para archivos .properties
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .properties", "properties"));
@@ -76,7 +76,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         // Mostrar el diálogo
         return fileChooser.getSelectedFile();
     }
-    
+
     public void mostrarPanel(JPanel panel) {
         setContentPane(panel);
         pack(); // Ajusta el tamaño de la ventana según el contenido
@@ -84,10 +84,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         revalidate();
         repaint();
     }
-    
-    public PanelCarta crearCarta(String numeroCarta, String palo){
+
+    public PanelCarta crearCarta(String numeroCarta, String palo) {
         PanelCarta carta = new PanelCarta();
-        ImageIcon imagenCarta = new ImageIcon(getClass().getResource("/edu/progAvUD/taller2/imagenes/"+palo+".png"));
+        String path = System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/imagenes/" + palo + ".png";
+        ImageIcon imagenCarta = new ImageIcon(path);
         carta.jLabelFiguraCarta.setIcon(imagenCarta);
         carta.jLabelDenominacionCarta1.setText(numeroCarta);
         carta.jLabelDenominacionCarta2.setText(numeroCarta);

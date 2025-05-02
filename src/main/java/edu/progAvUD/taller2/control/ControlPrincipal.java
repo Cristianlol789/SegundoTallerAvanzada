@@ -33,6 +33,7 @@ public class ControlPrincipal {
     private HashMap<Integer, String> ganadorRonda;
     private double fichasApostadasJugador1;
     private double fichasApostadasJugador2;
+    private String turnoJugador;
 
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
@@ -381,6 +382,23 @@ public class ControlPrincipal {
         }
         return false;
     }
+    
+    public boolean verificarCartarIguales(String jugador){
+        if("Jugador1".equals(jugador)){
+            String carta1 = cartasJugador1.get(0).getDenominacion().name();
+            String carta2 = cartasJugador1.get(1).getDenominacion().name();
+            if(carta1.equals(carta2)){
+                return true;
+            }
+        } else if("Jugador2". equals(jugador)){
+            String carta1 = cartasJugador2.get(0).getDenominacion().name();
+            String carta2 = cartasJugador2.get(1).getDenominacion().name();
+            if(carta1.equals(carta2)){
+                return true;
+            }
+        }
+        return false;
+    }
 
     public double darCantidadFichasJugador(String cedula) {
         return controlPersona.darCantidadFichasJugador(cedula);
@@ -426,5 +444,15 @@ public class ControlPrincipal {
     public void setFichasApostadasJugador2(double fichasApostadasJugador2) {
         this.fichasApostadasJugador2 = fichasApostadasJugador2;
     }
+
+    public String getTurnoJugador() {
+        return turnoJugador;
+    }
+
+    public void setTurnoJugador(String turnoJugador) {
+        this.turnoJugador = turnoJugador;
+    }
+    
+    
 
 }

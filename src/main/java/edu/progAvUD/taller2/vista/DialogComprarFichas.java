@@ -15,6 +15,7 @@ public class DialogComprarFichas extends javax.swing.JDialog {
      */
     public DialogComprarFichas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
+        setLocationRelativeTo(null);
         initComponents();
     }
 
