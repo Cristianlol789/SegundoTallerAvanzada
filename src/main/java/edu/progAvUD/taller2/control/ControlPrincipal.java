@@ -215,29 +215,29 @@ public class ControlPrincipal {
         }
     }
     
-    public String darCedulaJugadoresEnPartida(int numeroJugador){
+    public String darCedulaJugadoresEnPartida(String jugador){
         if (contadorRondas == 1) {
             String persona1 = cedulasJugadoresEnMano.get(0);
             String persona2 = cedulasJugadoresEnMano.get(1);
-            if(numeroJugador == 1){
+            if("jugador1".equals(jugador)){
                 return persona1;
-            } else if(numeroJugador == 2){
+            } else if("jugador2".equals(jugador)){
                 return persona2;
             }
         } else if (contadorRondas == 2) {
             String persona1 = cedulasJugadoresEnMano.get(2);
             String persona2 = cedulasJugadoresEnMano.get(3);
-            if(numeroJugador == 1){
+            if("jugador1".equals(jugador)){
                 return persona1;
-            } else if(numeroJugador == 2){
+            } else if("jugador2".equals(jugador)){
                 return persona2;
             }
         } else {
             String persona1 = cedulasJugadoresEnMano.get(4);
             String persona2 = cedulasJugadoresEnMano.get(5);
-            if(numeroJugador == 1){
+            if("jugador1".equals(jugador)){
                 return persona1;
-            } else if(numeroJugador == 2){
+            } else if("jugador2".equals(jugador)){
                 return persona2;
             }
         }
@@ -364,10 +364,19 @@ public class ControlPrincipal {
     
     public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar){
         double dinero= controlPersona.darCantidadDineroJugador(cedula);
+        
         if(dinero>=(cantidadDeFichasAComprar*1000)){
             controlPersona.comprarFichas(cedula, cantidadDeFichasAComprar);
-            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida(1),darCantidadFichasJugador(darCedulaJugadoresEnPartida(1)) );
-            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida(2),darCantidadFichasJugador(darCedulaJugadoresEnPartida(2)) );
+            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("jugador1"),darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador1")) );
+            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("jugador2"),darCantidadFichasJugador(darCedulaJugadoresEnPartida("jugador2")) );
+            return true;
+        }
+        return false;
+    }
+    
+    public boolean verificarFichasAApostar(String cedula, int cantidadDeFichasAApostar){
+        double fichas = controlPersona.darCantidadFichasJugador(cedula);
+        if(cantidadDeFichasAApostar<= fichas){
             return true;
         }
         return false;

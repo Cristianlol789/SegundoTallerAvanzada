@@ -75,26 +75,68 @@ public class ControlGrafico implements ActionListener {
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1) {
-            String cedulaJugador1 = controlPrincipal.darCedulaJugadoresEnPartida(1);
+            String cedulaJugador1 = controlPrincipal.darCedulaJugadoresEnPartida("jugador1");
+
             jugadorQuePrecionoComprar = 1;
             if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador1)) {
                 ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador1));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
-            } else{
-                
-            }
+            } else {
+                int cantidadAApostar = (int) ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar1.getValue();
+                if (controlPrincipal.verificarFichasAApostar(cedulaJugador1, cantidadAApostar)) {
+                    controlPrincipal.setFichasApostadasJugador1(cantidadAApostar);
 
+                    ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar1.setVisible(false);
+                    ventanaPrincipal.panelMesa.jLabelTextoApostar1.setVisible(false);
+                    ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador1.setVisible(false);
+                    ventanaPrincipal.panelMesa.jLabeltTextoCantidadFichasJugador1.setVisible(false);
+                    ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1.setVisible(false);
+
+                    ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setText(cantidadAApostar + "");
+                    ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setVisible(true);
+                    ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada1.setVisible(true);
+
+                    mostrarMensajeExito("El jugador 1 ha apostado " + cantidadAApostar + " fichas");
+
+                    if (!ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1.isVisible() && !ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2.isVisible()) {
+                        ventanaPrincipal.panelMesa.jButtonRepartir.setEnabled(true);
+                    }
+
+                } else {
+                    mostrarMensajeError("No se tiene la cantidad de fichas para apostar");
+                }
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2) {
-            String cedulaJugador2 = controlPrincipal.darCedulaJugadoresEnPartida(1);
+            String cedulaJugador2 = controlPrincipal.darCedulaJugadoresEnPartida("jugador2");
             jugadorQuePrecionoComprar = 2;
             if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador2)) {
                 ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador2));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
-            }else {
-                
-            }
+            } else {
+                int cantidadAApostar = (int) ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar2.getValue();
+                if (controlPrincipal.verificarFichasAApostar(cedulaJugador2, cantidadAApostar)) {
+                    controlPrincipal.setFichasApostadasJugador2(cantidadAApostar);
 
+                    ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar2.setVisible(false);
+                    ventanaPrincipal.panelMesa.jLabelTextoApostar2.setVisible(false);
+                    ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setVisible(false);
+                    ventanaPrincipal.panelMesa.jLabeltTextoCantidadFichasJugador2.setVisible(false);
+                    ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2.setVisible(false);
+
+                    ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setText(cantidadAApostar + "");
+                    ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setVisible(true);
+                    ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada2.setVisible(true);
+
+                    mostrarMensajeExito("El jugador 2 ha apostado " + cantidadAApostar + " fichas");
+
+                    if (!ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1.isVisible() && !ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2.isVisible()) {
+                        ventanaPrincipal.panelMesa.jButtonRepartir.setEnabled(true);
+                    }
+                } else {
+                    mostrarMensajeError("No se tiene la cantidad de fichas para apostar");
+                }
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonDividir) {
 
@@ -114,7 +156,7 @@ public class ControlGrafico implements ActionListener {
         if (e.getSource() == ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas) {
             if (jugadorQuePrecionoComprar == 1) {
                 int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
-                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida(1), cantidadCompra)) {
+                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida("jugador1"), cantidadCompra)) {
                     mostrarMensajeExito("Se han comprado correctamente");
                     ventanaPrincipal.dialogComprarFichas.dispose();
                 } else {
@@ -122,7 +164,7 @@ public class ControlGrafico implements ActionListener {
                 }
             } else if (jugadorQuePrecionoComprar == 2) {
                 int cantidadCompra = (int) ventanaPrincipal.dialogComprarFichas.jSpinnerFichasAComprar.getValue();
-                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida(2), cantidadCompra)) {
+                if (controlPrincipal.verificarFichasAComprar(controlPrincipal.darCedulaJugadoresEnPartida("jugador2"), cantidadCompra)) {
                     mostrarMensajeExito("Se han comprado correctamente");
                     ventanaPrincipal.dialogComprarFichas.dispose();
                 } else {
@@ -148,8 +190,6 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador2.setText(cedulaJugador2);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setText(cantidadFichasJugador2 + "");
     }
-    
-    
 
     public VentanaPrincipal getVentanaPrincipal() {
         return ventanaPrincipal;

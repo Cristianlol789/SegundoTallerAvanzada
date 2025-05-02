@@ -47,7 +47,7 @@ public class PanelMesa extends javax.swing.JPanel {
         jButtonApostarFichasJugador2 = new javax.swing.JButton();
         jLabelTextoCantidadApostada2 = new javax.swing.JLabel();
         jLabelCantidadFichasApostadasJugador2 = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jLabeltTextoCantidadFichasJugador2 = new javax.swing.JLabel();
         jLabelCantidadFichasJugador2 = new javax.swing.JLabel();
         jPanel7 = new javax.swing.JPanel();
         jLabel14 = new javax.swing.JLabel();
@@ -59,7 +59,7 @@ public class PanelMesa extends javax.swing.JPanel {
         jButtonApostarFichasJugador1 = new javax.swing.JButton();
         jLabelTextoCantidadApostada1 = new javax.swing.JLabel();
         jLabelCantidadFichasApostadasJugador1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        jLabeltTextoCantidadFichasJugador1 = new javax.swing.JLabel();
         jLabelCantidadFichasJugador1 = new javax.swing.JLabel();
 
         setBackground(new java.awt.Color(28, 111, 65));
@@ -174,7 +174,7 @@ public class PanelMesa extends javax.swing.JPanel {
 
         jLabelCantidadFichasApostadasJugador2.setText("jLabel7");
 
-        jLabel1.setText("Cantidad de fichas del jugador:");
+        jLabeltTextoCantidadFichasJugador2.setText("Cantidad de fichas del jugador:");
 
         jLabelCantidadFichasJugador2.setText("jLabel2");
 
@@ -198,7 +198,7 @@ public class PanelMesa extends javax.swing.JPanel {
                             .addGroup(jPanel6Layout.createSequentialGroup()
                                 .addGap(57, 57, 57)
                                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
+                                    .addComponent(jLabeltTextoCantidadFichasJugador2)
                                     .addComponent(jLabel12)
                                     .addComponent(jLabelTextoCantidadApostada2))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -207,7 +207,7 @@ public class PanelMesa extends javax.swing.JPanel {
                             .addComponent(jLabelCedulaJugador2)
                             .addComponent(jLabelCantidadFichasApostadasJugador2)
                             .addComponent(jSpinnerCantidadFichasApostar2, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(0, 15, Short.MAX_VALUE))
+                .addGap(0, 46, Short.MAX_VALUE))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -218,7 +218,7 @@ public class PanelMesa extends javax.swing.JPanel {
                     .addComponent(jLabelCedulaJugador2))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
+                    .addComponent(jLabeltTextoCantidadFichasJugador2)
                     .addComponent(jLabelCantidadFichasJugador2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -265,7 +265,7 @@ public class PanelMesa extends javax.swing.JPanel {
 
         jLabelCantidadFichasApostadasJugador1.setText("jLabel7");
 
-        jLabel2.setText("Cantidad de fichas del jugador:");
+        jLabeltTextoCantidadFichasJugador1.setText("Cantidad de fichas del jugador:");
 
         jLabelCantidadFichasJugador1.setText("jLabel2");
 
@@ -277,14 +277,15 @@ public class PanelMesa extends javax.swing.JPanel {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addGap(57, 57, 57)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabeltTextoCantidadFichasJugador1)
                     .addComponent(jLabel14)
                     .addComponent(jLabelTextoCantidadApostada1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabelCantidadFichasJugador1)
-                    .addComponent(jLabelCedulaJugador1))
-                .addGap(57, 71, Short.MAX_VALUE))
+                    .addComponent(jLabelCedulaJugador1)
+                    .addComponent(jLabelCantidadFichasApostadasJugador1))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel7Layout.createSequentialGroup()
@@ -296,11 +297,7 @@ public class PanelMesa extends javax.swing.JPanel {
                         .addGap(12, 12, 12)
                         .addComponent(jLabelTextoApostar1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel7Layout.createSequentialGroup()
-                                .addComponent(jLabelCantidadFichasApostadasJugador1)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(jSpinnerCantidadFichasApostar1, javax.swing.GroupLayout.DEFAULT_SIZE, 72, Short.MAX_VALUE))))
+                        .addComponent(jSpinnerCantidadFichasApostar1, javax.swing.GroupLayout.DEFAULT_SIZE, 128, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -312,7 +309,7 @@ public class PanelMesa extends javax.swing.JPanel {
                     .addComponent(jLabelCedulaJugador1))
                 .addGap(5, 5, 5)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
+                    .addComponent(jLabeltTextoCantidadFichasJugador1)
                     .addComponent(jLabelCantidadFichasJugador1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -335,36 +332,34 @@ public class PanelMesa extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 405, Short.MAX_VALUE)
-                        .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(10, 10, 10))
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel9)
-                                .addGap(18, 18, 18)
-                                .addComponent(jLabelTurnoJugador)
-                                .addGap(129, 129, 129))))))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelTurnoJugador)
+                        .addGap(129, 129, 129))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(412, 412, 412)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(408, 408, 408))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 312, Short.MAX_VALUE)
+                .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(209, Short.MAX_VALUE)
+                .addContainerGap(20, Short.MAX_VALUE)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(1, 1, 1)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(4, 4, 4)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -388,10 +383,8 @@ public class PanelMesa extends javax.swing.JPanel {
     public javax.swing.JButton jButtonRepartir;
     public javax.swing.JButton jButtonSeguroJugador1;
     public javax.swing.JButton jButtonSeguroJugador2;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel2;
     public javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel9;
     public javax.swing.JLabel jLabelCantidadFichasApostadasJugador1;
@@ -405,6 +398,8 @@ public class PanelMesa extends javax.swing.JPanel {
     public javax.swing.JLabel jLabelTextoCantidadApostada1;
     public javax.swing.JLabel jLabelTextoCantidadApostada2;
     public javax.swing.JLabel jLabelTurnoJugador;
+    public javax.swing.JLabel jLabeltTextoCantidadFichasJugador1;
+    public javax.swing.JLabel jLabeltTextoCantidadFichasJugador2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
