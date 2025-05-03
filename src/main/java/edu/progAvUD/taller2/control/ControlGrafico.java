@@ -326,7 +326,7 @@ public class ControlGrafico implements ActionListener {
             }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonSeguroJugador1) {
-            int cantidadSeguro = ventanaPrincipal.mostrarJOptionPanelSeguro(jugadorQuePrecionoComprar);
+            int cantidadSeguro = ventanaPrincipal.mostrarJOptionPanelSeguro();
             if (cantidadSeguro != (-1)) {
                 if (!controlPrincipal.verificarRealizarSeguro(cantidadSeguro)) {
                     ventanaPrincipal.mostrarMensajeError("""
@@ -337,7 +337,7 @@ public class ControlGrafico implements ActionListener {
             }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonSeguroJugador2) {
-            int cantidadSeguro = ventanaPrincipal.mostrarJOptionPanelSeguro(jugadorQuePrecionoComprar);
+            int cantidadSeguro = ventanaPrincipal.mostrarJOptionPanelSeguro();
             if (cantidadSeguro != (-1)) {
                 if (!controlPrincipal.verificarRealizarSeguro(cantidadSeguro)) {
                     ventanaPrincipal.mostrarMensajeError("""

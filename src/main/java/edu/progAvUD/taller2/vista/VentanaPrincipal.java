@@ -160,8 +160,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelMesa.jPanelCartasCrupier.add(cartaOculta);
     }
 
-    public int mostrarJOptionPanelSeguro(int maximaCantidadFichas) {
-        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, maximaCantidadFichas, 1));
+    public int mostrarJOptionPanelSeguro() {
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
         int result = JOptionPane.showConfirmDialog(
                 null,
                 spinner,
