@@ -35,6 +35,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public DialogComprarFichas dialogComprarFichas;
 
+    /**
+     *Este panel tapa una de las cartas del crupier
+     */
     public PanelCarta cartaOculta;
     
     /**
