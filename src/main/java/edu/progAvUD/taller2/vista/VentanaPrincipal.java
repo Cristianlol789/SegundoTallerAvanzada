@@ -7,6 +7,7 @@ package edu.progAvUD.taller2.vista;
 import edu.progAvUD.taller2.control.ControlGrafico;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.File;
 import javax.swing.Box;
@@ -49,6 +50,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      * Este panel tapa una de las cartas del crupier
      */
     public PanelCarta cartaOculta;
+
+    public JPanel panel1Jugador1;
+    public JPanel panel2Jugador1;
+    public JPanel panel1Jugador2;
+    public JPanel panel2Jugador2;
 
     /**
      * Creates new form VentanaPrincipal
@@ -167,16 +173,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
         JLabel texto1 = new JLabel("Seleccione la cantidad de fichas que quiere asegurar");
         JLabel texto2 = new JLabel("Recuerde que solo pude asegurar la mitad de la apuesta");
-        
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 
         panel.add(texto1);
-        panel.add(Box.createVerticalStrut(5));  
+        panel.add(Box.createVerticalStrut(5));
         panel.add(texto2);
-        panel.add(Box.createVerticalStrut(10)); 
+        panel.add(Box.createVerticalStrut(10));
         panel.add(spinner);
-        
+
         int result = JOptionPane.showConfirmDialog(
                 null,
                 panel,
@@ -184,9 +190,40 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE
         );
-        return controlGrafico.verificarEstadoJOptionPane(result, spinner.getValue()) ;
-        
+        return controlGrafico.verificarEstadoJOptionPane(result, spinner.getValue());
+
     }
+    
+    public void dividirPanelCartasJugador1(){
+        panelMesa.jPanelCartasJugador1.removeAll();
+        panelMesa.jPanelCartasJugador1.revalidate();
+        panelMesa.jPanelCartasJugador1.repaint();
+        panelMesa.jPanelCartasJugador1.setLayout(new GridLayout(1,2));
+        panel1Jugador1 = new JPanel(new FlowLayout());
+        panel2Jugador1 = new JPanel(new FlowLayout());
+        
+        
+        
+        panelMesa.jPanelCartasJugador1.add(panel1Jugador1);
+        panelMesa.jPanelCartasJugador1.add(panel2Jugador1);
+        panelMesa.jPanelCartasJugador1.revalidate();
+        panelMesa.jPanelCartasJugador1.repaint();
+    }
+    
+    public void dividirPanelCartasJugador2(){
+        panelMesa.jPanelCartasJugador1.removeAll();
+        panelMesa.jPanelCartasJugador1.revalidate();
+        panelMesa.jPanelCartasJugador1.repaint();
+        panelMesa.jPanelCartasJugador2.setLayout(new GridLayout(1,2));
+        panel1Jugador2 = new JPanel(new FlowLayout());
+        panel2Jugador2 = new JPanel(new FlowLayout());
+        
+        panelMesa.jPanelCartasJugador2.add(panel1Jugador2);
+        panelMesa.jPanelCartasJugador2.add(panel2Jugador2);
+        panelMesa.jPanelCartasJugador1.revalidate();
+        panelMesa.jPanelCartasJugador1.repaint();
+    }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.

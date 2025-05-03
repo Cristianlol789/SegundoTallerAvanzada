@@ -503,13 +503,33 @@ public class ControlPrincipal {
      * @param nombrePropietarioCarta
      */
     public void dividirMazoJugador(String nombrePropietarioCarta) {
-        Carta cartaAleatoria = mazo.getFirst();
-        if (nombrePropietarioCarta.equals("Jugador1Division")) {
-            dividirCartasJugador1.add(cartaAleatoria);
+        if (nombrePropietarioCarta.equals("Jugador1")) {
+            Carta carta1 = cartasJugador1.getFirst();
+            Carta carta2 = cartasJugador1.getLast();
+            Carta cartaAleatoria1 = mazo.getLast();
+            mazo.removeLast();
+            Carta cartaAleatoria2 = mazo.getLast();
+            mazo.removeLast();
+            dividirCartasJugador1.add(carta2);
             cartasJugador1.removeLast();
-        } else if (nombrePropietarioCarta.equals("Jugador2Division")) {
-            dividirCartasJugador2.add(cartaAleatoria);
+            controlGrafico.mostrarCarta(carta1.getPalo().name(), carta1.getDenominacion().name(), "Jugador1");
+            controlGrafico.mostrarCarta(carta2.getPalo().name(), carta2.getDenominacion().name(), "Jugador1NuevoMazo");
+            controlGrafico.mostrarCarta(cartaAleatoria1.getPalo().name(), cartaAleatoria1.getDenominacion().name(), "Jugador1");
+            controlGrafico.mostrarCarta(cartaAleatoria2.getPalo().name(), cartaAleatoria2.getDenominacion().name(), "Jugador1NuevoMazo");
+        } else if (nombrePropietarioCarta.equals("Jugador2")) {
+            Carta carta1 = cartasJugador2.getFirst();
+            Carta carta2 = cartasJugador2.getLast();
+            Carta cartaAleatoria1 = mazo.getLast();
+            mazo.removeLast();
+            Carta cartaAleatoria2 = mazo.getLast();
+            mazo.removeLast();
+            dividirCartasJugador2.add(carta2);
             cartasJugador2.removeLast();
+            controlGrafico.mostrarCarta(carta1.getPalo().name(), carta1.getDenominacion().name(), "Jugador2");
+            controlGrafico.mostrarCarta(carta2.getPalo().name(), carta2.getDenominacion().name(), "Jugador2NuevoMazo");
+            controlGrafico.mostrarCarta(cartaAleatoria1.getPalo().name(), cartaAleatoria1.getDenominacion().name(), "Jugador2");
+            controlGrafico.mostrarCarta(cartaAleatoria2.getPalo().name(), cartaAleatoria2.getDenominacion().name(), "Jugador2NuevoMazo");
+
         }
     }
 
@@ -611,21 +631,56 @@ public class ControlPrincipal {
      * @param jugador
      * @return
      */
-    public boolean verificarCartarIguales(String jugador) {
+    public boolean verificarCartasIguales(String jugador) {
+        String carta1, carta2;
+
         if ("Jugador1".equals(jugador)) {
-            String carta1 = cartasJugador1.get(0).getDenominacion().name();
-            String carta2 = cartasJugador1.get(1).getDenominacion().name();
-            if (carta1.equals(carta2)) {
-                return true;
-            }
+            carta1 = cartasJugador1.get(0).getDenominacion().name();
+            carta2 = cartasJugador1.get(1).getDenominacion().name();
         } else if ("Jugador2".equals(jugador)) {
-            String carta1 = cartasJugador2.get(0).getDenominacion().name();
-            String carta2 = cartasJugador2.get(1).getDenominacion().name();
-            if (carta1.equals(carta2)) {
-                return true;
-            }
+            carta1 = cartasJugador2.get(0).getDenominacion().name();
+            carta2 = cartasJugador2.get(1).getDenominacion().name();
+        } else {
+            return false; // Jugador inválido
         }
-        return false;
+
+        int valorCarta1 = obtenerValorCarta(carta1);
+        int valorCarta2 = obtenerValorCarta(carta2);
+
+        return valorCarta1 == valorCarta2;
+    }
+
+    
+    private int obtenerValorCarta(String denominacion) {
+        switch (denominacion) {
+                case "J":
+                case "Q":
+                case "K":
+                    return 10;
+                case "A":
+                    return 11;
+                case "DOS":
+                    return 2;
+                case "TRES":
+                    return 3;
+                case "CUATRO":
+                    return 4;
+                case "CINCO":
+                    return 5;
+                case "SEIS":
+                    return 6;
+                case "SIETE":
+                    return 7;
+                case "OCHO":
+                    return 8;
+                case "NUEVE":
+                    return 9;
+                case "DIEZ":
+                    return 10;
+                default:
+                    return -1;
+                    
+            }
     }
 
     /**
@@ -834,14 +889,11 @@ public class ControlPrincipal {
     public void setFichasApostadasJugador1(double fichasApostadasJugador1) {
         this.fichasApostadasJugador1 = fichasApostadasJugador1;
     }
-    
-    
-    
-    public void setFichasJugadorPorCedula(String cedula,double numeroFichas){
+
+    public void setFichasJugadorPorCedula(String cedula, double numeroFichas) {
         controlPersona.setFichasJugadorPorCedula(cedula, numeroFichas);
     }
-    
-    
+
     /**
      *
      * @return
