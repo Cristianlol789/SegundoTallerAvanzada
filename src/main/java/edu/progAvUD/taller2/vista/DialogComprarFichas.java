@@ -1,13 +1,19 @@
 package edu.progAvUD.taller2.vista;
 
 /**
- *Este es el panel encargado de que la persona compre sus fichas
+ * Este es el panel encargado de que la persona compre sus fichas
+ *
  * @author Andres Felipe
  */
 public class DialogComprarFichas extends javax.swing.JDialog {
 
     /**
-     * Creates new form dialogComprarFichas
+     * Crea una instancia del diálogo de compra de fichas. Posiciona la ventana
+     * en el centro de la pantalla y carga los componentes de la UI.
+     *
+     * @param parent Marco padre que contiene este diálogo.
+     * @param modal Indica si el diálogo es modal (bloquea interacción con el
+     * padre).
      */
     public DialogComprarFichas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
