@@ -305,7 +305,7 @@ public class ControlPersona {
      * @param cedula Cédula del jugador.
      * @return Número de fichas o 0 si no existe.
      */
-    public double darCantidadFichasJugador(String cedula) {
+    public double getCantidadFichasJugadorPorCedula(String cedula) {
         Persona p = buscarPersonaPorCedula(cedula);
         return (p instanceof Jugador) ? ((Jugador) p).getCantidadFichas() : 0;
     }
@@ -316,7 +316,7 @@ public class ControlPersona {
      * @param cedula Cédula del jugador.
      * @return Dinero disponible o 0 si no existe.
      */
-    public double darCantidadDineroJugador(String cedula) {
+    public double getCantidadDineroJugadorPorCedula(String cedula) {
         Persona p = buscarPersonaPorCedula(cedula);
         return (p instanceof Jugador) ? ((Jugador) p).getDinero() : 0;
     }
@@ -341,7 +341,7 @@ public class ControlPersona {
      * @param cedula Cédula del jugador.
      * @param numeroFichas Nueva cantidad de fichas.
      */
-    public void cambiarNumeroFichasJugadorPorCedula(String cedula, double numeroFichas) {
+    public void setFichasJugadorPorCedula(String cedula, double numeroFichas) {
         Persona p = buscarPersonaPorCedula(cedula);
         if (p instanceof Jugador) {
             ((Jugador) p).setCantidadFichas(numeroFichas);

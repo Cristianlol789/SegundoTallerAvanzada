@@ -95,13 +95,18 @@ public class ControlGrafico implements ActionListener {
             String cedulaJugador1 = controlPrincipal.darCedulaJugadoresEnPartida("Jugador1");
 
             jugadorQuePrecionoComprar = 1;
-            if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador1)) {
-                ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador1));
+            if (0 == controlPrincipal.getCantidadFichasJugadorPorCedula(cedulaJugador1)) {
+                ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.getCantidadDineroJugadorPorCedula(cedulaJugador1));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
             } else {
                 int cantidadAApostar = (int) ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar1.getValue();
                 if (controlPrincipal.verificarFichasAApostar(cedulaJugador1, cantidadAApostar)) {
                     controlPrincipal.setFichasApostadasJugador1(cantidadAApostar);
+
+                    String cedula = controlPrincipal.darCedulaJugadoresEnPartida("Jugador1");
+                    double fichasJugador = controlPrincipal.getCantidadFichasJugadorPorCedula(cedula);
+                    double fichasTotales = fichasJugador - cantidadAApostar;
+                    controlPrincipal.setFichasJugadorPorCedula(cedula, fichasTotales);
 
                     ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar1.setVisible(false);
                     ventanaPrincipal.panelMesa.jLabelTextoApostar1.setVisible(false);
@@ -127,13 +132,18 @@ public class ControlGrafico implements ActionListener {
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2) {
             String cedulaJugador2 = controlPrincipal.darCedulaJugadoresEnPartida("Jugador2");
             jugadorQuePrecionoComprar = 2;
-            if (0 == controlPrincipal.darCantidadFichasJugador(cedulaJugador2)) {
-                ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.darCantidadDineroJugador(cedulaJugador2));
+            if (0 == controlPrincipal.getCantidadFichasJugadorPorCedula(cedulaJugador2)) {
+                ventanaPrincipal.dialogComprarFichas.jLabelCantidadDinero.setText("$" + controlPrincipal.getCantidadDineroJugadorPorCedula(cedulaJugador2));
                 ventanaPrincipal.dialogComprarFichas.setVisible(true);
             } else {
                 int cantidadAApostar = (int) ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar2.getValue();
                 if (controlPrincipal.verificarFichasAApostar(cedulaJugador2, cantidadAApostar)) {
                     controlPrincipal.setFichasApostadasJugador2(cantidadAApostar);
+
+                    String cedula = controlPrincipal.darCedulaJugadoresEnPartida("Jugador2");
+                    double fichasJugador = controlPrincipal.getCantidadFichasJugadorPorCedula(cedula);
+                    double fichasTotales = fichasJugador - cantidadAApostar;
+                    controlPrincipal.setFichasJugadorPorCedula(cedula, fichasTotales);
 
                     ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar2.setVisible(false);
                     ventanaPrincipal.panelMesa.jLabelTextoApostar2.setVisible(false);
@@ -281,20 +291,17 @@ public class ControlGrafico implements ActionListener {
                 if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
                     ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
                 }
-                
-                if (controlPrincipal.verificarBotonSeguro()) {
+            }
+            if (controlPrincipal.verificarBotonSeguro()) {
+                if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(true);
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(false);
+                } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(false);
                     ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(true);
-                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(true);
-                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
-                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(true);
-                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(false);
-                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
-                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(true);
-                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(false);
-                    } else if ("Crupier".equals(controlPrincipal.getTurnoJugador())) {
-                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
-                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
-                    }
+                } else if ("Crupier".equals(controlPrincipal.getTurnoJugador())) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
                 }
             }
         }
@@ -361,9 +368,9 @@ public class ControlGrafico implements ActionListener {
                                                          - No cuenta con las suficientes fichas 
                                                          - El seguro supera la mitad de la apuesta realizada""");
                 }
-                
+
                 if (controlPrincipal.verificarBotonSeguro()) {
-                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador()) ) {
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
                         ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
                     } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
                         ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
@@ -384,7 +391,7 @@ public class ControlGrafico implements ActionListener {
                                                          - El seguro supera la mitad de la apuesta realizada""");
                 }
                 if (controlPrincipal.verificarBotonSeguro()) {
-                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador()) ) {
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
                         ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
                     } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
                         ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);

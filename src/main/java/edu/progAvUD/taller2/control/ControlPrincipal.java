@@ -248,22 +248,22 @@ public class ControlPrincipal {
             String persona2 = cedulasJugadoresEnMano.get(1);
             controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona1));
             controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona2));
-            controlGrafico.mostraDatosJugador1(persona1, darCantidadFichasJugador(persona1));
-            controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
+            controlGrafico.mostraDatosJugador1(persona1, getCantidadFichasJugadorPorCedula(persona1));
+            controlGrafico.mostraDatosJugador2(persona2, getCantidadFichasJugadorPorCedula(persona2));
         } else if (contadorRondas == 2) {
             String persona1 = cedulasJugadoresEnMano.get(2);
             String persona2 = cedulasJugadoresEnMano.get(3);
             controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona1));
             controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona2));
-            controlGrafico.mostraDatosJugador1(persona1, darCantidadFichasJugador(persona1));
-            controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
+            controlGrafico.mostraDatosJugador1(persona1, getCantidadFichasJugadorPorCedula(persona1));
+            controlGrafico.mostraDatosJugador2(persona2, getCantidadFichasJugadorPorCedula(persona2));
         } else {
             String persona1 = cedulasJugadoresEnMano.get(4);
             String persona2 = cedulasJugadoresEnMano.get(5);
             controlGrafico.mostrarMensajeExito("El jugador uno va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona1));
             controlGrafico.mostrarMensajeExito("El jugador dos va ha tomar el papel de: \n" + controlPersona.darInformacionPersona(persona2));
-            controlGrafico.mostraDatosJugador1(persona1, darCantidadFichasJugador(persona1));
-            controlGrafico.mostraDatosJugador2(persona2, darCantidadFichasJugador(persona2));
+            controlGrafico.mostraDatosJugador1(persona1, getCantidadFichasJugadorPorCedula(persona1));
+            controlGrafico.mostraDatosJugador2(persona2, getCantidadFichasJugadorPorCedula(persona2));
         }
     }
 
@@ -452,17 +452,17 @@ public class ControlPrincipal {
         if (turnoJugador.equals("Jugador1")) {
             darCartas(turnoJugador);
             sumarCantidadCartasJugadorActivo(turnoJugador);
-            double fichasTotales = (controlPersona.darCantidadFichasJugador(turnoJugador)) - (fichasApostadasJugador1);
+            double fichasTotales = (controlPersona.getCantidadFichasJugadorPorCedula(turnoJugador)) - (fichasApostadasJugador1);
             String cedulaJugador = darCedulaJugadoresEnPartida(turnoJugador);
-            controlPersona.cambiarNumeroFichasJugadorPorCedula(cedulaJugador, fichasTotales);
+            controlPersona.setFichasJugadorPorCedula(cedulaJugador, fichasTotales);
             fichasApostadasJugador1 = fichasApostadasJugador1 * 2;
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
         } else if (turnoJugador.equals("Jugador2")) {
             darCartas(turnoJugador);
             sumarCantidadCartasJugadorActivo(turnoJugador);
-            double fichasTotales = (controlPersona.darCantidadFichasJugador(turnoJugador)) - (fichasApostadasJugador2);
+            double fichasTotales = (controlPersona.getCantidadFichasJugadorPorCedula(turnoJugador)) - (fichasApostadasJugador2);
             String cedulaJugador = darCedulaJugadoresEnPartida(turnoJugador);
-            controlPersona.cambiarNumeroFichasJugadorPorCedula(cedulaJugador, fichasTotales);
+            controlPersona.setFichasJugadorPorCedula(cedulaJugador, fichasTotales);
             fichasApostadasJugador2 = fichasApostadasJugador2 * 2;
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
         }
@@ -581,12 +581,12 @@ public class ControlPrincipal {
      * @return
      */
     public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar) {
-        double dinero = controlPersona.darCantidadDineroJugador(cedula);
+        double dinero = controlPersona.getCantidadDineroJugadorPorCedula(cedula);
 
         if (dinero >= (cantidadDeFichasAComprar * 1000)) {
             controlPersona.comprarFichas(cedula, cantidadDeFichasAComprar);
-            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("Jugador1"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("Jugador1")));
-            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("Jugador2"), darCantidadFichasJugador(darCedulaJugadoresEnPartida("Jugador2")));
+            controlGrafico.mostraDatosJugador1(darCedulaJugadoresEnPartida("Jugador1"), getCantidadFichasJugadorPorCedula(darCedulaJugadoresEnPartida("Jugador1")));
+            controlGrafico.mostraDatosJugador2(darCedulaJugadoresEnPartida("Jugador2"), getCantidadFichasJugadorPorCedula(darCedulaJugadoresEnPartida("Jugador2")));
             return true;
         }
         return false;
@@ -599,7 +599,7 @@ public class ControlPrincipal {
      * @return
      */
     public boolean verificarFichasAApostar(String cedula, int cantidadDeFichasAApostar) {
-        double fichas = controlPersona.darCantidadFichasJugador(cedula);
+        double fichas = controlPersona.getCantidadFichasJugadorPorCedula(cedula);
         if (cantidadDeFichasAApostar <= fichas) {
             return true;
         }
@@ -636,7 +636,7 @@ public class ControlPrincipal {
      */
     public boolean verificarDoblarApueta(String jugador, double cantidadDeFichasApostadas) {
         String cedulaJugador = darCedulaJugadoresEnPartida(jugador);
-        if (controlPersona.darCantidadFichasJugador(cedulaJugador) >= (cantidadDeFichasApostadas * 2)) {
+        if (controlPersona.getCantidadFichasJugadorPorCedula(cedulaJugador) >= (cantidadDeFichasApostadas * 2)) {
             return true;
         }
         return false;
@@ -653,16 +653,16 @@ public class ControlPrincipal {
         int valorCartasCrupier = sumarCartas(cartasCrupier);
         boolean crupierBlackJack = (valorCartasCrupier == 21);
         String cedulajugador = darCedulaJugadoresEnPartida(turnoJugador);
-        double fichasJugador = controlPersona.darCantidadFichasJugador(cedulajugador);
+        double fichasJugador = controlPersona.getCantidadFichasJugadorPorCedula(cedulajugador);
 
         if ("Jugador1".equals(turnoJugador) && seguro <= (fichasApostadasJugador1 / 2) && fichasJugador >= seguro) {
             fichasApostadasJugador1 += seguro;
-            controlPersona.cambiarNumeroFichasJugadorPorCedula(turnoJugador, controlPersona.darCantidadFichasJugador(turnoJugador) - seguro);
+            controlPersona.setFichasJugadorPorCedula(turnoJugador, controlPersona.getCantidadFichasJugadorPorCedula(turnoJugador) - seguro);
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
             if (crupierBlackJack && seguro != 0) {
                 fichasAseguradasJugador1 = seguro * 2;
                 String cedula = darCedulaJugadoresEnPartida(turnoJugador);
-                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula) + fichasAseguradasJugador1);
+                controlPersona.setFichasJugadorPorCedula(cedula, controlPersona.getCantidadFichasJugadorPorCedula(cedula) + fichasAseguradasJugador1);
             } else {
                 fichasAseguradasJugador1 = -seguro;
             }
@@ -670,12 +670,12 @@ public class ControlPrincipal {
 
         } else if ("Jugador2".equals(turnoJugador) && seguro <= (fichasApostadasJugador2 / 2) && fichasJugador >= seguro) {
             fichasApostadasJugador2 += seguro;
-            controlPersona.cambiarNumeroFichasJugadorPorCedula(turnoJugador, controlPersona.darCantidadFichasJugador(turnoJugador) - seguro);
+            controlPersona.setFichasJugadorPorCedula(turnoJugador, controlPersona.getCantidadFichasJugadorPorCedula(turnoJugador) - seguro);
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
             if (crupierBlackJack && seguro != 0) {
                 fichasAseguradasJugador2 = seguro * 2;
                 String cedula = darCedulaJugadoresEnPartida(turnoJugador);
-                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula) + fichasAseguradasJugador2);
+                controlPersona.setFichasJugadorPorCedula(cedula, controlPersona.getCantidadFichasJugadorPorCedula(cedula) + fichasAseguradasJugador2);
             } else {
                 fichasAseguradasJugador2 = -seguro;
             }
@@ -766,8 +766,8 @@ public class ControlPrincipal {
      * @param cedula
      * @return
      */
-    public double darCantidadFichasJugador(String cedula) {
-        return controlPersona.darCantidadFichasJugador(cedula);
+    public double getCantidadFichasJugadorPorCedula(String cedula) {
+        return controlPersona.getCantidadFichasJugadorPorCedula(cedula);
     }
 
     /**
@@ -775,8 +775,8 @@ public class ControlPrincipal {
      * @param cedula
      * @return
      */
-    public double darCantidadDineroJugador(String cedula) {
-        return controlPersona.darCantidadDineroJugador(cedula);
+    public double getCantidadDineroJugadorPorCedula(String cedula) {
+        return controlPersona.getCantidadDineroJugadorPorCedula(cedula);
     }
 
     /**
@@ -834,7 +834,14 @@ public class ControlPrincipal {
     public void setFichasApostadasJugador1(double fichasApostadasJugador1) {
         this.fichasApostadasJugador1 = fichasApostadasJugador1;
     }
-
+    
+    
+    
+    public void setFichasJugadorPorCedula(String cedula,double numeroFichas){
+        controlPersona.setFichasJugadorPorCedula(cedula, numeroFichas);
+    }
+    
+    
     /**
      *
      * @return
