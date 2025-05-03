@@ -13,7 +13,10 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- *Este control es el encargado de gestionar la partida, ademas se encarga de delegar cada funcion especifica a los demas controles y de comunicarse con el controlGrafico
+ * Este control es el encargado de gestionar la partida, ademas se encarga de
+ * delegar cada funcion especifica a los demas controles y de comunicarse con el
+ * controlGrafico
+ *
  * @author Cristianlol789
  */
 public class ControlPrincipal {
@@ -37,11 +40,15 @@ public class ControlPrincipal {
     private HashMap<Integer, String> ganadorRonda;
     private double fichasApostadasJugador1;
     private double fichasApostadasJugador2;
+    private double fichasAseguradasJugador1;
+    private double fichasAseguradasJugador2;
     private String turnoJugador;
     private String[] datosGanador;
 
     /**
-     *Este es el metodo constructor donde se crea el control, ademas se crean los demas controles y se inicializan las variables a utilizar durante la simulacion;
+     * Este es el metodo constructor donde se crea el control, ademas se crean
+     * los demas controles y se inicializan las variables a utilizar durante la
+     * simulacion;
      */
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
@@ -60,7 +67,8 @@ public class ControlPrincipal {
     }
 
     /**
-     *Aqui se crea la conexion con las propiedades para poder precargar los jugadores y el crupier
+     * Aqui se crea la conexion con las propiedades para poder precargar los
+     * jugadores y el crupier
      */
     public void crearConexionPropiedades() {
         try {
@@ -72,7 +80,9 @@ public class ControlPrincipal {
     }
 
     /**
-     *Este metodo es el encargado de pedir el archivo a la ventana para serializar la persona
+     * Este metodo es el encargado de pedir el archivo a la ventana para
+     * serializar la persona
+     *
      * @return devuelve el archivo necesario
      */
     public File archivoSerializado() {
@@ -414,7 +424,7 @@ public class ControlPrincipal {
         } else {
             sb.append("empata (push)\n");
         }
-        
+
         setTurnoJugador("Jugador1");
         String resultado = sb.toString().trim();
         datosGanador[0] = resultado;
@@ -650,6 +660,49 @@ public class ControlPrincipal {
             return true;
         }
         return false;
+    }
+
+    public boolean verificarBotonSeguro() {
+        if ("A".equals(cartasCrupier.get(1).getDenominacion().name())) {
+            return true;
+        }
+        return false;
+    }
+
+    public boolean verificarRealizarSeguro(int seguro) {
+        int valorCartasCrupier = sumarCartas(cartasCrupier);
+        boolean crupierBlackJack = (valorCartasCrupier == 21);
+        String cedulajugador = darCedulaJugadoresEnPartida(turnoJugador);
+        double fichasJugador = controlPersona.darCantidadFichasJugador(cedulajugador);
+
+        if ("Jugador1".equals(turnoJugador) && seguro <= (fichasApostadasJugador1 / 2) && fichasJugador>=seguro) {
+            fichasApostadasJugador1 += seguro;
+            controlPersona.cambiarNumeroFichasJugadorPorCedula(turnoJugador, controlPersona.darCantidadFichasJugador(turnoJugador)-seguro);
+            controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
+            if (crupierBlackJack && seguro != 0) {
+                fichasAseguradasJugador1 = seguro * 2;
+                String cedula = darCedulaJugadoresEnPartida(turnoJugador);
+                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula)+fichasAseguradasJugador1);
+            } else {
+                fichasAseguradasJugador1 = -seguro;
+            }
+            return true;
+
+        } else if ("Jugador2".equals(turnoJugador) && seguro <= (fichasApostadasJugador2 / 2) && fichasJugador>=seguro) {
+            fichasApostadasJugador2 += seguro;
+            controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
+            if (crupierBlackJack && seguro != 0) {
+                fichasAseguradasJugador2 = seguro * 2;
+                String cedula = darCedulaJugadoresEnPartida(turnoJugador);
+                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula)+fichasAseguradasJugador2);
+            } else {
+                fichasAseguradasJugador2 = -seguro;
+                
+            }
+            return true;
+        }
+        return false;
+
     }
 
     /**

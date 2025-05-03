@@ -2,15 +2,15 @@ package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.vista.PanelCarta;
 import edu.progAvUD.taller2.vista.VentanaPrincipal;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
- *Este es el controlEncargado de comunicarse con la ventanaPrincipal y el contronPrincipal ademas es el encargado de tener el ActionListener de los botones que se encuentran en la ventana
+ * Este es el controlEncargado de comunicarse con la ventanaPrincipal y el
+ * contronPrincipal ademas es el encargado de tener el ActionListener de los
+ * botones que se encuentran en la ventana
+ *
  * @author Andres Felipe
  */
 public class ControlGrafico implements ActionListener {
@@ -20,8 +20,11 @@ public class ControlGrafico implements ActionListener {
     private int jugadorQuePrecionoComprar;
 
     /**
-     *Este es el metodo constructor donde se crea el controlGrafico y ademas se crea la ventana y se guarda la instancia del controlPrincipal
-     * @param controlprincipal es el parametro para poderse comunicar con el controlPrincipal
+     * Este es el metodo constructor donde se crea el controlGrafico y ademas se
+     * crea la ventana y se guarda la instancia del controlPrincipal
+     *
+     * @param controlprincipal es el parametro para poderse comunicar con el
+     * controlPrincipal
      */
     public ControlGrafico(ControlPrincipal controlprincipal) {
         this.controlPrincipal = controlprincipal;
@@ -48,7 +51,9 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Este es el metodo que se encarga de ver si sucede algo con algun boton para luego delegar la funcion correspondiente a este suceso
+     * Este es el metodo que se encarga de ver si sucede algo con algun boton
+     * para luego delegar la funcion correspondiente a este suceso
+     *
      * @param e este es el parametro para identificar el respectivo suceso
      */
     @Override
@@ -158,19 +163,19 @@ public class ControlGrafico implements ActionListener {
             ventanaPrincipal.mostrarMensajeExito("Se ha doblado la apuesta");
             String turnoJugador = controlPrincipal.getTurnoJugador();
             if (turnoJugador.equals("Jugador1")) {
-                    controlPrincipal.setTurnoJugador("Jugador2");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
-                } else if (turnoJugador.equals("Jugador2")) {
-                    controlPrincipal.setTurnoJugador("Crupier");
-                    ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
-                    controlPrincipal.darTurnoCrupier();
-                } else if (turnoJugador.equals("Crupier")) {
-                    controlPrincipal.setTurnoJugador("Jugador1");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
-                }
+                controlPrincipal.setTurnoJugador("Jugador2");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+            } else if (turnoJugador.equals("Jugador2")) {
+                controlPrincipal.setTurnoJugador("Crupier");
+                ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                controlPrincipal.darTurnoCrupier();
+            } else if (turnoJugador.equals("Crupier")) {
+                controlPrincipal.setTurnoJugador("Jugador1");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPedir) {
             String turnoJugador = controlPrincipal.getTurnoJugador();
@@ -202,7 +207,7 @@ public class ControlGrafico implements ActionListener {
                 } else if (turnoJugador.equals("Crupier")) {
                     controlPrincipal.setTurnoJugador("Jugador1");
                     ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
-                    
+
                     double fichasapostadas = 0;
                     if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
                         fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
@@ -294,6 +299,12 @@ public class ControlGrafico implements ActionListener {
             if (controlPrincipal.verificarCartarIguales(controlPrincipal.getTurnoJugador())) {
                 ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(true);
             }
+
+            if (controlPrincipal.verificarBotonSeguro()) {
+                ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(true);
+                ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(true);
+                ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(false);
+            }
         }
         if (e.getSource() == ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas) {
             if (jugadorQuePrecionoComprar == 1) {
@@ -314,25 +325,40 @@ public class ControlGrafico implements ActionListener {
                 }
             }
         }
+        if (e.getSource() == ventanaPrincipal.panelMesa.jButtonSeguroJugador1) {
+            int cantidadSeguro = ventanaPrincipal.mostrarJOptionPanelSeguro(jugadorQuePrecionoComprar);
+            if (cantidadSeguro != (-1)) {
+                if (!controlPrincipal.verificarRealizarSeguro(cantidadSeguro)) {
+                    ventanaPrincipal.mostrarMensajeError("""
+                                                         No se ha podido realizar el seguro por alguna de las siguientes razones: 
+                                                         - No cuenta con las suficientes fichas 
+                                                         - El seguro supera la mitad de la apuesta realizada""");
+                }
+            }
+        }
+        if (e.getSource() == ventanaPrincipal.panelMesa.jButtonSeguroJugador2) {
+            int cantidadSeguro = ventanaPrincipal.mostrarJOptionPanelSeguro(jugadorQuePrecionoComprar);
+            if (cantidadSeguro != (-1)) {
+                if (!controlPrincipal.verificarRealizarSeguro(cantidadSeguro)) {
+                    ventanaPrincipal.mostrarMensajeError("""
+                                                         No se ha podido realizar el seguro por alguna de las siguientes razones: 
+                                                         - No cuenta con las suficientes fichas 
+                                                         - El seguro supera la mitad de la apuesta realizada""");
+                }
+            }
+        }
     }
 
     /**
-     *Este metodo lo que hace es mostrar la carta que esta oculta del crupier
+     * Este metodo lo que hace es mostrar la carta que esta oculta del crupier
      */
     public void mostrarCartaOculta() {
-        ventanaPrincipal.cartaOculta = ventanaPrincipal.crearCarta("", "OCULTA");
-        ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta1);
-        ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta2);
-        ventanaPrincipal.cartaOculta.setLayout(new GridLayout(1, 1));
-        ventanaPrincipal.cartaOculta.jLabelFiguraCarta.setPreferredSize(new Dimension(50, 79));
-        ventanaPrincipal.cartaOculta.setBackground(new Color(153, 29, 31));
-        ventanaPrincipal.cartaOculta.revalidate();
-        ventanaPrincipal.cartaOculta.repaint();
-        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(ventanaPrincipal.cartaOculta);
+        ventanaPrincipal.mostrarCartaOculta();
     }
 
     /**
-     *Este metodo es el encarga de mostrar las cartas de cada jugador
+     * Este metodo es el encarga de mostrar las cartas de cada jugador
+     *
      * @param palo es la figura que debera llevar la carta
      * @param denominacion es la cantidad que vale la carta
      * @param duenoCarta es la persona a la que le toco la carta
@@ -564,14 +590,14 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Este metodo tapa la segunda carta del crupier a los jugadores
+     * Este metodo tapa la segunda carta del crupier a los jugadores
      */
     public void ocultarCartaOculta() {
         ventanaPrincipal.cartaOculta.setVisible(false);
     }
 
     /**
-     *Desbloquea el boton jugar una vez ya se hayan cargado las personas
+     * Desbloquea el boton jugar una vez ya se hayan cargado las personas
      */
     public void mostrarBotonJugar() {
         if (!ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.isEnabled() && !ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.isEnabled()) {
@@ -580,9 +606,12 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Este metodo se encarga de cargar en la ventana la informacion de cada jugador
+     * Este metodo se encarga de cargar en la ventana la informacion de cada
+     * jugador
+     *
      * @param cedulaJugador1 es la referencia para buscar el jugador
-     * @param cantidadFichasJugador1 es la cantidad de ficha que tiene disponibles para la apuesta
+     * @param cantidadFichasJugador1 es la cantidad de ficha que tiene
+     * disponibles para la apuesta
      */
     public void mostraDatosJugador1(String cedulaJugador1, double cantidadFichasJugador1) {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador1.setText(cedulaJugador1);
@@ -591,27 +620,42 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Este metodo se encarga de cargar en la ventana la informacion de cada jugador
+     * Este metodo se encarga de cargar en la ventana la informacion de cada
+     * jugador
+     *
      * @param cedulaJugador2 es la referencia para buscar el jugador
-     * @param cantidadFichasJugador2 es la cantidad de ficha que tiene disponibles para la apuesta
+     * @param cantidadFichasJugador2 es la cantidad de ficha que tiene
+     * disponibles para la apuesta
      */
     public void mostraDatosJugador2(String cedulaJugador2, double cantidadFichasJugador2) {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador2.setText(cedulaJugador2);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setText(cantidadFichasJugador2 + "");
     }
-    
+
     /**
-     *Este metodo actualiza la ventana para que se vea la cantidad apostada por jugador
+     * Este metodo actualiza la ventana para que se vea la cantidad apostada por
+     * jugador
+     *
      * @param cantidadFichasJugador1 es la cantidad apostada por el jugador 1
      * @param cantidadFichasJugador2 es la cantidad apostada por el jugador 2
      */
-    public void actulizarFichasApostadas(double cantidadFichasJugador1, double cantidadFichasJugador2){
+    public void actulizarFichasApostadas(double cantidadFichasJugador1, double cantidadFichasJugador2) {
         ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setText(cantidadFichasJugador1 + "");
         ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setText(cantidadFichasJugador2 + "");
     }
 
+    public int verificarEstadoJOptionPane(int resultado, Object valorSpinner) {
+        int valorSpinnerEntero = (int) valorSpinner;
+        if (resultado == 0) {
+            return valorSpinnerEntero;
+        }
+        return -1;
+    }
+
     /**
-     *Este es el metodo que muestra los errores que suceden durante la ejecucion o los errores que este cometiendo el usuario en el momento
+     * Este es el metodo que muestra los errores que suceden durante la
+     * ejecucion o los errores que este cometiendo el usuario en el momento
+     *
      * @param mensaje es el mensaje a mostrar
      */
     public void mostrarMensajeError(String mensaje) {
@@ -619,7 +663,9 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Este es el metodo que muestra los aciertos durante la ejecucion, ademas confirma que si se haya echo bien un proceso como cargar personas
+     * Este es el metodo que muestra los aciertos durante la ejecucion, ademas
+     * confirma que si se haya echo bien un proceso como cargar personas
+     *
      * @param mensaje es el mensaje a mostrar
      */
     public void mostrarMensajeExito(String mensaje) {
@@ -627,7 +673,8 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Es el metodo que le pide a la ventana un archivo
+     * Es el metodo que le pide a la ventana un archivo
+     *
      * @return el archivo que es necesario
      */
     public File pedirArchivo() {
@@ -635,7 +682,8 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Es el metodo que le pide a la ventana un archivo
+     * Es el metodo que le pide a la ventana un archivo
+     *
      * @return el archivo que es necesario
      */
     public File pedirArchivoSerializado() {
@@ -643,7 +691,8 @@ public class ControlGrafico implements ActionListener {
     }
 
     /**
-     *Es el metodo que le pide a la ventana un archivo
+     * Es el metodo que le pide a la ventana un archivo
+     *
      * @return el archivo que es necesario
      */
     public File pedirArchivoAleatorio() {

@@ -5,15 +5,22 @@
 package edu.progAvUD.taller2.vista;
 
 import edu.progAvUD.taller2.control.ControlGrafico;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *Esta clase esta encargada de manejar el momento en el que aparece cada panel y ademas crearlos
+ * Esta clase esta encargada de manejar el momento en el que aparece cada panel
+ * y ademas crearlos
+ *
  * @author Andres Felipe
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
@@ -21,7 +28,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     private ControlGrafico controlGrafico;
 
     /**
-     *Sirve para conocer el otro panel
+     * Sirve para conocer el otro panel
      */
     public PanelPrincipal panelPrincipal;
 
@@ -31,17 +38,18 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     public PanelMesa panelMesa;
 
     /**
-     *Sirve para conocer el otro panel
+     * Sirve para conocer el otro panel
      */
     public DialogComprarFichas dialogComprarFichas;
 
     /**
-     *Este panel tapa una de las cartas del crupier
+     * Este panel tapa una de las cartas del crupier
      */
     public PanelCarta cartaOculta;
-    
+
     /**
      * Creates new form VentanaPrincipal
+     *
      * @param controlGrafico
      */
     public VentanaPrincipal(ControlGrafico controlGrafico) {
@@ -54,7 +62,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *Sirve para buscar un archivo con ciertas especificaciones
+     * Sirve para buscar un archivo con ciertas especificaciones
+     *
      * @return devuelve el archivo
      */
     public File pedirArchivoSerializacion() {
@@ -65,7 +74,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *Sirve para buscar un archivo con ciertas especificaciones
+     * Sirve para buscar un archivo con ciertas especificaciones
+     *
      * @return devuelve el archivo
      */
     public File pedirArchivoAleatorio() {
@@ -94,7 +104,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *Sirve para buscar un archivo con ciertas especificaciones
+     * Sirve para buscar un archivo con ciertas especificaciones
+     *
      * @return devuelve el archivo
      */
     public File pedirArchivo() {
@@ -108,7 +119,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *Se encarga de mostrar cada panel
+     * Se encarga de mostrar cada panel
+     *
      * @param panel
      */
     public void mostrarPanel(JPanel panel) {
@@ -120,7 +132,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
 
     /**
-     *Se encarga de crear el panelCarta para adaptar la carta a la que toco
+     * Se encarga de crear el panelCarta para adaptar la carta a la que toco
+     *
      * @param numeroCarta es el valor de la carta
      * @param palo es la figura de la carta
      * @return devuelve el panel
@@ -132,7 +145,32 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         carta.jLabelFiguraCarta.setIcon(imagenCarta);
         carta.jLabelDenominacionCarta1.setText(numeroCarta);
         carta.jLabelDenominacionCarta2.setText(numeroCarta);
-        return carta; 
+        return carta;
+    }
+
+    public void mostrarCartaOculta() {
+        cartaOculta = crearCarta("", "OCULTA");
+        cartaOculta.remove(cartaOculta.jLabelDenominacionCarta1);
+        cartaOculta.remove(cartaOculta.jLabelDenominacionCarta2);
+        cartaOculta.setLayout(new GridLayout(1, 1));
+        cartaOculta.jLabelFiguraCarta.setPreferredSize(new Dimension(50, 79));
+        cartaOculta.setBackground(new Color(153, 29, 31));
+        cartaOculta.revalidate();
+        cartaOculta.repaint();
+        panelMesa.jPanelCartasCrupier.add(cartaOculta);
+    }
+
+    public int mostrarJOptionPanelSeguro(int maximaCantidadFichas) {
+        JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, maximaCantidadFichas, 1));
+        int result = JOptionPane.showConfirmDialog(
+                null,
+                spinner,
+                "Seleccione la cantidad de fichas que quiere asegurar \n Recuerde que solo pude asegurar la mitad de la apuesta",
+                JOptionPane.OK_CANCEL_OPTION,
+                JOptionPane.PLAIN_MESSAGE
+        );
+        return controlGrafico.verificarEstadoJOptionPane(result, spinner.getValue()) ;
+        
     }
 
     /**
