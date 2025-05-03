@@ -10,7 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 
 /**
- *
+ *Este es el controlEncargado de comunicarse con la ventanaPrincipal y el contronPrincipal ademas es el encargado de tener el ActionListener de los botones que se encuentran en la ventana
  * @author Andres Felipe
  */
 public class ControlGrafico implements ActionListener {
@@ -19,6 +19,10 @@ public class ControlGrafico implements ActionListener {
     private VentanaPrincipal ventanaPrincipal;
     private int jugadorQuePrecionoComprar;
 
+    /**
+     *Este es el metodo constructor donde se crea el controlGrafico y ademas se crea la ventana y se guarda la instancia del controlPrincipal
+     * @param controlprincipal es el parametro para poderse comunicar con el controlPrincipal
+     */
     public ControlGrafico(ControlPrincipal controlprincipal) {
         this.controlPrincipal = controlprincipal;
         this.ventanaPrincipal = new VentanaPrincipal(this);
@@ -43,6 +47,10 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.dialogComprarFichas.jButtonComprarFichas.addActionListener(this);
     }
 
+    /**
+     *Este es el metodo que se encarga de ver si sucede algo con algun boton para luego delegar la funcion correspondiente a este suceso
+     * @param e este es el parametro para identificar el respectivo suceso
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores) {
@@ -308,6 +316,9 @@ public class ControlGrafico implements ActionListener {
         }
     }
 
+    /**
+     *Este metodo lo que hace es mostrar la carta que esta oculta del crupier
+     */
     public void mostrarCartaOculta() {
         ventanaPrincipal.cartaOculta = ventanaPrincipal.crearCarta("", "OCULTA");
         ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta1);
@@ -320,6 +331,12 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(ventanaPrincipal.cartaOculta);
     }
 
+    /**
+     *Este metodo es el encarga de mostrar las cartas de cada jugador
+     * @param palo es la figura que debera llevar la carta
+     * @param denominacion es la cantidad que vale la carta
+     * @param duenoCarta es la persona a la que le toco la carta
+     */
     public void mostrarCarta(String palo, String denominacion, String duenoCarta) {
         if (duenoCarta.equals("Jugador1")) {
             if (null != denominacion) {
@@ -546,48 +563,89 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jPanelCartasJugador1.repaint();
     }
 
+    /**
+     *Este metodo tapa la segunda carta del crupier a los jugadores
+     */
     public void ocultarCartaOculta() {
         ventanaPrincipal.cartaOculta.setVisible(false);
     }
 
+    /**
+     *Desbloquea el boton jugar una vez ya se hayan cargado las personas
+     */
     public void mostrarBotonJugar() {
         if (!ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.isEnabled() && !ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.isEnabled()) {
             ventanaPrincipal.panelPrincipal.jButtonJugar.setEnabled(true);
         }
     }
 
+    /**
+     *Este metodo se encarga de cargar en la ventana la informacion de cada jugador
+     * @param cedulaJugador1 es la referencia para buscar el jugador
+     * @param cantidadFichasJugador1 es la cantidad de ficha que tiene disponibles para la apuesta
+     */
     public void mostraDatosJugador1(String cedulaJugador1, double cantidadFichasJugador1) {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador1.setText(cedulaJugador1);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador1.setText(cantidadFichasJugador1 + "");
 
     }
 
+    /**
+     *Este metodo se encarga de cargar en la ventana la informacion de cada jugador
+     * @param cedulaJugador2 es la referencia para buscar el jugador
+     * @param cantidadFichasJugador2 es la cantidad de ficha que tiene disponibles para la apuesta
+     */
     public void mostraDatosJugador2(String cedulaJugador2, double cantidadFichasJugador2) {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador2.setText(cedulaJugador2);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setText(cantidadFichasJugador2 + "");
     }
     
+    /**
+     *Este metodo actualiza la ventana para que se vea la cantidad apostada por jugador
+     * @param cantidadFichasJugador1 es la cantidad apostada por el jugador 1
+     * @param cantidadFichasJugador2 es la cantidad apostada por el jugador 2
+     */
     public void actulizarFichasApostadas(double cantidadFichasJugador1, double cantidadFichasJugador2){
         ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setText(cantidadFichasJugador1 + "");
         ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setText(cantidadFichasJugador2 + "");
     }
 
+    /**
+     *Este es el metodo que muestra los errores que suceden durante la ejecucion o los errores que este cometiendo el usuario en el momento
+     * @param mensaje es el mensaje a mostrar
+     */
     public void mostrarMensajeError(String mensaje) {
         ventanaPrincipal.mostrarMensajeError(mensaje);
     }
 
+    /**
+     *Este es el metodo que muestra los aciertos durante la ejecucion, ademas confirma que si se haya echo bien un proceso como cargar personas
+     * @param mensaje es el mensaje a mostrar
+     */
     public void mostrarMensajeExito(String mensaje) {
         ventanaPrincipal.mostrarMensajeExito(mensaje);
     }
 
+    /**
+     *Es el metodo que le pide a la ventana un archivo
+     * @return el archivo que es necesario
+     */
     public File pedirArchivo() {
         return ventanaPrincipal.pedirArchivo();
     }
 
+    /**
+     *Es el metodo que le pide a la ventana un archivo
+     * @return el archivo que es necesario
+     */
     public File pedirArchivoSerializado() {
         return ventanaPrincipal.pedirArchivoSerializacion();
     }
 
+    /**
+     *Es el metodo que le pide a la ventana un archivo
+     * @return el archivo que es necesario
+     */
     public File pedirArchivoAleatorio() {
         return ventanaPrincipal.pedirArchivoAleatorio();
     }

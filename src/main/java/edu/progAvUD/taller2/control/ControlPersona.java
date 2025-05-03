@@ -150,8 +150,7 @@ public class ControlPersona {
      */
     public void crearPersonaSerializacion() {
         try {
-            File archivo = controlPrincipal.archivoSerializado();
-            this.serializacion = new Serializacion(archivo);
+            serializacion = new Serializacion(controlPrincipal.archivoSerializado());
         } catch (FileNotFoundException ex) {
             controlPrincipal.mostrarMensajeError("El archivo no ha sido encontrado");
         } catch (IOException ex) {

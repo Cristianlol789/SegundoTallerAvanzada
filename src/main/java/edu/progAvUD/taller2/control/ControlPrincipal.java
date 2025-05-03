@@ -12,6 +12,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+/**
+ *Este control es el encargado de gestionar la partida, ademas se encarga de delegar cada funcion especifica a los demas controles y de comunicarse con el controlGrafico
+ * @author Cristianlol789
+ */
 public class ControlPrincipal {
 
     private ControlGrafico controlGrafico;
@@ -36,6 +40,9 @@ public class ControlPrincipal {
     private String turnoJugador;
     private String[] datosGanador;
 
+    /**
+     *Este es el metodo constructor donde se crea el control, ademas se crean los demas controles y se inicializan las variables a utilizar durante la simulacion;
+     */
     public ControlPrincipal() {
         controlGrafico = new ControlGrafico(this);
         controlPersona = new ControlPersona(this);
@@ -52,6 +59,9 @@ public class ControlPrincipal {
         datosGanador = new String[3];
     }
 
+    /**
+     *Aqui se crea la conexion con las propiedades para poder precargar los jugadores y el crupier
+     */
     public void crearConexionPropiedades() {
         try {
             conexionPropiedades = new ConexionPropiedades(controlGrafico.pedirArchivo());
@@ -61,6 +71,10 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *Este metodo es el encargado de pedir el archivo a la ventana para serializar la persona
+     * @return devuelve el archivo necesario
+     */
     public File archivoSerializado() {
         File archivo = null;
         try {
@@ -72,6 +86,9 @@ public class ControlPrincipal {
         return archivo;
     }
 
+    /**
+     *
+     */
     public void crearArchivoAleatorio() {
         try {
             archivoAleatorio = new ConexionArchivoAleatorio(controlGrafico.pedirArchivoAleatorio());
@@ -81,6 +98,9 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     */
     public void escrituraArchivoAleatorio() {
         try {
             for (Map.Entry<Integer, String> entry : ganadorRonda.entrySet()) {
@@ -94,6 +114,9 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     */
     public void cargarJugadores() {
         try {
             propiedadesJugadores = conexionPropiedades.cargarPropiedades();
@@ -120,6 +143,9 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     */
     public void cargarCrupier() {
         try {
             propiedadesCrupier = conexionPropiedades.cargarPropiedades();
@@ -135,6 +161,9 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     */
     public void crearMazo() {
         for (Carta.Palo palo : Carta.Palo.values()) {
             for (Carta.Denominacion denominacion : Carta.Denominacion.values()) {
@@ -145,6 +174,11 @@ public class ControlPrincipal {
         Collections.shuffle(mazo);
     }
 
+    /**
+     *
+     * @param cedula
+     * @return
+     */
     public boolean buscarCedulasRepetidas(String cedula) {
         boolean flag = true;
         for (String cedulaBuscada : cedulasJugadoresEnMano) {
@@ -156,6 +190,10 @@ public class ControlPrincipal {
         return flag;
     }
 
+    /**
+     *
+     * @return
+     */
     public String[] darcedulasJugadoresSeleccionados() {
         String cedula1;
         String cedula2;
@@ -171,6 +209,9 @@ public class ControlPrincipal {
         return cedulasLocal;
     }
 
+    /**
+     *
+     */
     public void seleccionarJugadores() {
         boolean flag = true;
         do {
@@ -188,6 +229,9 @@ public class ControlPrincipal {
         } while (flag);
     }
 
+    /**
+     *
+     */
     public void darInformacionJugadores() {
         if (contadorRondas == 1) {
             String persona1 = cedulasJugadoresEnMano.get(0);
@@ -213,6 +257,11 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     * @param jugador
+     * @return
+     */
     public String darCedulaJugadoresEnPartida(String jugador) {
         if (contadorRondas == 1) {
             String persona1 = cedulasJugadoresEnMano.get(0);
@@ -242,6 +291,13 @@ public class ControlPrincipal {
         return null;
     }
 
+    /**
+     *
+     * @param seguroJugador1
+     * @param seguroApostado1
+     * @param seguroJugador2
+     * @param seguroApostado2
+     */
     public void hacerPagosBlackJack(String seguroJugador1, double seguroApostado1, String seguroJugador2, double seguroApostado2) {
 
         double unidades1 = 0;
@@ -358,7 +414,8 @@ public class ControlPrincipal {
         } else {
             sb.append("empata (push)\n");
         }
-
+        
+        setTurnoJugador("Jugador1");
         String resultado = sb.toString().trim();
         datosGanador[0] = resultado;
         ganadorRonda.put(contadorRondas, resultado);
@@ -366,6 +423,14 @@ public class ControlPrincipal {
         controlGrafico.mostrarMensajeError(resultado);
     }
 
+    /**
+     *
+     * @param valorJugador
+     * @param valorCrupier
+     * @param jugadorBlackJack
+     * @param crupierBlackJack
+     * @return
+     */
     public double calcularUnidades(int valorJugador, int valorCrupier, boolean jugadorBlackJack, boolean crupierBlackJack) {
         double unidades;
 
@@ -390,6 +455,9 @@ public class ControlPrincipal {
         return unidades;
     }
 
+    /**
+     *
+     */
     public void doblarApuesta() {
         if (turnoJugador.equals("Jugador1")) {
             darCartas(turnoJugador);
@@ -410,6 +478,10 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     * @param nombrePropietarioCarta
+     */
     public void darCartas(String nombrePropietarioCarta) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
@@ -436,6 +508,10 @@ public class ControlPrincipal {
         mazo.removeFirst();
     }
 
+    /**
+     *
+     * @param nombrePropietarioCarta
+     */
     public void dividirMazoJugador(String nombrePropietarioCarta) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1Division")) {
@@ -447,6 +523,11 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     *
+     * @param mano
+     * @return
+     */
     public int sumarCartas(ArrayList<Carta> mano) {
         int suma = 0;
         int cantidadAses = 0;
@@ -503,6 +584,12 @@ public class ControlPrincipal {
         return suma;
     }
 
+    /**
+     *
+     * @param cedula
+     * @param cantidadDeFichasAComprar
+     * @return
+     */
     public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar) {
         double dinero = controlPersona.darCantidadDineroJugador(cedula);
 
@@ -515,6 +602,12 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     *
+     * @param cedula
+     * @param cantidadDeFichasAApostar
+     * @return
+     */
     public boolean verificarFichasAApostar(String cedula, int cantidadDeFichasAApostar) {
         double fichas = controlPersona.darCantidadFichasJugador(cedula);
         if (cantidadDeFichasAApostar <= fichas) {
@@ -523,6 +616,11 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     *
+     * @param jugador
+     * @return
+     */
     public boolean verificarCartarIguales(String jugador) {
         if ("Jugador1".equals(jugador)) {
             String carta1 = cartasJugador1.get(0).getDenominacion().name();
@@ -540,6 +638,12 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     *
+     * @param jugador
+     * @param cantidadDeFichasApostadas
+     * @return
+     */
     public boolean verificarDoblarApueta(String jugador, double cantidadDeFichasApostadas) {
         String cedulaJugador = darCedulaJugadoresEnPartida(jugador);
         if (controlPersona.darCantidadFichasJugador(cedulaJugador) >= (cantidadDeFichasApostadas * 2)) {
@@ -548,6 +652,11 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     *
+     * @param jugadorActivo
+     * @return
+     */
     public boolean sumarCantidadCartasJugadorActivo(String jugadorActivo) {
         int sumaCartas = 0;
         if (jugadorActivo.equals("Jugador1")) {
@@ -566,6 +675,9 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     *
+     */
     public void darTurnoCrupier() {
         boolean flag = true;
         controlGrafico.mostrarCarta(cartasCrupier.get(1).getPalo().name(), cartasCrupier.get(1).getDenominacion().name(), "Crupier");
@@ -603,6 +715,9 @@ public class ControlPrincipal {
 
     }
 
+    /**
+     *
+     */
     public void limpiarVariableInicioDeRonda() {
         cartasJugador1.clear();
         cartasJugador2.clear();
@@ -613,55 +728,108 @@ public class ControlPrincipal {
         fichasApostadasJugador2 = 0;
     }
 
+    /**
+     *
+     * @param cedula
+     * @return
+     */
     public double darCantidadFichasJugador(String cedula) {
         return controlPersona.darCantidadFichasJugador(cedula);
     }
 
+    /**
+     *
+     * @param cedula
+     * @return
+     */
     public double darCantidadDineroJugador(String cedula) {
         return controlPersona.darCantidadDineroJugador(cedula);
     }
 
+    /**
+     *
+     */
     public void conteoJugadores() {
         controlPersona.personasCon0Dinero();
         controlPersona.contarCantidadPersonas();
     }
 
+    /**
+     *
+     * @param mensaje
+     */
     public void mostrarMensajeError(String mensaje) {
         controlGrafico.mostrarMensajeError(mensaje);
     }
 
+    /**
+     *
+     * @param mensaje
+     */
     public void mostrarMensajeExito(String mensaje) {
         controlGrafico.mostrarMensajeExito(mensaje);
     }
 
+    /**
+     *
+     * @return
+     */
     public int getContadorRondas() {
         return contadorRondas;
     }
 
+    /**
+     *
+     * @param contadorRondas
+     */
     public void setContadorRondas(int contadorRondas) {
         this.contadorRondas = contadorRondas;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFichasApostadasJugador1() {
         return fichasApostadasJugador1;
     }
 
+    /**
+     *
+     * @param fichasApostadasJugador1
+     */
     public void setFichasApostadasJugador1(double fichasApostadasJugador1) {
         this.fichasApostadasJugador1 = fichasApostadasJugador1;
     }
 
+    /**
+     *
+     * @return
+     */
     public double getFichasApostadasJugador2() {
         return fichasApostadasJugador2;
     }
 
+    /**
+     *
+     * @param fichasApostadasJugador2
+     */
     public void setFichasApostadasJugador2(double fichasApostadasJugador2) {
         this.fichasApostadasJugador2 = fichasApostadasJugador2;
     }
 
+    /**
+     *
+     * @return
+     */
     public String getTurnoJugador() {
         return turnoJugador;
     }
 
+    /**
+     *
+     * @param turnoJugador
+     */
     public void setTurnoJugador(String turnoJugador) {
         this.turnoJugador = turnoJugador;
     }
