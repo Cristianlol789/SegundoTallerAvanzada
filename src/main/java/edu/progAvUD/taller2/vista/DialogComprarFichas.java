@@ -69,7 +69,7 @@ public class DialogComprarFichas extends javax.swing.JDialog {
 
         jLabel1.setText("La siguiente tabla muestra cuanto cuesta una ficha en dinero:");
 
-        jSpinnerFichasAComprar.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinnerFichasAComprar.setModel(new javax.swing.SpinnerNumberModel(2, 2, null, 2));
 
         jLabel4.setText("Cantidad de fichas a comprar:");
 
