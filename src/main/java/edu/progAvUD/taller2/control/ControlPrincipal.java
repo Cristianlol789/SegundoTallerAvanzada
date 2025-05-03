@@ -303,10 +303,6 @@ public class ControlPrincipal {
 
     /**
      *
-     * @param seguroJugador1
-     * @param seguroApostado1
-     * @param seguroJugador2
-     * @param seguroApostado2
      */
     public void hacerPagosBlackJack() {
 
