@@ -236,6 +236,18 @@ public class ControlGrafico implements ActionListener {
                     ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
                 }
             }
+            if (controlPrincipal.verificarBotonSeguro()) {
+                if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(true);
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(false);
+                } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(true);
+                } else if ("Crupier".equals(controlPrincipal.getTurnoJugador())) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+                }
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPlantarse) {
             String turnoJugador = controlPrincipal.getTurnoJugador();
@@ -268,6 +280,21 @@ public class ControlGrafico implements ActionListener {
 
                 if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
                     ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                }
+                
+                if (controlPrincipal.verificarBotonSeguro()) {
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(true);
+                    ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(true);
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(true);
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(false);
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(true);
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setEnabled(false);
+                    } else if ("Crupier".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                    }
                 }
             }
         }
@@ -334,6 +361,17 @@ public class ControlGrafico implements ActionListener {
                                                          - No cuenta con las suficientes fichas 
                                                          - El seguro supera la mitad de la apuesta realizada""");
                 }
+                
+                if (controlPrincipal.verificarBotonSeguro()) {
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador()) ) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+                    } else if ("Crupier".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+                    }
+                }
             }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonSeguroJugador2) {
@@ -344,6 +382,16 @@ public class ControlGrafico implements ActionListener {
                                                          No se ha podido realizar el seguro por alguna de las siguientes razones: 
                                                          - No cuenta con las suficientes fichas 
                                                          - El seguro supera la mitad de la apuesta realizada""");
+                }
+                if (controlPrincipal.verificarBotonSeguro()) {
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador()) ) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+                    } else if ("Crupier".equals(controlPrincipal.getTurnoJugador())) {
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+                        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+                    }
                 }
             }
         }

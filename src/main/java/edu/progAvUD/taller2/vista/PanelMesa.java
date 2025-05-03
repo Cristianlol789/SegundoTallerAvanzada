@@ -140,7 +140,7 @@ public class PanelMesa extends javax.swing.JPanel {
 
         jLabelTextoApostar2.setText("Digita la cantidad de fichas que deceas apostar");
 
-        jSpinnerCantidadFichasApostar2.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinnerCantidadFichasApostar2.setModel(new javax.swing.SpinnerNumberModel(2, 2, null, 2));
 
         jButtonApostarFichasJugador2.setText("Apostar");
 
@@ -220,7 +220,7 @@ public class PanelMesa extends javax.swing.JPanel {
 
         jLabelTextoApostar1.setText("Digita la cantidad de fichas que deceas apostar");
 
-        jSpinnerCantidadFichasApostar1.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
+        jSpinnerCantidadFichasApostar1.setModel(new javax.swing.SpinnerNumberModel(2, 2, null, 2));
 
         jButtonApostarFichasJugador1.setText("Apostar");
 

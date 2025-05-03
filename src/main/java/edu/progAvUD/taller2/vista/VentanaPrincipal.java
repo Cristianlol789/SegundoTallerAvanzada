@@ -9,8 +9,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.io.File;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -162,10 +165,22 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     public int mostrarJOptionPanelSeguro() {
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
+        JLabel texto1 = new JLabel("Seleccione la cantidad de fichas que quiere asegurar");
+        JLabel texto2 = new JLabel("Recuerde que solo pude asegurar la mitad de la apuesta");
+        
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        panel.add(texto1);
+        panel.add(Box.createVerticalStrut(5));  
+        panel.add(texto2);
+        panel.add(Box.createVerticalStrut(10)); 
+        panel.add(spinner);
+        
         int result = JOptionPane.showConfirmDialog(
                 null,
-                spinner,
-                "Seleccione la cantidad de fichas que quiere asegurar \n Recuerde que solo pude asegurar la mitad de la apuesta",
+                panel,
+                "Seleccione un valor",
                 JOptionPane.OK_CANCEL_OPTION,
                 JOptionPane.PLAIN_MESSAGE
         );

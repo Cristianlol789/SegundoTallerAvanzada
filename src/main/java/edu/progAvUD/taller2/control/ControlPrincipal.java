@@ -655,29 +655,29 @@ public class ControlPrincipal {
         String cedulajugador = darCedulaJugadoresEnPartida(turnoJugador);
         double fichasJugador = controlPersona.darCantidadFichasJugador(cedulajugador);
 
-        if ("Jugador1".equals(turnoJugador) && seguro <= (fichasApostadasJugador1 / 2) && fichasJugador>=seguro) {
+        if ("Jugador1".equals(turnoJugador) && seguro <= (fichasApostadasJugador1 / 2) && fichasJugador >= seguro) {
             fichasApostadasJugador1 += seguro;
-            controlPersona.cambiarNumeroFichasJugadorPorCedula(turnoJugador, controlPersona.darCantidadFichasJugador(turnoJugador)-seguro);
+            controlPersona.cambiarNumeroFichasJugadorPorCedula(turnoJugador, controlPersona.darCantidadFichasJugador(turnoJugador) - seguro);
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
             if (crupierBlackJack && seguro != 0) {
                 fichasAseguradasJugador1 = seguro * 2;
                 String cedula = darCedulaJugadoresEnPartida(turnoJugador);
-                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula)+fichasAseguradasJugador1);
+                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula) + fichasAseguradasJugador1);
             } else {
                 fichasAseguradasJugador1 = -seguro;
             }
             return true;
 
-        } else if ("Jugador2".equals(turnoJugador) && seguro <= (fichasApostadasJugador2 / 2) && fichasJugador>=seguro) {
+        } else if ("Jugador2".equals(turnoJugador) && seguro <= (fichasApostadasJugador2 / 2) && fichasJugador >= seguro) {
             fichasApostadasJugador2 += seguro;
+            controlPersona.cambiarNumeroFichasJugadorPorCedula(turnoJugador, controlPersona.darCantidadFichasJugador(turnoJugador) - seguro);
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
             if (crupierBlackJack && seguro != 0) {
                 fichasAseguradasJugador2 = seguro * 2;
                 String cedula = darCedulaJugadoresEnPartida(turnoJugador);
-                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula)+fichasAseguradasJugador2);
+                controlPersona.cambiarNumeroFichasJugadorPorCedula(cedula, controlPersona.darCantidadFichasJugador(cedula) + fichasAseguradasJugador2);
             } else {
                 fichasAseguradasJugador2 = -seguro;
-                
             }
             return true;
         }
