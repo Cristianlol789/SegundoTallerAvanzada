@@ -386,6 +386,19 @@ public class ControlPrincipal {
         return unidades;
     }
 
+    public void doblar(String personaDoblando){
+        if (personaDoblando.equals("Jugador1")){
+            darCartas(personaDoblando);
+            sumarCantidadCartasJugadorActivo(personaDoblando);
+            setTurnoJugador("Jugador2");
+        }
+        else if (personaDoblando.equals("Jugador2")){
+            darCartas(personaDoblando);
+            sumarCantidadCartasJugadorActivo(personaDoblando);
+            setTurnoJugador("Crupier");
+        }
+    }
+    
     public void darCartas(String nombrePropietarioCarta) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
