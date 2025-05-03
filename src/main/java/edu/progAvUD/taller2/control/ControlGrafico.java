@@ -4,7 +4,6 @@ import edu.progAvUD.taller2.vista.PanelCarta;
 import edu.progAvUD.taller2.vista.VentanaPrincipal;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -147,14 +146,10 @@ public class ControlGrafico implements ActionListener {
 
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonDoblar) {
-
-        }
-        if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPedir) {
+            controlPrincipal.doblarApuesta();
+            ventanaPrincipal.mostrarMensajeExito("Se ha doblado la apuesta");
             String turnoJugador = controlPrincipal.getTurnoJugador();
-            if (!controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) {
-                controlPrincipal.darCartas(turnoJugador);
-            } else {
-                if (turnoJugador.equals("Jugador1")) {
+            if (turnoJugador.equals("Jugador1")) {
                     controlPrincipal.setTurnoJugador("Jugador2");
                     ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
                 } else if (turnoJugador.equals("Jugador2")) {
@@ -166,10 +161,53 @@ public class ControlGrafico implements ActionListener {
                     controlPrincipal.darTurnoCrupier();
                 } else if (turnoJugador.equals("Crupier")) {
                     controlPrincipal.setTurnoJugador("Jugador1");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
+                }
+        }
+        if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPedir) {
+            String turnoJugador = controlPrincipal.getTurnoJugador();
+            if (!controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) {
+                controlPrincipal.darCartas(turnoJugador);
+            } else {
+                if (turnoJugador.equals("Jugador1")) {
+                    controlPrincipal.setTurnoJugador("Jugador2");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+
+                    double fichasapostadas = 0;
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                        fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                        fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+                    }
+
+                    if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                    }
+
+                } else if (turnoJugador.equals("Jugador2")) {
+                    controlPrincipal.setTurnoJugador("Crupier");
+                    ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
                     ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    controlPrincipal.darTurnoCrupier();
+                } else if (turnoJugador.equals("Crupier")) {
+                    controlPrincipal.setTurnoJugador("Jugador1");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
+                    
+                    double fichasapostadas = 0;
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                        fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                        fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+                    }
+
+                    if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                    }
                 }
             }
-            if (controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) { 
+            if (controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) {
                 if (turnoJugador.equals("Jugador1")) {
                     controlPrincipal.setTurnoJugador("Jugador2");
                     ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
@@ -189,16 +227,36 @@ public class ControlGrafico implements ActionListener {
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPlantarse) {
             String turnoJugador = controlPrincipal.getTurnoJugador();
             if (turnoJugador.equals("Jugador1")) {
-                    controlPrincipal.setTurnoJugador("Jugador2");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
-                } else if (turnoJugador.equals("Jugador2")) {
-                    controlPrincipal.setTurnoJugador("Crupier");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
-                    controlPrincipal.darTurnoCrupier();
-                } else if (turnoJugador.equals("Crupier")) {
-                    controlPrincipal.setTurnoJugador("Jugador1");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                controlPrincipal.setTurnoJugador("Jugador2");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                double fichasapostadas = 0;
+                if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                    fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+                } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                    fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
                 }
+
+                if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                }
+            } else if (turnoJugador.equals("Jugador2")) {
+                controlPrincipal.setTurnoJugador("Crupier");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                controlPrincipal.darTurnoCrupier();
+            } else if (turnoJugador.equals("Crupier")) {
+                controlPrincipal.setTurnoJugador("Jugador1");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                double fichasapostadas = 0;
+                if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                    fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+                } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                    fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+                }
+
+                if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                }
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonRepartir) {
             controlPrincipal.crearMazo();
@@ -210,10 +268,20 @@ public class ControlGrafico implements ActionListener {
             ventanaPrincipal.panelMesa.jButtonRepartir.setEnabled(false);
             ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(true);
             ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(true);
-            ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
 
             controlPrincipal.setTurnoJugador("Jugador1");
             ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText(controlPrincipal.getTurnoJugador());
+
+            double fichasapostadas = 0;
+            if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+            } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+            }
+
+            if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+            }
 
             if (controlPrincipal.verificarCartarIguales(controlPrincipal.getTurnoJugador())) {
                 ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(true);
@@ -239,14 +307,14 @@ public class ControlGrafico implements ActionListener {
             }
         }
     }
-    
-    public void mostrarCartaOculta(){
+
+    public void mostrarCartaOculta() {
         ventanaPrincipal.cartaOculta = ventanaPrincipal.crearCarta("", "OCULTA");
         ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta1);
         ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta2);
-        ventanaPrincipal.cartaOculta.setLayout(new GridLayout(1,1)); 
-        ventanaPrincipal.cartaOculta.jLabelFiguraCarta.setPreferredSize(new Dimension(50,79));
-        ventanaPrincipal.cartaOculta.setBackground(new Color(153,29,31));
+        ventanaPrincipal.cartaOculta.setLayout(new GridLayout(1, 1));
+        ventanaPrincipal.cartaOculta.jLabelFiguraCarta.setPreferredSize(new Dimension(50, 79));
+        ventanaPrincipal.cartaOculta.setBackground(new Color(153, 29, 31));
         ventanaPrincipal.cartaOculta.revalidate();
         ventanaPrincipal.cartaOculta.repaint();
         ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(ventanaPrincipal.cartaOculta);
@@ -478,9 +546,10 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jPanelCartasJugador1.repaint();
     }
 
-    public void ocultarCartaOculta(){
+    public void ocultarCartaOculta() {
         ventanaPrincipal.cartaOculta.setVisible(false);
     }
+
     public void mostrarBotonJugar() {
         if (!ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.isEnabled() && !ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.isEnabled()) {
             ventanaPrincipal.panelPrincipal.jButtonJugar.setEnabled(true);
@@ -497,9 +566,10 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jLabelCedulaJugador2.setText(cedulaJugador2);
         ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setText(cantidadFichasJugador2 + "");
     }
-
-    public VentanaPrincipal getVentanaPrincipal() {
-        return ventanaPrincipal;
+    
+    public void actulizarFichasApostadas(double cantidadFichasJugador1, double cantidadFichasJugador2){
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setText(cantidadFichasJugador1 + "");
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setText(cantidadFichasJugador2 + "");
     }
 
     public void mostrarMensajeError(String mensaje) {

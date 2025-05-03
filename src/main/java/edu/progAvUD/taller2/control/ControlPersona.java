@@ -226,5 +226,13 @@ public class ControlPersona {
             }
         }
     }
+    
+    public void cambiarNumeroFichasJugadorPorCedula(String cedula, double numeroDeFichas){
+        for (Persona persona : personas) {
+            if (persona instanceof Jugador) {
+                ((Jugador) persona).setCantidadFichas(numeroDeFichas);
+            }
+        }
+    }
 
 }

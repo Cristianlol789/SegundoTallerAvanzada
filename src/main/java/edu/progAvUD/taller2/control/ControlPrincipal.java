@@ -242,7 +242,8 @@ public class ControlPrincipal {
         return null;
     }
 
-    public void hacerPagosBlackJack(double apuestaJugador1, String seguroJugador1, double seguroApostado1, double apuestaJugador2, String seguroJugador2, double seguroApostado2) {
+    public void hacerPagosBlackJack(String seguroJugador1, double seguroApostado1, String seguroJugador2, double seguroApostado2) {
+
         double unidades1 = 0;
         double unidades2 = 0;
         double unidades1Div = 0;
@@ -255,6 +256,9 @@ public class ControlPrincipal {
         int valorCartasJugador2 = sumarCartas(cartasJugador2);
         int valorCartasJugador1MazoDividido = sumarCartas(dividirCartasJugador1);
         int valorCartasJugador2MazoDividido = sumarCartas(dividirCartasJugador2);
+
+        double apuestaJugador1 = fichasApostadasJugador1;
+        double apuestaJugador2 = fichasApostadasJugador2;
 
         boolean crupierBlackJack = (valorCartasCrupier == 21);
         boolean jugador1BlackJack = (valorCartasJugador1 == 21);
@@ -386,19 +390,26 @@ public class ControlPrincipal {
         return unidades;
     }
 
-    public void doblar(String personaDoblando){
-        if (personaDoblando.equals("Jugador1")){
-            darCartas(personaDoblando);
-            sumarCantidadCartasJugadorActivo(personaDoblando);
-            setTurnoJugador("Jugador2");
-        }
-        else if (personaDoblando.equals("Jugador2")){
-            darCartas(personaDoblando);
-            sumarCantidadCartasJugadorActivo(personaDoblando);
-            setTurnoJugador("Crupier");
+    public void doblarApuesta() {
+        if (turnoJugador.equals("Jugador1")) {
+            darCartas(turnoJugador);
+            sumarCantidadCartasJugadorActivo(turnoJugador);
+            double fichasTotales = (controlPersona.darCantidadFichasJugador(turnoJugador)) - (fichasApostadasJugador1);
+            String cedulaJugador = darCedulaJugadoresEnPartida(turnoJugador);
+            controlPersona.cambiarNumeroFichasJugadorPorCedula(cedulaJugador, fichasTotales);
+            fichasApostadasJugador1 = fichasApostadasJugador1 * 2;
+            controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
+        } else if (turnoJugador.equals("Jugador2")) {
+            darCartas(turnoJugador);
+            sumarCantidadCartasJugadorActivo(turnoJugador);
+            double fichasTotales = (controlPersona.darCantidadFichasJugador(turnoJugador)) - (fichasApostadasJugador2);
+            String cedulaJugador = darCedulaJugadoresEnPartida(turnoJugador);
+            controlPersona.cambiarNumeroFichasJugadorPorCedula(cedulaJugador, fichasTotales);
+            fichasApostadasJugador2 = fichasApostadasJugador2 * 2;
+            controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
         }
     }
-    
+
     public void darCartas(String nombrePropietarioCarta) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
@@ -421,7 +432,6 @@ public class ControlPrincipal {
                 controlGrafico.mostrarCartaOculta();
             }
         }
-        
 
         mazo.removeFirst();
     }
@@ -530,6 +540,14 @@ public class ControlPrincipal {
         return false;
     }
 
+    public boolean verificarDoblarApueta(String jugador, double cantidadDeFichasApostadas) {
+        String cedulaJugador = darCedulaJugadoresEnPartida(jugador);
+        if (controlPersona.darCantidadFichasJugador(cedulaJugador) >= (cantidadDeFichasApostadas * 2)) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean sumarCantidadCartasJugadorActivo(String jugadorActivo) {
         int sumaCartas = 0;
         if (jugadorActivo.equals("Jugador1")) {
@@ -583,6 +601,16 @@ public class ControlPrincipal {
             }
         } while (flag);
 
+    }
+
+    public void limpiarVariableInicioDeRonda() {
+        cartasJugador1.clear();
+        cartasJugador2.clear();
+        cartasCrupier.clear();
+        dividirCartasJugador1.clear();
+        dividirCartasJugador2.clear();
+        fichasApostadasJugador1 = 0;
+        fichasApostadasJugador2 = 0;
     }
 
     public double darCantidadFichasJugador(String cedula) {
