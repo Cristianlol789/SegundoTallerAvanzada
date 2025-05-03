@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package edu.progAvUD.taller2.vista;
 
 /**
- *
+ *Este es el panel donde se cargaran los jugadores y el crupier
  * @author and
  */
 public class PanelPrincipal extends javax.swing.JPanel {

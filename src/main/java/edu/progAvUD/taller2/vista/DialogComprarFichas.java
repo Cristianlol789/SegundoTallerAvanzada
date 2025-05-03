@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package edu.progAvUD.taller2.vista;
 
 /**
- *
+ *Este es el panel encargado de que la persona compre sus fichas
  * @author Andres Felipe
  */
 public class DialogComprarFichas extends javax.swing.JDialog {

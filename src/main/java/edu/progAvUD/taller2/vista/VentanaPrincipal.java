@@ -13,18 +13,31 @@ import javax.swing.JPanel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
- *
+ *Esta clase esta encargada de manejar el momento en el que aparece cada panel y ademas crearlos
  * @author Andres Felipe
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private ControlGrafico controlGrafico;
+
+    /**
+     *Sirve para conocer el otro panel
+     */
     public PanelPrincipal panelPrincipal;
+
+    /**
+     *
+     */
     public PanelMesa panelMesa;
+
+    /**
+     *Sirve para conocer el otro panel
+     */
     public DialogComprarFichas dialogComprarFichas;
 
     /**
      * Creates new form VentanaPrincipal
+     * @param controlGrafico
      */
     public VentanaPrincipal(ControlGrafico controlGrafico) {
         this.controlGrafico = controlGrafico;
@@ -35,6 +48,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         this.dialogComprarFichas = new DialogComprarFichas(this, true);
     }
 
+    /**
+     *Sirve para buscar un archivo con ciertas especificaciones
+     * @return devuelve el archivo
+     */
     public File pedirArchivoSerializacion() {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .bin", "bin"));
@@ -42,6 +59,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return fileChooser.getSelectedFile();
     }
 
+    /**
+     *Sirve para buscar un archivo con ciertas especificaciones
+     * @return devuelve el archivo
+     */
     public File pedirArchivoAleatorio() {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .dat", "dat"));
@@ -67,6 +88,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, mensaje, "Error", JOptionPane.ERROR_MESSAGE);
     }
 
+    /**
+     *Sirve para buscar un archivo con ciertas especificaciones
+     * @return devuelve el archivo
+     */
     public File pedirArchivo() {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
 
@@ -77,6 +102,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return fileChooser.getSelectedFile();
     }
 
+    /**
+     *Se encarga de mostrar cada panel
+     * @param panel
+     */
     public void mostrarPanel(JPanel panel) {
         setContentPane(panel);
         pack(); // Ajusta el tamaño de la ventana según el contenido
@@ -85,6 +114,12 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         repaint();
     }
 
+    /**
+     *Se encarga de crear el panelCarta para adaptar la carta a la que toco
+     * @param numeroCarta es el valor de la carta
+     * @param palo es la figura de la carta
+     * @return devuelve el panel
+     */
     public PanelCarta crearCarta(String numeroCarta, String palo) {
         PanelCarta carta = new PanelCarta();
         String path = System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/imagenes/" + palo + ".png";
@@ -92,7 +127,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         carta.jLabelFiguraCarta.setIcon(imagenCarta);
         carta.jLabelDenominacionCarta1.setText(numeroCarta);
         carta.jLabelDenominacionCarta2.setText(numeroCarta);
-        return carta;
+        return carta; 
     }
 
     /**

@@ -1,11 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
 package edu.progAvUD.taller2.vista;
 
 /**
- *
+ *Este es el panel que mostrara como se desarrolla el juego 
  * @author Andres Felipe
  */
 public class PanelMesa extends javax.swing.JPanel {

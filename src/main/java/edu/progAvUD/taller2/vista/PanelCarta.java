@@ -1,12 +1,7 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-
 package edu.progAvUD.taller2.vista;
 
 /**
- *
+ *Este es el panel que contiene el formato de la carta que se va ha mostrar en el panel mesa
  * @author Andres Felipe
  */
 public class PanelCarta extends javax.swing.JPanel {
