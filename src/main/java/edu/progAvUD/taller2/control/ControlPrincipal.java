@@ -390,16 +390,26 @@ public class ControlPrincipal {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
             cartasJugador1.add(cartaAleatoria);
+            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
         } else if (nombrePropietarioCarta.equals("Jugador2")) {
             cartasJugador2.add(cartaAleatoria);
+            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
         } else if (nombrePropietarioCarta.equals("Jugador1NuevoMazo")) {
             dividirCartasJugador1.add(cartaAleatoria);
+            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
         } else if (nombrePropietarioCarta.equals("Jugador2NuevoMazo")) {
             dividirCartasJugador2.add(cartaAleatoria);
+            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
         } else if (nombrePropietarioCarta.equals("Crupier")) {
             cartasCrupier.add(cartaAleatoria);
+            if (cartasCrupier.size() != 2) {
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
+            } else {
+                controlGrafico.mostrarCartaOculta();
+            }
         }
-        controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
+        
+
         mazo.removeFirst();
     }
 
@@ -527,6 +537,8 @@ public class ControlPrincipal {
 
     public void darTurnoCrupier() {
         boolean flag = true;
+        controlGrafico.mostrarCarta(cartasCrupier.get(1).getPalo().name(), cartasCrupier.get(1).getDenominacion().name(), "Crupier");
+        controlGrafico.ocultarCartaOculta();
         do {
             int sumaCartas = sumarCartas(cartasCrupier);
             if (sumarCartas(cartasJugador1) > 21 && sumarCartas(cartasJugador2) > 21 && sumarCartas(dividirCartasJugador1) > 21 && sumarCartas(dividirCartasJugador2) > 21) {

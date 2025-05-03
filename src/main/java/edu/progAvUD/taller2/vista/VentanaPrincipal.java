@@ -35,6 +35,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public DialogComprarFichas dialogComprarFichas;
 
+    public PanelCarta cartaOculta;
+    
     /**
      * Creates new form VentanaPrincipal
      * @param controlGrafico

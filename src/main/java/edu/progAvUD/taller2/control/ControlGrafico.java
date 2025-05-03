@@ -2,6 +2,10 @@ package edu.progAvUD.taller2.control;
 
 import edu.progAvUD.taller2.vista.PanelCarta;
 import edu.progAvUD.taller2.vista.VentanaPrincipal;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -235,6 +239,18 @@ public class ControlGrafico implements ActionListener {
             }
         }
     }
+    
+    public void mostrarCartaOculta(){
+        ventanaPrincipal.cartaOculta = ventanaPrincipal.crearCarta("", "OCULTA");
+        ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta1);
+        ventanaPrincipal.cartaOculta.remove(ventanaPrincipal.cartaOculta.jLabelDenominacionCarta2);
+        ventanaPrincipal.cartaOculta.setLayout(new GridLayout(1,1)); 
+        ventanaPrincipal.cartaOculta.jLabelFiguraCarta.setPreferredSize(new Dimension(50,79));
+        ventanaPrincipal.cartaOculta.setBackground(new Color(153,29,31));
+        ventanaPrincipal.cartaOculta.revalidate();
+        ventanaPrincipal.cartaOculta.repaint();
+        ventanaPrincipal.panelMesa.jPanelCartasCrupier.add(ventanaPrincipal.cartaOculta);
+    }
 
     public void mostrarCarta(String palo, String denominacion, String duenoCarta) {
         if (duenoCarta.equals("Jugador1")) {
@@ -462,6 +478,9 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jPanelCartasJugador1.repaint();
     }
 
+    public void ocultarCartaOculta(){
+        ventanaPrincipal.cartaOculta.setVisible(false);
+    }
     public void mostrarBotonJugar() {
         if (!ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesCrupier.isEnabled() && !ventanaPrincipal.panelPrincipal.jButtonCargarPropiedadesJugadores.isEnabled()) {
             ventanaPrincipal.panelPrincipal.jButtonJugar.setEnabled(true);
