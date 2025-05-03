@@ -308,14 +308,12 @@ public class ControlPrincipal {
      * @param seguroJugador2
      * @param seguroApostado2
      */
-    public void hacerPagosBlackJack(String seguroJugador1, double seguroApostado1, String seguroJugador2, double seguroApostado2) {
+    public void hacerPagosBlackJack() {
 
         double unidades1 = 0;
         double unidades2 = 0;
         double unidades1Div = 0;
         double unidades2Div = 0;
-        double netoSeguro1 = 0;
-        double netoSeguro2 = 0;
 
         int valorCartasCrupier = sumarCartas(cartasCrupier);
         int valorCartasJugador1 = sumarCartas(cartasJugador1);
@@ -325,28 +323,14 @@ public class ControlPrincipal {
 
         double apuestaJugador1 = fichasApostadasJugador1;
         double apuestaJugador2 = fichasApostadasJugador2;
+        double netoSeguro1 = fichasAseguradasJugador1;
+        double netoSeguro2 = fichasAseguradasJugador2;
 
         boolean crupierBlackJack = (valorCartasCrupier == 21);
         boolean jugador1BlackJack = (valorCartasJugador1 == 21);
         boolean jugador2BlackJack = (valorCartasJugador2 == 21);
         boolean jugador1DivBlackJack = (valorCartasJugador1MazoDividido == 21);
         boolean jugador2DivBlackJack = (valorCartasJugador2MazoDividido == 21);
-
-        if (crupierBlackJack) {
-            if ("SI".equalsIgnoreCase(seguroJugador1)) {
-                netoSeguro1 = seguroApostado1 * 2;
-            }
-            if ("SI".equalsIgnoreCase(seguroJugador2)) {
-                netoSeguro2 = seguroApostado2 * 2;
-            }
-        } else {
-            if ("SI".equalsIgnoreCase(seguroJugador1)) {
-                netoSeguro1 = -seguroApostado1;
-            }
-            if ("SI".equalsIgnoreCase(seguroJugador2)) {
-                netoSeguro2 = -seguroApostado2;
-            }
-        }
 
         if (valorCartasCrupier > 21) {
             if (valorCartasJugador1 <= 21) {
