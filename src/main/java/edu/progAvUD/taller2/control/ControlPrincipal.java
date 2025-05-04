@@ -108,7 +108,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Crea el archivo aleatorio donde se guardaran los datos de la partida
      */
     public void crearArchivoAleatorio() {
         try {
@@ -133,7 +133,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Escribe sobre el archivo anteriormente creado
      */
     public void escrituraArchivoAleatorio() {
         try {
@@ -149,7 +149,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Precarga los jugadores que van ha estar en la partida
      */
     public void cargarJugadores() {
         try {
@@ -178,7 +178,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Precarga el crupier desde las propiedades o desde un archivo .bin
      */
     public void cargarCrupier() {
         boolean seDeserializo = false;
@@ -186,7 +186,7 @@ public class ControlPrincipal {
             controlPersona.crearSerializacion("buscarDocumento");
             seDeserializo = controlPersona.deserializacion();
             controlPersona.cerrarArchivoSerializadoIn();
-        }catch (Exception ex){
+        } catch (Exception ex) {
             mostrarMensajeError("No se pudo cargar el archivo crupier serializado intente en la siguiente ejecucion");
         }
         if (!seDeserializo) {
@@ -196,7 +196,7 @@ public class ControlPrincipal {
                 String nombre = propiedadesCrupier.getProperty("crupier.nombre");
                 String apellido = propiedadesCrupier.getProperty("crupier.apellido");
                 String cedula = propiedadesCrupier.getProperty("crupier.cedula");
-                double cedulaDouble = Double.parseDouble(cedula); 
+                double cedulaDouble = Double.parseDouble(cedula);
                 controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null, 0, 0);
                 mostrarMensajeExito("Se ha creado correctamente el crupier");
             } catch (Exception ex) {
@@ -205,12 +205,18 @@ public class ControlPrincipal {
         }
     }
 
+    /**
+     * Buscar el archivo de crupier si existe
+     *
+     * @return el archivo encontrado
+     * @throws FileNotFoundException devuelve un error
+     */
     public File buscarArchivoCrupier() throws FileNotFoundException {
         return controlGrafico.buscarArchivoCrupier();
     }
 
     /**
-     *
+     * Crea la baraja para empezar el juego
      */
     public void crearMazo() {
         for (Carta.Palo palo : Carta.Palo.values()) {
@@ -223,9 +229,11 @@ public class ControlPrincipal {
     }
 
     /**
+     * Se encarga de verificar que las cedulas no sean iguales para el momento
+     * de empezar cada ronda
      *
-     * @param cedula
-     * @return
+     * @param cedula identificador para diferenciar las personas
+     * @return una flag que indica si estan o no repetidos
      */
     public boolean buscarCedulasRepetidas(String cedula) {
         boolean flag = true;
@@ -239,8 +247,10 @@ public class ControlPrincipal {
     }
 
     /**
+     * Este metodo se encarga de coger las personas al azar y guardarlas para
+     * empezar la ronda
      *
-     * @return
+     * @return el arreglo con todas las cedulas guardadas
      */
     public String[] darcedulasJugadoresSeleccionados() {
         String cedula1;
@@ -258,7 +268,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Selecciona al azar dos jugadores para empezar la ronda
      */
     public void seleccionarJugadores() {
         boolean flag = true;
@@ -278,7 +288,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Consigue la informacion de cada jugador para poder comenzar la partida
      */
     public void darInformacionJugadores() {
         if (contadorRondas == 1) {
@@ -306,9 +316,11 @@ public class ControlPrincipal {
     }
 
     /**
+     * Sirve para ir haciendo cambios de los atributos de las personas y
+     * identificar a cada una
      *
-     * @param jugador
-     * @return
+     * @param jugador es el parametro que nos indica quien es
+     * @return la cedula de la persona
      */
     public String darCedulaJugadoresEnPartida(String jugador) {
         if (contadorRondas == 1) {
@@ -340,7 +352,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Aqui se berifica quien gano y cuanto y se almacena la informacion
      */
     public void hacerPagosBlackJack() {
 
@@ -453,27 +465,27 @@ public class ControlPrincipal {
         ganadorRonda.put(contadorRondas, resultado);
         controlGrafico.mostrarMensajeError(resultado);
         contadorRondas += 1;
-        
+
         controlGrafico.limpiarEspacioInicioDeRonda();
         limpiarVariableInicioDeRonda();
         conteoJugadores();
         seleccionarJugadores();
-        
-        
-        if(contadorRondas==4){
+
+        if (contadorRondas == 4) {
             crearArchivoAleatorio();
             controlPersona.crearSerializacion("crearDocumento");
             System.exit(0);
         }
-        
+
     }
 
     /**
+     * Se calcula el valor a pagar por conseguir cierta accion
      *
-     * @param valorJugador
-     * @param valorCrupier
-     * @param jugadorBlackJack
-     * @param crupierBlackJack
+     * @param valorJugador el valor de sus cartas
+     * @param valorCrupier el valor de sus cartas
+     * @param jugadorBlackJack el valor de sus cartas
+     * @param crupierBlackJack el valor de sus cartas
      * @return
      */
     public double calcularUnidades(int valorJugador, int valorCrupier, boolean jugadorBlackJack, boolean crupierBlackJack) {
@@ -501,7 +513,8 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Este metodo verifica si la persona tiene fondos para doblar su apuesta y
+     * solo recibe una carta
      */
     public void doblarApuesta() {
         if (turnoJugador.equals("Jugador1")) {
@@ -524,10 +537,12 @@ public class ControlPrincipal {
     }
 
     /**
+     * Este metodo da las cartas segun el jugador que se encuentre activo en el
+     * momento
      *
-     * @param nombrePropietarioCarta
-     * @param turnoMazoJugador1
-     * @param turnoMazoJugador2
+     * @param nombrePropietarioCarta es a quien se le sumara la carta
+     * @param turnoMazoJugador1 al mazo donde se sumara
+     * @param turnoMazoJugador2 al mazo donde se sumara
      */
     public void darCartas(String nombrePropietarioCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         Carta cartaAleatoria = mazo.getFirst();
@@ -566,8 +581,10 @@ public class ControlPrincipal {
     }
 
     /**
+     * Este metodo se encarga de dividir los mazos en caso de que la persona
+     * saque el mismo valor de cartas
      *
-     * @param nombrePropietarioCarta
+     * @param nombrePropietarioCarta nombre del jugador que decidio dividir
      */
     public void dividirMazoJugador(String nombrePropietarioCarta) {
         if (nombrePropietarioCarta.equals("Jugador1")) {
@@ -605,9 +622,11 @@ public class ControlPrincipal {
     }
 
     /**
+     * Este metodo suma las cartas de cada jugador y para el juego en caso de
+     * pasarse de 21
      *
-     * @param mano
-     * @return
+     * @param mano es la mano de cartas que tiene el jugador en ese momento
+     * @return el valor que lleva de momento
      */
     public int sumarCartas(ArrayList<Carta> mano) {
         int suma = 0;
@@ -666,10 +685,11 @@ public class ControlPrincipal {
     }
 
     /**
+     * Verifica que el usuario si tenga suficiente dienro para las compras
      *
-     * @param cedula
-     * @param cantidadDeFichasAComprar
-     * @return
+     * @param cedula es la persona que desea comprar
+     * @param cantidadDeFichasAComprar es la cantidad de fichas que quiere
+     * @return devuelve si puede o no comprar la cantidad pedida
      */
     public boolean verificarFichasAComprar(String cedula, int cantidadDeFichasAComprar) {
         double dinero = controlPersona.getCantidadDineroJugadorPorCedula(cedula);
@@ -684,10 +704,12 @@ public class ControlPrincipal {
     }
 
     /**
+     * Este metodo se encarga de verificar si tiene las suficientes fichas para
+     * poder apostar en una ronda
      *
-     * @param cedula
-     * @param cantidadDeFichasAApostar
-     * @return
+     * @param cedula es el parametro para identificar a la persona
+     * @param cantidadDeFichasAApostar es el valor que desea apostar
+     * @return devuelve si es posible o no apostar
      */
     public boolean verificarFichasAApostar(String cedula, int cantidadDeFichasAApostar) {
         double fichas = controlPersona.getCantidadFichasJugadorPorCedula(cedula);
@@ -698,15 +720,17 @@ public class ControlPrincipal {
     }
 
     /**
+     * Si las cartas son iguales da la posibilidad de dividir la mano en dos
+     * barajas
      *
-     * @param jugador
-     * @return
+     * @param jugador es la persona que esta en ese turno
+     * @return si es posible o no la accion
      */
     public boolean verificarCartasIguales(String jugador) {
-        if(cartasJugador1.isEmpty() || cartasJugador2.isEmpty()){
+        if (cartasJugador1.isEmpty() || cartasJugador2.isEmpty()) {
             return false;
         }
-        
+
         String carta1, carta2;
         if ("Jugador1".equals(jugador)) {
             carta1 = cartasJugador1.get(0).getDenominacion().name();
@@ -724,7 +748,13 @@ public class ControlPrincipal {
         return valorCarta1 == valorCarta2;
     }
 
-    private int obtenerValorCarta(String denominacion) {
+    /**
+     * Se encarga de dar el valor de la carta que fue seleccionada
+     *
+     * @param denominacion es el valor de la carta
+     * @return devuelve el valor de la carta
+     */
+    public int obtenerValorCarta(String denominacion) {
         switch (denominacion) {
             case "J":
             case "Q":
@@ -757,10 +787,13 @@ public class ControlPrincipal {
     }
 
     /**
+     * Este metodo verifica si es posible doblar la apuesta y que jugador esta
+     * pidiendo esto
      *
-     * @param jugador
-     * @param cantidadDeFichasApostadas
-     * @return
+     * @param jugador es la persona que desidio doblar
+     * @param cantidadDeFichasApostadas es la cantidad de fichas que aposto en
+     * la primera ronda
+     * @return si es posible hacer esto o no
      */
     public boolean verificarDoblarApueta(String jugador, double cantidadDeFichasApostadas) {
         String cedulaJugador = darCedulaJugadoresEnPartida(jugador);
@@ -770,8 +803,14 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     * Este metodo es el encargado de mostrar el boton del seguro en caso de que
+     * el crupier tenga un A
+     *
+     * @return si deberia aparecer o no el boton
+     */
     public boolean verificarBotonSeguro() {
-        if(cartasCrupier.isEmpty()){
+        if (cartasCrupier.isEmpty()) {
             return false;
         }
         if ("A".equals(cartasCrupier.get(0).getDenominacion().name())) {
@@ -780,6 +819,12 @@ public class ControlPrincipal {
         return false;
     }
 
+    /**
+     * Este metodo recibe si la persona desidio pagar seguro y cuanto fue
+     *
+     * @param seguro es el valor pagado por el jugador
+     * @return si perdio o gano con el seguo y si se pudo realizar la accion
+     */
     public boolean verificarRealizarSeguro(int seguro) {
         int valorCartasCrupier = sumarCartas(cartasCrupier);
         boolean crupierBlackJack = (valorCartasCrupier == 21);
@@ -817,9 +862,10 @@ public class ControlPrincipal {
     }
 
     /**
+     * Suma las cantidades de cada carta del jugador que se encuentra activo
      *
-     * @param jugadorActivo
-     * @return
+     * @param jugadorActivo es el jugador que esta jugando la ronda
+     * @return si se paso o no de 21
      */
     public boolean sumarCantidadCartasJugadorActivo(String jugadorActivo) {
         int sumaCartas = 0;
@@ -840,8 +886,6 @@ public class ControlPrincipal {
                 sumaCartas = sumarCartas(dividirCartasJugador2);
             }
         }
-        System.out.println(sumaCartas);
-
         if (sumaCartas > 21) {
             controlGrafico.mostrarMensajeError("Ya no se puede jugar mas cartas el limite ha sido exedido");
             return true;
@@ -850,7 +894,8 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Este metodo da inicio a que el crupier muestre su carta y ademas coja
+     * cartas hasta cumplir con las reglas del casino
      */
     public void darTurnoCrupier() {
         boolean flag = true;
@@ -890,7 +935,7 @@ public class ControlPrincipal {
     }
 
     /**
-     *
+     * Limpia los campos para la siguiente ronda
      */
     public void limpiarVariableInicioDeRonda() {
         cartasJugador1.clear();
@@ -900,32 +945,34 @@ public class ControlPrincipal {
         dividirCartasJugador2.clear();
         fichasApostadasJugador1 = 0;
         fichasApostadasJugador2 = 0;
-        fichasAseguradasJugador1 =0;
-        fichasAseguradasJugador2 =0;
-        turnoMazoJugador1="";
-        turnoMazoJugador2="";
+        fichasAseguradasJugador1 = 0;
+        fichasAseguradasJugador2 = 0;
+        turnoMazoJugador1 = "";
+        turnoMazoJugador2 = "";
     }
 
     /**
+     * Permite obtener la fichas de un jugador por su cedula
      *
-     * @param cedula
-     * @return
+     * @param cedula parametro identificador
+     * @return la cantidad que tiene
      */
     public double getCantidadFichasJugadorPorCedula(String cedula) {
         return controlPersona.getCantidadFichasJugadorPorCedula(cedula);
     }
 
     /**
+     * Permite saber el dinero que tiene el jugador
      *
-     * @param cedula
-     * @return
+     * @param cedula parametro para identificar la persona
+     * @return cuanto tiene
      */
     public double getCantidadDineroJugadorPorCedula(String cedula) {
         return controlPersona.getCantidadDineroJugadorPorCedula(cedula);
     }
 
     /**
-     *
+     * Cuenta si es posible empezar el juego o si falta precargar personas
      */
     public void conteoJugadores() {
         controlPersona.personasCon0Dinero();
@@ -933,101 +980,145 @@ public class ControlPrincipal {
     }
 
     /**
+     * Se encarga de comunicarle al controlgrafico de un error para que este lo
+     * pase a la vista y lo muestre
      *
-     * @param mensaje
+     * @param mensaje es el mensaje a mostrar
      */
     public void mostrarMensajeError(String mensaje) {
         controlGrafico.mostrarMensajeError(mensaje);
     }
 
     /**
+     * Se encarga de comunicarle al controlgrafico de un error para que este lo
+     * pase a la vista y lo muestre
      *
-     * @param mensaje
+     * @param mensaje es el mensaje a mostrar
      */
     public void mostrarMensajeExito(String mensaje) {
         controlGrafico.mostrarMensajeExito(mensaje);
     }
 
     /**
+     * Cuenta las rondas que van pasando para que sea un maximo de 3
      *
-     * @return
+     * @return el valor que lleva hasta el momento
      */
     public int getContadorRondas() {
         return contadorRondas;
     }
 
     /**
+     * Cambia el valor de las rondas si es necesario
      *
-     * @param contadorRondas
+     * @param contadorRondas es el valor nuevo de rondas
      */
     public void setContadorRondas(int contadorRondas) {
         this.contadorRondas = contadorRondas;
     }
 
     /**
+     * Es para saber cuantas fichas aposto el primer jugador
      *
-     * @return
+     * @return el valor de fichas
      */
     public double getFichasApostadasJugador1() {
         return fichasApostadasJugador1;
     }
 
     /**
+     * Cambia el valor de fichas del jugador en caso de que decida asegurar o
+     * doblar
      *
-     * @param fichasApostadasJugador1
+     * @param fichasApostadasJugador1 la nueva cantidad de fichas
      */
     public void setFichasApostadasJugador1(double fichasApostadasJugador1) {
         this.fichasApostadasJugador1 = fichasApostadasJugador1;
     }
 
+    /**
+     * Cambias las fichas dependiendo de la cedula de la persona
+     *
+     * @param cedula parametro para identificar a la persona
+     * @param numeroFichas cantidad nueva de fichas
+     */
     public void setFichasJugadorPorCedula(String cedula, double numeroFichas) {
         controlPersona.setFichasJugadorPorCedula(cedula, numeroFichas);
     }
 
     /**
+     * Es para saber cuantas fichas aposto el segundo jugador
      *
-     * @return
+     * @return el valor de fichas
      */
     public double getFichasApostadasJugador2() {
         return fichasApostadasJugador2;
     }
 
     /**
+     * Cambia el valor de fichas del jugador en caso de que decida asegurar o
+     * doblar
      *
-     * @param fichasApostadasJugador2
+     * @param fichasApostadasJugador2 la nueva cantidad de fichas
      */
     public void setFichasApostadasJugador2(double fichasApostadasJugador2) {
         this.fichasApostadasJugador2 = fichasApostadasJugador2;
     }
 
     /**
+     * Permite saber quien esta jugando en el momento
      *
-     * @return
+     * @return la persona que esta jugando
      */
     public String getTurnoJugador() {
         return turnoJugador;
     }
 
     /**
+     * Cambia la persona que juega
      *
-     * @param turnoJugador
+     * @param turnoJugador persona que entro a jugar
      */
     public void setTurnoJugador(String turnoJugador) {
         this.turnoJugador = turnoJugador;
     }
 
+    /**
+     * Obtiene el identificador del mazo que tiene el turno actual del Jugador
+     * 1.
+     *
+     * @return Una cadena que representa el turno del mazo del Jugador 1.
+     */
     public String getTurnoMazoJugador1() {
         return turnoMazoJugador1;
     }
 
+    /**
+     * Establece cuál es el mazo que tiene el turno actual del Jugador 1.
+     *
+     * @param turnoMazoJugador1 Una cadena que representa el nuevo turno del
+     * mazo del Jugador 1.
+     */
     public void setTurnoMazoJugador1(String turnoMazoJugador1) {
         this.turnoMazoJugador1 = turnoMazoJugador1;
     }
 
+    /**
+     * Obtiene el identificador del mazo que tiene el turno actual del Jugador
+     * 2.
+     *
+     * @return Una cadena que representa el turno del mazo del Jugador 2.
+     */
     public String getTurnoMazoJugador2() {
         return turnoMazoJugador2;
     }
 
+    /**
+     * Establece cuál es el mazo que tiene el turno actual del Jugador 2.
+     *
+     * @param turnoMazoJugador2 Una cadena que representa el nuevo turno del
+     * mazo del Jugador 2.
+     */
     public void setTurnoMazoJugador2(String turnoMazoJugador2) {
         this.turnoMazoJugador2 = turnoMazoJugador2;
     }
