@@ -521,6 +521,8 @@ public class ControlGrafico implements ActionListener {
      * @param palo es la figura que debera llevar la carta
      * @param denominacion es la cantidad que vale la carta
      * @param duenoCarta es la persona a la que le toco la carta
+     * @param turnoMazoJugador1 es el turno de la mano si decidio dividir
+     * @param turnoMazoJugador2 es es el turno de la mano si decidio dividir
      */
     public void mostrarCarta(String palo, String denominacion, String duenoCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         if (denominacion == null) {
@@ -539,7 +541,12 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jPanelCartasJugador1.repaint();
     }
 
-    private String denominacionAbreviada(String denominacion) {
+    /**
+     *
+     * @param denominacion
+     * @return
+     */
+    public String denominacionAbreviada(String denominacion) {
         switch (denominacion) {
             case "DOS":
                 return "2";
@@ -572,7 +579,14 @@ public class ControlGrafico implements ActionListener {
         }
     }
 
-    private JPanel obtenerPanelDestino(String duenoCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
+    /**
+     *
+     * @param duenoCarta
+     * @param turnoMazoJugador1
+     * @param turnoMazoJugador2
+     * @return
+     */
+    public JPanel obtenerPanelDestino(String duenoCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         switch (duenoCarta) {
             case "Jugador1":
                 if ("".equals(turnoMazoJugador1)) {
@@ -655,6 +669,12 @@ public class ControlGrafico implements ActionListener {
         ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setText(cantidadFichasJugador2 + "");
     }
 
+    /**
+     *Este metodo se encarga de verificar que el JoptionPane si tenga las cosas necesarias para las operaciones
+     * @param resultado es el resultado anteriormente seleccionado
+     * @param valorSpinner es el valor que la persona decidio colocar
+     * @return -1 para poder hacer un metodo
+     */
     public int verificarEstadoJOptionPane(int resultado, Object valorSpinner) {
         int valorSpinnerEntero = (int) valorSpinner;
         if (resultado == 0) {
@@ -663,6 +683,9 @@ public class ControlGrafico implements ActionListener {
         return -1;
     }
     
+    /**
+     *Limpia los paneles y variables para la siguiente partida
+     */
     public void limpiarEspacioInicioDeRonda() {
         ventanaPrincipal.panelMesa.jPanelCartasCrupier.removeAll();
         ventanaPrincipal.panelMesa.jPanelCartasJugador1.removeAll();
@@ -734,6 +757,7 @@ public class ControlGrafico implements ActionListener {
      * Es el metodo que le pide a la ventana un archivo
      *
      * @return el archivo que es necesario
+     * @throws java.io.IOException
      */
     public File pedirArchivoSerializado() throws IOException, NullPointerException {
         return ventanaPrincipal.pedirArchivoPersonaSerializado();
@@ -743,11 +767,17 @@ public class ControlGrafico implements ActionListener {
      * Es el metodo que le pide a la ventana un archivo
      *
      * @return el archivo que es necesario
+     * @throws java.io.IOException
      */
     public File pedirArchivoAleatorio() throws NullPointerException, IOException {
         return ventanaPrincipal.pedirArchivoAleatorio();
     }
     
+    /**
+     *Este metodo busca un archivo que tenga un crupier para inicializarlo
+     * @return el archivo con la persona serializada
+     * @throws FileNotFoundException devuelve un posible error
+     */
     public File buscarArchivoCrupier() throws FileNotFoundException{
         return ventanaPrincipal.pedirArchivoCrupier();
     }

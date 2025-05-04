@@ -147,20 +147,22 @@ public class ControlPersona {
 
     /**
      * Prepara la serialización cargando o creando el archivo correspondiente.
+     *
+     * @param accion decide si se va ha hacer un input o output
      */
     public void crearSerializacion(String accion) {
-    try {
-        if ("crearDocumento".equalsIgnoreCase(accion)) {
-            serializacion = new Serializacion(controlPrincipal.archivoSerializado());
-        } else {
-            serializacion = new Serializacion(controlPrincipal.buscarArchivoCrupier(), null);
+        try {
+            if ("crearDocumento".equalsIgnoreCase(accion)) {
+                serializacion = new Serializacion(controlPrincipal.archivoSerializado());
+            } else {
+                serializacion = new Serializacion(controlPrincipal.buscarArchivoCrupier(), null);
+            }
+        } catch (FileNotFoundException ex) {
+            controlPrincipal.mostrarMensajeError("El archivo no ha sido encontrado");
+        } catch (IOException ex) {
+            controlPrincipal.mostrarMensajeError("No se pudo cargar el archivo serializado");
         }
-    } catch (FileNotFoundException ex) {
-        controlPrincipal.mostrarMensajeError("El archivo no ha sido encontrado");
-    } catch (IOException ex) {
-        controlPrincipal.mostrarMensajeError("No se pudo cargar el archivo serializado");
     }
-}
 
     /**
      * Cierra el stream de salida de objetos si está abierto.
@@ -225,6 +227,8 @@ public class ControlPersona {
     /**
      * Deserializa una persona y la agrega a la lista, mostrando un mensaje de
      * éxito.
+     *
+     * @return falso o verdadero en caso de poderse o no deserializar
      */
     public boolean deserializacion() {
         Persona p = leerArchivoSerializado();

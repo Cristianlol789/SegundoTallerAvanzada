@@ -53,9 +53,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      */
     public PanelCarta cartaOculta;
 
+    /**
+     *Este panel esta dedicado para las cartas de cada persona, dependiendo si divide o no
+     */
     public JPanel panel1Jugador1;
+
+    /**
+     *Este panel esta dedicado para las cartas de cada persona, dependiendo si divide o no
+     */
     public JPanel panel2Jugador1;
+
+    /**
+     *Este panel esta dedicado para las cartas de cada persona, dependiendo si divide o no
+     */
     public JPanel panel1Jugador2;
+
+    /**
+     *Este panel esta dedicado para las cartas de cada persona, dependiendo si divide o no
+     */
     public JPanel panel2Jugador2;
 
     /**
@@ -75,7 +90,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Sirve para buscar un archivo con ciertas especificaciones
      *
-     * @return devuelve el archivo
+     * @return devuelve el archivo para escribir los datos de la persona
+     * @throws java.io.IOException devuelve un posible error
      */
     public File pedirArchivoPersonaSerializado() throws IOException {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
@@ -89,7 +105,8 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     /**
      * Sirve para buscar un archivo con ciertas especificaciones
      *
-     * @return devuelve el archivo
+     * @return devuelve el archivo para escribir los datos de partida
+     * @throws java.io.IOException devuelve un error
      */
     public File pedirArchivoAleatorio() throws IOException {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
@@ -133,6 +150,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return fileChooser.getSelectedFile();
     }
 
+    /**
+     *Pide el archivo para cargar el crupier
+     * @return el archivo de el crupier serializable
+     * @throws FileNotFoundException devuelve un error
+     */
     public File pedirArchivoCrupier() throws FileNotFoundException {
         JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .bin", "bin"));
@@ -170,6 +192,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return carta;
     }
 
+    /**
+     *Muestra la carta que el crupier tiene tapada
+     */
     public void mostrarCartaOculta() {
         cartaOculta = crearCarta("", "OCULTA");
         cartaOculta.remove(cartaOculta.jLabelDenominacionCarta1);
@@ -182,6 +207,10 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelMesa.jPanelCartasCrupier.add(cartaOculta);
     }
 
+    /**
+     *Este metodo muestra el panel para hacer el seguro
+     * @return un entero para validar
+     */
     public int mostrarJOptionPanelSeguro() {
         JSpinner spinner = new JSpinner(new SpinnerNumberModel(1, 1, null, 1));
         JLabel texto1 = new JLabel("Seleccione la cantidad de fichas que quiere asegurar");
@@ -207,6 +236,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
     }
 
+    /**
+     *Este metodo divide el panel en 2 en caso de que la persona divida
+     */
     public void dividirPanelCartasJugador1() {
         panelMesa.jPanelCartasJugador1.removeAll();
         panelMesa.jPanelCartasJugador1.revalidate();
@@ -221,6 +253,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelMesa.jPanelCartasJugador1.repaint();
     }
 
+    /**
+     *Este metodo divide el panel en 2 en caso de que la persona divida
+     */
     public void dividirPanelCartasJugador2() {
         panelMesa.jPanelCartasJugador2.removeAll();
         panelMesa.jPanelCartasJugador2.revalidate();

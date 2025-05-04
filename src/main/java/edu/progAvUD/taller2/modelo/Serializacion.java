@@ -36,6 +36,13 @@ public class Serializacion {
         entradaSerializacion = new ObjectInputStream(fileInSerializacion);
     }
     
+    /**
+     *
+     * @param archivo1 es el archivo a leer
+     * @param a variable de identificacion 
+     * @throws FileNotFoundException devuelve un error
+     * @throws IOException devuelve un error
+     */
     public Serializacion(File archivo1, String a) throws FileNotFoundException, IOException {
         fileOutSerializacion = new FileOutputStream(archivo1);
         salidaSerializacion = new ObjectOutputStream(fileOutSerializacion);
