@@ -148,17 +148,19 @@ public class ControlPersona {
     /**
      * Prepara la serialización cargando o creando el archivo correspondiente.
      */
-    public void crearSerializacion() {
-        try {
+    public void crearSerializacion(String accion) {
+    try {
+        if ("crearDocumento".equalsIgnoreCase(accion)) {
             serializacion = new Serializacion(controlPrincipal.archivoSerializado());
-        } catch (FileNotFoundException ex) {
-            controlPrincipal.mostrarMensajeError("El archivo no ha sido encontrado");
-        } catch (IOException ex) {
-            controlPrincipal.mostrarMensajeError("No se pudo cargar el archivo serializado");
+        } else {
+            serializacion = new Serializacion(controlPrincipal.buscarArchivoCrupier(), null);
         }
-        escribirArchivoSerializado();
-        cerrarArchivoSerializadoIn();
+    } catch (FileNotFoundException ex) {
+        controlPrincipal.mostrarMensajeError("El archivo no ha sido encontrado");
+    } catch (IOException ex) {
+        controlPrincipal.mostrarMensajeError("No se pudo cargar el archivo serializado");
     }
+}
 
     /**
      * Cierra el stream de salida de objetos si está abierto.
@@ -224,7 +226,7 @@ public class ControlPersona {
      * Deserializa una persona y la agrega a la lista, mostrando un mensaje de
      * éxito.
      */
-    public void deserializacion() {
+    public boolean deserializacion() {
         Persona p = leerArchivoSerializado();
         if (p != null) {
             if (p.getNombre() == null || p.getNombre().isEmpty()
@@ -237,7 +239,9 @@ public class ControlPersona {
                         + " " + p.getApellido() + ", cédula: " + p.getCedula());
             }
             personas.add(p);
+            return true; // éxito
         }
+        return false; // falló
     }
 
     /**

@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -76,7 +77,7 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      *
      * @return devuelve el archivo
      */
-    public File pedirArchivoPersonaSerializado() throws IOException{
+    public File pedirArchivoPersonaSerializado() throws IOException {
         JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
         chooser.setDialogTitle("Seleccione una carpeta para guardar el archivo .bin");
         chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
@@ -129,6 +130,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .properties", "properties"));
         fileChooser.showOpenDialog(null);
         // Mostrar el diálogo
+        return fileChooser.getSelectedFile();
+    }
+
+    public File pedirArchivoCrupier() throws FileNotFoundException {
+        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
+        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .bin", "bin"));
+        fileChooser.showOpenDialog(null);
         return fileChooser.getSelectedFile();
     }
 
@@ -198,37 +206,34 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         return controlGrafico.verificarEstadoJOptionPane(result, spinner.getValue());
 
     }
-    
-    public void dividirPanelCartasJugador1(){
+
+    public void dividirPanelCartasJugador1() {
         panelMesa.jPanelCartasJugador1.removeAll();
         panelMesa.jPanelCartasJugador1.revalidate();
         panelMesa.jPanelCartasJugador1.repaint();
-        panelMesa.jPanelCartasJugador1.setLayout(new GridLayout(1,2));
+        panelMesa.jPanelCartasJugador1.setLayout(new GridLayout(1, 2));
         panel1Jugador1 = new JPanel(new FlowLayout());
         panel2Jugador1 = new JPanel(new FlowLayout());
-        
-        
-        
+
         panelMesa.jPanelCartasJugador1.add(panel1Jugador1);
         panelMesa.jPanelCartasJugador1.add(panel2Jugador1);
         panelMesa.jPanelCartasJugador1.revalidate();
         panelMesa.jPanelCartasJugador1.repaint();
     }
-    
-    public void dividirPanelCartasJugador2(){
+
+    public void dividirPanelCartasJugador2() {
         panelMesa.jPanelCartasJugador2.removeAll();
         panelMesa.jPanelCartasJugador2.revalidate();
         panelMesa.jPanelCartasJugador2.repaint();
-        panelMesa.jPanelCartasJugador2.setLayout(new GridLayout(1,2));
+        panelMesa.jPanelCartasJugador2.setLayout(new GridLayout(1, 2));
         panel1Jugador2 = new JPanel(new FlowLayout());
         panel2Jugador2 = new JPanel(new FlowLayout());
-        
+
         panelMesa.jPanelCartasJugador2.add(panel1Jugador2);
         panelMesa.jPanelCartasJugador2.add(panel2Jugador2);
         panelMesa.jPanelCartasJugador2.revalidate();
         panelMesa.jPanelCartasJugador2.repaint();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.

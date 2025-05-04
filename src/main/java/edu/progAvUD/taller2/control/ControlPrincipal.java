@@ -181,18 +181,32 @@ public class ControlPrincipal {
      *
      */
     public void cargarCrupier() {
+        boolean seDeserializo = false;
         try {
-            propiedadesCrupier = conexionPropiedades.cargarPropiedades();
-            String identificador = "Crupier";
-            String nombre = propiedadesCrupier.getProperty("crupier.nombre");
-            String apellido = propiedadesCrupier.getProperty("crupier.apellido");
-            String cedula = propiedadesCrupier.getProperty("crupier.cedula");
-            double cedulaDouble = Double.parseDouble(cedula);
-            controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null, 0, 0);
-            mostrarMensajeExito("Se ha creado correctamente el crupier");
-        } catch (Exception ex) {
-            mostrarMensajeError("Algun dato del jugador no corresponde");
+            controlPersona.crearSerializacion("buscarDocumento");
+            seDeserializo = controlPersona.deserializacion();
+            controlPersona.cerrarArchivoSerializadoIn();
+        }catch (Exception ex){
+            mostrarMensajeError("No se pudo cargar el archivo crupier serializado intente en la siguiente ejecucion");
         }
+        if (!seDeserializo) {
+            try {
+                propiedadesCrupier = conexionPropiedades.cargarPropiedades();
+                String identificador = "Crupier";
+                String nombre = propiedadesCrupier.getProperty("crupier.nombre");
+                String apellido = propiedadesCrupier.getProperty("crupier.apellido");
+                String cedula = propiedadesCrupier.getProperty("crupier.cedula");
+                double cedulaDouble = Double.parseDouble(cedula); 
+                controlPersona.crearPersona(identificador, nombre, cedula, apellido, null, null, 0, 0);
+                mostrarMensajeExito("Se ha creado correctamente el crupier");
+            } catch (Exception ex) {
+                mostrarMensajeError("Algún dato del jugador no corresponde");
+            }
+        }
+    }
+
+    public File buscarArchivoCrupier() throws FileNotFoundException {
+        return controlGrafico.buscarArchivoCrupier();
     }
 
     /**
@@ -440,7 +454,9 @@ public class ControlPrincipal {
         controlGrafico.mostrarMensajeError(resultado);
         contadorRondas += 1;
         crearArchivoAleatorio();
-        controlPersona.crearSerializacion();
+        controlPersona.crearSerializacion("crearDocumento");
+        controlPersona.escribirArchivoSerializado();
+        controlPersona.cerrarArchivoSerializadoIn();
         System.exit(0);
     }
 
@@ -508,7 +524,7 @@ public class ControlPrincipal {
     public void darCartas(String nombrePropietarioCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
-            if ("".equals(turnoMazoJugador1)) { 
+            if ("".equals(turnoMazoJugador1)) {
                 cartasJugador1.add(cartaAleatoria);
                 controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
             } else if ("Jugador1".equals(turnoMazoJugador1)) {
@@ -810,7 +826,7 @@ public class ControlPrincipal {
             }
         }
         System.out.println(sumaCartas);
-        
+
         if (sumaCartas > 21) {
             controlGrafico.mostrarMensajeError("Ya no se puede jugar mas cartas el limite ha sido exedido");
             return true;

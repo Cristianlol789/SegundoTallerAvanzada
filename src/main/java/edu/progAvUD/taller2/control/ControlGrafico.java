@@ -5,6 +5,7 @@ import edu.progAvUD.taller2.vista.VentanaPrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import javax.swing.JPanel;
 
@@ -707,5 +708,9 @@ public class ControlGrafico implements ActionListener {
      */
     public File pedirArchivoAleatorio() throws NullPointerException, IOException {
         return ventanaPrincipal.pedirArchivoAleatorio();
+    }
+    
+    public File buscarArchivoCrupier() throws FileNotFoundException{
+        return ventanaPrincipal.pedirArchivoCrupier();
     }
 }

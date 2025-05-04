@@ -32,10 +32,13 @@ public class Serializacion {
      * @throws IOException Si ocurre un error al abrir los flujos.
      */
     public Serializacion(File archivo) throws FileNotFoundException, IOException {
-        fileOutSerializacion = new FileOutputStream(archivo);
-        salidaSerializacion = new ObjectOutputStream(fileOutSerializacion);
         fileInSerializacion = new FileInputStream(archivo);
         entradaSerializacion = new ObjectInputStream(fileInSerializacion);
+    }
+    
+    public Serializacion(File archivo1, String a) throws FileNotFoundException, IOException {
+        fileOutSerializacion = new FileOutputStream(archivo1);
+        salidaSerializacion = new ObjectOutputStream(fileOutSerializacion);
     }
 
     /**
