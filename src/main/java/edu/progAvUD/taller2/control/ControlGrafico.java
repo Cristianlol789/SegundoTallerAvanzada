@@ -5,6 +5,7 @@ import edu.progAvUD.taller2.vista.VentanaPrincipal;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.JPanel;
 
 /**
@@ -599,8 +600,8 @@ public class ControlGrafico implements ActionListener {
      *
      * @return el archivo que es necesario
      */
-    public File pedirArchivoSerializado() {
-        return ventanaPrincipal.pedirArchivoSerializacion();
+    public File pedirArchivoSerializado() throws IOException, NullPointerException{
+        return ventanaPrincipal.pedirArchivoPersonaSerializado();
     }
 
     /**
@@ -608,7 +609,7 @@ public class ControlGrafico implements ActionListener {
      *
      * @return el archivo que es necesario
      */
-    public File pedirArchivoAleatorio() {
+    public File pedirArchivoAleatorio() throws NullPointerException, IOException {
         return ventanaPrincipal.pedirArchivoAleatorio();
     }
 }

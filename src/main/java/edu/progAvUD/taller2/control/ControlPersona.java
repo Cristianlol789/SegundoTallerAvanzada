@@ -148,7 +148,7 @@ public class ControlPersona {
     /**
      * Prepara la serialización cargando o creando el archivo correspondiente.
      */
-    public void crearPersonaSerializacion() {
+    public void crearSerializacion() {
         try {
             serializacion = new Serializacion(controlPrincipal.archivoSerializado());
         } catch (FileNotFoundException ex) {
@@ -156,6 +156,8 @@ public class ControlPersona {
         } catch (IOException ex) {
             controlPrincipal.mostrarMensajeError("No se pudo cargar el archivo serializado");
         }
+        escribirArchivoSerializado();
+        cerrarArchivoSerializadoIn();
     }
 
     /**

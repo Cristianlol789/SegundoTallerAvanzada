@@ -10,6 +10,7 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.io.File;
+import java.io.IOException;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -75,11 +76,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      *
      * @return devuelve el archivo
      */
-    public File pedirArchivoSerializacion() {
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .bin", "bin"));
-        fileChooser.showOpenDialog(null);
-        return fileChooser.getSelectedFile();
+    public File pedirArchivoPersonaSerializado() throws IOException{
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
+        chooser.setDialogTitle("Seleccione una carpeta para guardar el archivo .bin");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.resetChoosableFileFilters();
+        chooser.showOpenDialog(null);
+        return chooser.getSelectedFile();
     }
 
     /**
@@ -87,11 +90,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
      *
      * @return devuelve el archivo
      */
-    public File pedirArchivoAleatorio() {
-        JFileChooser fileChooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
-        fileChooser.setFileFilter(new FileNameExtensionFilter("Archivos .dat", "dat"));
-        fileChooser.showOpenDialog(null);
-        return null;
+    public File pedirArchivoAleatorio() throws IOException {
+        JFileChooser chooser = new JFileChooser(System.getProperty("user.dir") + "/src/main/java/edu/progAvUD/taller2/data");
+        chooser.setDialogTitle("Seleccione una carpeta para guardar el archivo .dat");
+        chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+        chooser.resetChoosableFileFilters();
+        chooser.showOpenDialog(null);
+        return chooser.getSelectedFile();
     }
 
     /**

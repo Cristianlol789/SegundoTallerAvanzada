@@ -85,13 +85,20 @@ public class ControlPrincipal {
      *
      * @return devuelve el archivo necesario
      */
+    /**
+     * Este metodo es el encargado de pedir el archivo a la ventana para
+     * serializar la persona
+     *
+     * @return devuelve el archivo necesario
+     */
     public File archivoSerializado() {
         File archivo = null;
         try {
-            archivo = controlGrafico.pedirArchivoSerializado();
-        } catch (Exception ex) {
-            controlGrafico.mostrarMensajeError("No se ha podido encontrar el archivo");
-            archivoSerializado();
+            File carpeta = controlGrafico.pedirArchivoSerializado();
+            archivo = new File(carpeta, "personas.bin");
+            archivo.createNewFile();
+        } catch (IOException ex) {
+            controlGrafico.mostrarMensajeError("No se ha podido crear el archivo");
         }
         return archivo;
     }
@@ -101,10 +108,23 @@ public class ControlPrincipal {
      */
     public void crearArchivoAleatorio() {
         try {
-            archivoAleatorio = new ConexionArchivoAleatorio(controlGrafico.pedirArchivoAleatorio());
-        } catch (FileNotFoundException fnfe) {
-            controlGrafico.mostrarMensajeError("No se ha encontrado el archivo");
-            crearArchivoAleatorio();
+            File carpetaSeleccionada = controlGrafico.pedirArchivoAleatorio();
+            if (carpetaSeleccionada == null || !carpetaSeleccionada.isDirectory()) {
+                controlGrafico.mostrarMensajeError("Debe seleccionar una carpeta válida.");
+                return;
+            }
+            File archivo = new File(carpetaSeleccionada, "ArchivoAleatorio.dat");
+            if (!archivo.exists()) {
+                boolean creado = archivo.createNewFile();
+                if (!creado) {
+                    controlGrafico.mostrarMensajeError("No se pudo crear el archivo.");
+                    return;
+                }
+            }
+            archivoAleatorio = new ConexionArchivoAleatorio(archivo);
+            escrituraArchivoAleatorio();
+        } catch (IOException ioe) {
+            controlGrafico.mostrarMensajeError("Error al crear o abrir el archivo: " + ioe.getMessage());
         }
     }
 
@@ -379,13 +399,15 @@ public class ControlPrincipal {
             sb.append("Jugador 1 empata (push)\n");
         }
 
-        sb.append(" └─ Split 1: ");
-        if (pagoFichas1Div > 0) {
-            sb.append(String.format("gana %.2f fichas (%.0f en dinero)\n", pagoFichas1Div, dinero1Div));
-        } else if (pagoFichas1Div < 0) {
-            sb.append(String.format("pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas1Div, -dinero1Div));
-        } else {
-            sb.append("empata (push)\n");
+        if (valorCartasJugador1MazoDividido != 0) {
+            sb.append(" └─ Split 1: ");
+            if (pagoFichas1Div > 0) {
+                sb.append(String.format("gana %.2f fichas (%.0f en dinero)\n", pagoFichas1Div, dinero1Div));
+            } else if (pagoFichas1Div < 0) {
+                sb.append(String.format("pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas1Div, -dinero1Div));
+            } else {
+                sb.append("empata (push)\n");
+            }
         }
 
         if (pagoFichas2 > 0) {
@@ -396,21 +418,26 @@ public class ControlPrincipal {
             sb.append("Jugador 2 empata (push)\n");
         }
 
-        sb.append(" └─ Split 2: ");
-        if (pagoFichas2Div > 0) {
-            sb.append(String.format("gana %.2f fichas (%.0f en dinero)\n", pagoFichas2Div, dinero2Div));
-        } else if (pagoFichas2Div < 0) {
-            sb.append(String.format("pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas2Div, -dinero2Div));
-        } else {
-            sb.append("empata (push)\n");
+        if (valorCartasJugador2MazoDividido != 0) {
+            sb.append(" └─ Split 2: ");
+            if (pagoFichas2Div > 0) {
+                sb.append(String.format("gana %.2f fichas (%.0f en dinero)\n", pagoFichas2Div, dinero2Div));
+            } else if (pagoFichas2Div < 0) {
+                sb.append(String.format("pierde %.2f fichas (%.0f en dinero)\n", -pagoFichas2Div, -dinero2Div));
+            } else {
+                sb.append("empata (push)\n");
+            }
         }
 
         setTurnoJugador("Jugador1");
         String resultado = sb.toString().trim();
         datosGanador[0] = resultado;
         ganadorRonda.put(contadorRondas, resultado);
-        contadorRondas += 1;
         controlGrafico.mostrarMensajeError(resultado);
+        contadorRondas += 1;
+        crearArchivoAleatorio();
+        controlPersona.crearSerializacion();
+        System.exit(0);
     }
 
     /**
@@ -650,37 +677,36 @@ public class ControlPrincipal {
         return valorCarta1 == valorCarta2;
     }
 
-    
     private int obtenerValorCarta(String denominacion) {
         switch (denominacion) {
-                case "J":
-                case "Q":
-                case "K":
-                    return 10;
-                case "A":
-                    return 11;
-                case "DOS":
-                    return 2;
-                case "TRES":
-                    return 3;
-                case "CUATRO":
-                    return 4;
-                case "CINCO":
-                    return 5;
-                case "SEIS":
-                    return 6;
-                case "SIETE":
-                    return 7;
-                case "OCHO":
-                    return 8;
-                case "NUEVE":
-                    return 9;
-                case "DIEZ":
-                    return 10;
-                default:
-                    return -1;
-                    
-            }
+            case "J":
+            case "Q":
+            case "K":
+                return 10;
+            case "A":
+                return 11;
+            case "DOS":
+                return 2;
+            case "TRES":
+                return 3;
+            case "CUATRO":
+                return 4;
+            case "CINCO":
+                return 5;
+            case "SEIS":
+                return 6;
+            case "SIETE":
+                return 7;
+            case "OCHO":
+                return 8;
+            case "NUEVE":
+                return 9;
+            case "DIEZ":
+                return 10;
+            default:
+                return -1;
+
+        }
     }
 
     /**
@@ -800,7 +826,7 @@ public class ControlPrincipal {
                 darCartas("Crupier");
             }
         } while (flag);
-
+        hacerPagosBlackJack();
     }
 
     /**
