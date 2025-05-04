@@ -44,6 +44,8 @@ public class ControlPrincipal {
     private double fichasAseguradasJugador2;
     private String turnoJugador;
     private String[] datosGanador;
+    private String turnoMazoJugador1;
+    private String turnoMazoJugador2;
 
     /**
      * Este es el metodo constructor donde se crea el control, ademas se crean
@@ -64,6 +66,8 @@ public class ControlPrincipal {
         contadorRondas = 1;
         ganadorRonda = new HashMap<Integer, String>();
         datosGanador = new String[3];
+        turnoMazoJugador1 = "";
+        turnoMazoJugador2 = "";
     }
 
     /**
@@ -477,7 +481,7 @@ public class ControlPrincipal {
      */
     public void doblarApuesta() {
         if (turnoJugador.equals("Jugador1")) {
-            darCartas(turnoJugador);
+            darCartas(turnoJugador, turnoMazoJugador1, turnoMazoJugador2);
             sumarCantidadCartasJugadorActivo(turnoJugador);
             double fichasTotales = (controlPersona.getCantidadFichasJugadorPorCedula(turnoJugador)) - (fichasApostadasJugador1);
             String cedulaJugador = darCedulaJugadoresEnPartida(turnoJugador);
@@ -485,7 +489,7 @@ public class ControlPrincipal {
             fichasApostadasJugador1 = fichasApostadasJugador1 * 2;
             controlGrafico.actulizarFichasApostadas(fichasApostadasJugador1, fichasApostadasJugador2);
         } else if (turnoJugador.equals("Jugador2")) {
-            darCartas(turnoJugador);
+            darCartas(turnoJugador, turnoMazoJugador1, turnoMazoJugador2);
             sumarCantidadCartasJugadorActivo(turnoJugador);
             double fichasTotales = (controlPersona.getCantidadFichasJugadorPorCedula(turnoJugador)) - (fichasApostadasJugador2);
             String cedulaJugador = darCedulaJugadoresEnPartida(turnoJugador);
@@ -498,25 +502,37 @@ public class ControlPrincipal {
     /**
      *
      * @param nombrePropietarioCarta
+     * @param turnoMazoJugador1
+     * @param turnoMazoJugador2
      */
-    public void darCartas(String nombrePropietarioCarta) {
+    public void darCartas(String nombrePropietarioCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         Carta cartaAleatoria = mazo.getFirst();
         if (nombrePropietarioCarta.equals("Jugador1")) {
-            cartasJugador1.add(cartaAleatoria);
-            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
+            if ("".equals(turnoMazoJugador1)) { 
+                cartasJugador1.add(cartaAleatoria);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
+            } else if ("Jugador1".equals(turnoMazoJugador1)) {
+                cartasJugador1.add(cartaAleatoria);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
+            } else if ("Jugador1NuevoMazo".equals(turnoMazoJugador1)) {
+                dividirCartasJugador1.add(cartaAleatoria);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
+            }
         } else if (nombrePropietarioCarta.equals("Jugador2")) {
-            cartasJugador2.add(cartaAleatoria);
-            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
-        } else if (nombrePropietarioCarta.equals("Jugador1NuevoMazo")) {
-            dividirCartasJugador1.add(cartaAleatoria);
-            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
-        } else if (nombrePropietarioCarta.equals("Jugador2NuevoMazo")) {
-            dividirCartasJugador2.add(cartaAleatoria);
-            controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
+            if ("".equals(turnoMazoJugador2)) {
+                cartasJugador2.add(cartaAleatoria);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
+            } else if ("Jugador2".equals(turnoMazoJugador2)) {
+                cartasJugador2.add(cartaAleatoria);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
+            } else if ("Jugador2NuevoMazo".equals(turnoMazoJugador2)) {
+                dividirCartasJugador2.add(cartaAleatoria);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
+            }
         } else if (nombrePropietarioCarta.equals("Crupier")) {
             cartasCrupier.add(cartaAleatoria);
             if (cartasCrupier.size() != 2) {
-                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta);
+                controlGrafico.mostrarCarta(cartaAleatoria.getPalo().name(), cartaAleatoria.getDenominacion().name(), nombrePropietarioCarta, turnoMazoJugador1, turnoMazoJugador2);
             } else {
                 controlGrafico.mostrarCartaOculta();
             }
@@ -538,11 +554,13 @@ public class ControlPrincipal {
             Carta cartaAleatoria2 = mazo.getLast();
             mazo.removeLast();
             dividirCartasJugador1.add(carta2);
+            dividirCartasJugador1.add(cartaAleatoria2);
             cartasJugador1.removeLast();
-            controlGrafico.mostrarCarta(carta1.getPalo().name(), carta1.getDenominacion().name(), "Jugador1");
-            controlGrafico.mostrarCarta(carta2.getPalo().name(), carta2.getDenominacion().name(), "Jugador1NuevoMazo");
-            controlGrafico.mostrarCarta(cartaAleatoria1.getPalo().name(), cartaAleatoria1.getDenominacion().name(), "Jugador1");
-            controlGrafico.mostrarCarta(cartaAleatoria2.getPalo().name(), cartaAleatoria2.getDenominacion().name(), "Jugador1NuevoMazo");
+            cartasJugador1.add(cartaAleatoria1);
+            controlGrafico.mostrarCarta(carta1.getPalo().name(), carta1.getDenominacion().name(), "Jugador1", "Jugador1", "");
+            controlGrafico.mostrarCarta(carta2.getPalo().name(), carta2.getDenominacion().name(), "Jugador1", "Jugador1NuevoMazo", "");
+            controlGrafico.mostrarCarta(cartaAleatoria1.getPalo().name(), cartaAleatoria1.getDenominacion().name(), "Jugador1", "Jugador1", "");
+            controlGrafico.mostrarCarta(cartaAleatoria2.getPalo().name(), cartaAleatoria2.getDenominacion().name(), "Jugador1", "Jugador1NuevoMazo", "");
         } else if (nombrePropietarioCarta.equals("Jugador2")) {
             Carta carta1 = cartasJugador2.getFirst();
             Carta carta2 = cartasJugador2.getLast();
@@ -551,11 +569,13 @@ public class ControlPrincipal {
             Carta cartaAleatoria2 = mazo.getLast();
             mazo.removeLast();
             dividirCartasJugador2.add(carta2);
+            dividirCartasJugador2.add(cartaAleatoria2);
             cartasJugador2.removeLast();
-            controlGrafico.mostrarCarta(carta1.getPalo().name(), carta1.getDenominacion().name(), "Jugador2");
-            controlGrafico.mostrarCarta(carta2.getPalo().name(), carta2.getDenominacion().name(), "Jugador2NuevoMazo");
-            controlGrafico.mostrarCarta(cartaAleatoria1.getPalo().name(), cartaAleatoria1.getDenominacion().name(), "Jugador2");
-            controlGrafico.mostrarCarta(cartaAleatoria2.getPalo().name(), cartaAleatoria2.getDenominacion().name(), "Jugador2NuevoMazo");
+            cartasJugador2.add(cartaAleatoria1);
+            controlGrafico.mostrarCarta(carta1.getPalo().name(), carta1.getDenominacion().name(), "Jugador2", "", "Jugador2");
+            controlGrafico.mostrarCarta(carta2.getPalo().name(), carta2.getDenominacion().name(), "Jugador2", "", "Jugador2NuevoMazo");
+            controlGrafico.mostrarCarta(cartaAleatoria1.getPalo().name(), cartaAleatoria1.getDenominacion().name(), "Jugador2", "", "Jugador2");
+            controlGrafico.mostrarCarta(cartaAleatoria2.getPalo().name(), cartaAleatoria2.getDenominacion().name(), "Jugador2", "", "Jugador2NuevoMazo");
 
         }
     }
@@ -660,7 +680,6 @@ public class ControlPrincipal {
      */
     public boolean verificarCartasIguales(String jugador) {
         String carta1, carta2;
-
         if ("Jugador1".equals(jugador)) {
             carta1 = cartasJugador1.get(0).getDenominacion().name();
             carta2 = cartasJugador1.get(1).getDenominacion().name();
@@ -724,7 +743,7 @@ public class ControlPrincipal {
     }
 
     public boolean verificarBotonSeguro() {
-        if ("A".equals(cartasCrupier.get(1).getDenominacion().name())) {
+        if ("A".equals(cartasCrupier.get(0).getDenominacion().name())) {
             return true;
         }
         return false;
@@ -774,14 +793,24 @@ public class ControlPrincipal {
     public boolean sumarCantidadCartasJugadorActivo(String jugadorActivo) {
         int sumaCartas = 0;
         if (jugadorActivo.equals("Jugador1")) {
-            sumaCartas = sumarCartas(cartasJugador1);
+            if ("".equals(turnoMazoJugador1)) {
+                sumaCartas = sumarCartas(cartasJugador1);
+            } else if ("Jugador1".equals(turnoMazoJugador1)) {
+                sumaCartas = sumarCartas(cartasJugador1);
+            } else if ("Jugador1NuevoMazo".equals(turnoMazoJugador1)) {
+                sumaCartas = sumarCartas(dividirCartasJugador1);
+            }
         } else if (jugadorActivo.equals("Jugador2")) {
-            sumaCartas = sumarCartas(cartasJugador2);
-        } else if (jugadorActivo.equals("Jugador1Mazo2")) {
-            sumaCartas = sumarCartas(dividirCartasJugador1);
-        } else if (jugadorActivo.equals("Jugador2Mazo2")) {
-            sumaCartas = sumarCartas(dividirCartasJugador2);
+            if ("".equals(turnoMazoJugador2)) {
+                sumaCartas = sumarCartas(cartasJugador2);
+            } else if ("Jugador2".equals(turnoMazoJugador2)) {
+                sumaCartas = sumarCartas(cartasJugador2);
+            } else if ("Jugador2NuevoMazo".equals(turnoMazoJugador2)) {
+                sumaCartas = sumarCartas(dividirCartasJugador2);
+            }
         }
+        System.out.println(sumaCartas);
+        
         if (sumaCartas > 21) {
             controlGrafico.mostrarMensajeError("Ya no se puede jugar mas cartas el limite ha sido exedido");
             return true;
@@ -794,7 +823,7 @@ public class ControlPrincipal {
      */
     public void darTurnoCrupier() {
         boolean flag = true;
-        controlGrafico.mostrarCarta(cartasCrupier.get(1).getPalo().name(), cartasCrupier.get(1).getDenominacion().name(), "Crupier");
+        controlGrafico.mostrarCarta(cartasCrupier.get(1).getPalo().name(), cartasCrupier.get(1).getDenominacion().name(), "Crupier", "", "");
         controlGrafico.ocultarCartaOculta();
         do {
             int sumaCartas = sumarCartas(cartasCrupier);
@@ -823,7 +852,7 @@ public class ControlPrincipal {
                 setTurnoJugador("Jugador1");
                 flag = false;
             } else if (sumaCartas < 17) {
-                darCartas("Crupier");
+                darCartas("Crupier", turnoMazoJugador1, turnoMazoJugador2);
             }
         } while (flag);
         hacerPagosBlackJack();
@@ -950,6 +979,22 @@ public class ControlPrincipal {
      */
     public void setTurnoJugador(String turnoJugador) {
         this.turnoJugador = turnoJugador;
+    }
+
+    public String getTurnoMazoJugador1() {
+        return turnoMazoJugador1;
+    }
+
+    public void setTurnoMazoJugador1(String turnoMazoJugador1) {
+        this.turnoMazoJugador1 = turnoMazoJugador1;
+    }
+
+    public String getTurnoMazoJugador2() {
+        return turnoMazoJugador2;
+    }
+
+    public void setTurnoMazoJugador2(String turnoMazoJugador2) {
+        this.turnoMazoJugador2 = turnoMazoJugador2;
     }
 
 }

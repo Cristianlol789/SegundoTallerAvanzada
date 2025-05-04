@@ -216,17 +216,17 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     }
     
     public void dividirPanelCartasJugador2(){
-        panelMesa.jPanelCartasJugador1.removeAll();
-        panelMesa.jPanelCartasJugador1.revalidate();
-        panelMesa.jPanelCartasJugador1.repaint();
+        panelMesa.jPanelCartasJugador2.removeAll();
+        panelMesa.jPanelCartasJugador2.revalidate();
+        panelMesa.jPanelCartasJugador2.repaint();
         panelMesa.jPanelCartasJugador2.setLayout(new GridLayout(1,2));
         panel1Jugador2 = new JPanel(new FlowLayout());
         panel2Jugador2 = new JPanel(new FlowLayout());
         
         panelMesa.jPanelCartasJugador2.add(panel1Jugador2);
         panelMesa.jPanelCartasJugador2.add(panel2Jugador2);
-        panelMesa.jPanelCartasJugador1.revalidate();
-        panelMesa.jPanelCartasJugador1.repaint();
+        panelMesa.jPanelCartasJugador2.revalidate();
+        panelMesa.jPanelCartasJugador2.repaint();
     }
     
 

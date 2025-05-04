@@ -171,11 +171,15 @@ public class ControlGrafico implements ActionListener {
             if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
                 ventanaPrincipal.dividirPanelCartasJugador1();
                 controlPrincipal.dividirMazoJugador("Jugador1");
-                ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);              
+                ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);
+                controlPrincipal.setTurnoMazoJugador1("Jugador1");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador 1 Mazo 1");
             } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
-                ventanaPrincipal.dividirPanelCartasJugador1();
+                ventanaPrincipal.dividirPanelCartasJugador2();
                 controlPrincipal.dividirMazoJugador("Jugador2");
                 ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);
+                controlPrincipal.setTurnoMazoJugador2("Jugador2");
+                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador 2 Mazo 1");
 
             }
         }
@@ -201,30 +205,54 @@ public class ControlGrafico implements ActionListener {
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPedir) {
             String turnoJugador = controlPrincipal.getTurnoJugador();
             if (!controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) {
-                controlPrincipal.darCartas(turnoJugador);
+                controlPrincipal.darCartas(turnoJugador, controlPrincipal.getTurnoMazoJugador1(), controlPrincipal.getTurnoMazoJugador2());
             } else {
                 if (turnoJugador.equals("Jugador1")) {
-                    controlPrincipal.setTurnoJugador("Jugador2");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                    if ("".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                        controlPrincipal.setTurnoJugador("Jugador2");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
 
-                    double fichasapostadas = 0;
-                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
-                        fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
-                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
-                        fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
-                    }
+                        double fichasapostadas = 0;
+                        if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                            fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+                        } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                            fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+                        }
 
-                    if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
-                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                        if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                            ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                        }
+                    } else if ("Jugador1".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                        controlPrincipal.setTurnoMazoJugador1("Jugador1NuevoMazo");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1 Mazo 2");
+
+                    } else if ("Jugador1NuevoMazo".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                        controlPrincipal.setTurnoMazoJugador1("");
+                        controlPrincipal.setTurnoJugador("Jugador2");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
                     }
 
                 } else if (turnoJugador.equals("Jugador2")) {
-                    controlPrincipal.setTurnoJugador("Crupier");
-                    ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
-                    controlPrincipal.darTurnoCrupier();
+                    if ("".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                        controlPrincipal.setTurnoJugador("Crupier");
+                        ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                        controlPrincipal.darTurnoCrupier();
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                        controlPrincipal.setTurnoMazoJugador2("Jugador2NuevoMazo");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2 Mazo 2");
+
+                    } else if ("Jugador2NuevoMazo".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                        controlPrincipal.setTurnoMazoJugador2("");
+                        controlPrincipal.setTurnoJugador("Crupier");
+                        ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                        controlPrincipal.darTurnoCrupier();
+                    }
                 } else if (turnoJugador.equals("Crupier")) {
                     controlPrincipal.setTurnoJugador("Jugador1");
                     ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
@@ -245,22 +273,48 @@ public class ControlGrafico implements ActionListener {
                     }
                 }
             }
+
             if (controlPrincipal.sumarCantidadCartasJugadorActivo(turnoJugador)) {
                 if (turnoJugador.equals("Jugador1")) {
-                    controlPrincipal.setTurnoJugador("Jugador2");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                    if ("".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                        controlPrincipal.setTurnoJugador("Jugador2");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                    } else if ("Jugador1".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                        controlPrincipal.setTurnoMazoJugador1("Jugador1NuevoMazo");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1 Mazo 2");
+                    } else if ("Jugador1NuevoMazo".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                        controlPrincipal.setTurnoMazoJugador1("");
+                        controlPrincipal.setTurnoJugador("Jugador2");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+                    }
                 } else if (turnoJugador.equals("Jugador2")) {
-                    controlPrincipal.setTurnoJugador("Crupier");
-                    ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
-                    controlPrincipal.darTurnoCrupier();
+                    if ("".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                        controlPrincipal.setTurnoJugador("Crupier");
+                        ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                        controlPrincipal.darTurnoCrupier();
+                        controlPrincipal.darTurnoCrupier();
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                        controlPrincipal.setTurnoMazoJugador2("Jugador2NuevoMazo");
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2 Mazo 2");
+                    } else if ("Jugador2NuevoMazo".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                        controlPrincipal.setTurnoMazoJugador2("");
+                        controlPrincipal.setTurnoJugador("Crupier");
+                        ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+                        ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                        controlPrincipal.darTurnoCrupier();
+                    }
                 } else if (turnoJugador.equals("Crupier")) {
                     controlPrincipal.setTurnoJugador("Jugador1");
-                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1");
                 }
             }
+
+            //////////////////////////////////////////////////////
             if (controlPrincipal.verificarBotonSeguro()) {
                 if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
                     ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(true);
@@ -273,26 +327,52 @@ public class ControlGrafico implements ActionListener {
                     ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
                 }
             }
+            if (controlPrincipal.verificarCartasIguales(controlPrincipal.getTurnoJugador())) {
+                ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(true);
+            }
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonPlantarse) {
             String turnoJugador = controlPrincipal.getTurnoJugador();
             if (turnoJugador.equals("Jugador1")) {
-                controlPrincipal.setTurnoJugador("Jugador2");
-                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
-                double fichasapostadas = 0;
-                if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
-                    fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
-                } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
-                    fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+                if ("".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                    controlPrincipal.setTurnoJugador("Jugador2");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
+
+                    double fichasapostadas = 0;
+                    if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
+                        fichasapostadas = controlPrincipal.getFichasApostadasJugador1();
+                    } else if ("Jugador2".equals(controlPrincipal.getTurnoJugador())) {
+                        fichasapostadas = controlPrincipal.getFichasApostadasJugador2();
+                    }
+
+                    if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
+                        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
+                    }
+                } else if ("Jugador1".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                    controlPrincipal.setTurnoMazoJugador1("Jugador1NuevoMazo");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador1 Mazo 2");
+
+                } else if ("Jugador1NuevoMazo".equals(controlPrincipal.getTurnoMazoJugador1())) {
+                    controlPrincipal.setTurnoMazoJugador1("");
+                    controlPrincipal.setTurnoJugador("Jugador2");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2");
                 }
 
-                if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
-                    ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
-                }
             } else if (turnoJugador.equals("Jugador2")) {
-                controlPrincipal.setTurnoJugador("Crupier");
-                ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
-                controlPrincipal.darTurnoCrupier();
+                if ("".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                    controlPrincipal.setTurnoJugador("Crupier");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    controlPrincipal.darTurnoCrupier();
+                } else if ("Jugador2".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                    controlPrincipal.setTurnoMazoJugador2("Jugador1NuevoMazo");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Jugador2 Mazo 2");
+
+                } else if ("Jugador2NuevoMazo".equals(controlPrincipal.getTurnoMazoJugador2())) {
+                    controlPrincipal.setTurnoMazoJugador2("");
+                    controlPrincipal.setTurnoJugador("Crupier");
+                    ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
+                    controlPrincipal.darTurnoCrupier();
+                }
             } else if (turnoJugador.equals("Crupier")) {
                 controlPrincipal.setTurnoJugador("Jugador1");
                 ventanaPrincipal.panelMesa.jLabelTurnoJugador.setText("Crupier");
@@ -306,7 +386,11 @@ public class ControlGrafico implements ActionListener {
                 if (controlPrincipal.verificarDoblarApueta(controlPrincipal.getTurnoJugador(), fichasapostadas)) {
                     ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(true);
                 }
+
             }
+
+
+            /////////////////////////////////////////////////////////////////
             if (controlPrincipal.verificarBotonSeguro()) {
                 if ("Jugador1".equals(controlPrincipal.getTurnoJugador())) {
                     ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setEnabled(true);
@@ -325,10 +409,11 @@ public class ControlGrafico implements ActionListener {
         }
         if (e.getSource() == ventanaPrincipal.panelMesa.jButtonRepartir) {
             controlPrincipal.crearMazo();
+
             for (int i = 1; i <= 2; i++) {
-                controlPrincipal.darCartas("Jugador1");
-                controlPrincipal.darCartas("Jugador2");
-                controlPrincipal.darCartas("Crupier");
+                controlPrincipal.darCartas("Jugador1", controlPrincipal.getTurnoMazoJugador1(), controlPrincipal.getTurnoMazoJugador2());
+                controlPrincipal.darCartas("Jugador2", controlPrincipal.getTurnoMazoJugador1(), controlPrincipal.getTurnoMazoJugador2());
+                controlPrincipal.darCartas("Crupier", controlPrincipal.getTurnoMazoJugador1(), controlPrincipal.getTurnoMazoJugador2());
             }
             ventanaPrincipal.panelMesa.jButtonRepartir.setEnabled(false);
             ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(true);
@@ -436,13 +521,13 @@ public class ControlGrafico implements ActionListener {
      * @param denominacion es la cantidad que vale la carta
      * @param duenoCarta es la persona a la que le toco la carta
      */
-    public void mostrarCarta(String palo, String denominacion, String duenoCarta) {
+    public void mostrarCarta(String palo, String denominacion, String duenoCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         if (denominacion == null) {
             return; // Salir si la denominación es nula
         }
 
         PanelCarta carta = ventanaPrincipal.crearCarta(denominacionAbreviada(denominacion), palo);
-        JPanel panelDestino = obtenerPanelDestino(duenoCarta);
+        JPanel panelDestino = obtenerPanelDestino(duenoCarta, turnoMazoJugador1, turnoMazoJugador2);
 
         if (panelDestino != null) {
             panelDestino.add(carta);
@@ -486,21 +571,32 @@ public class ControlGrafico implements ActionListener {
         }
     }
 
-    private JPanel obtenerPanelDestino(String duenoCarta) {
+    private JPanel obtenerPanelDestino(String duenoCarta, String turnoMazoJugador1, String turnoMazoJugador2) {
         switch (duenoCarta) {
             case "Jugador1":
-                return ventanaPrincipal.panel1Jugador1 != null ? ventanaPrincipal.panel1Jugador1 : ventanaPrincipal.panelMesa.jPanelCartasJugador1;
+                if ("".equals(turnoMazoJugador1)) {
+                    return ventanaPrincipal.panelMesa.jPanelCartasJugador1; // Cambiado a jPanelCartasJugador2
+                } else if ("Jugador1".equals(turnoMazoJugador1)) {
+                    return ventanaPrincipal.panel1Jugador1; // O el panel correspondiente para el nuevo mazo
+                } else if ("Jugador1NuevoMazo".equals(turnoMazoJugador1)) {
+                    return ventanaPrincipal.panel2Jugador1; // O el panel correspondiente para el nuevo mazo
+                }
+                break;
             case "Jugador2":
-                return ventanaPrincipal.panel1Jugador2 != null ? ventanaPrincipal.panel1Jugador2 : ventanaPrincipal.panelMesa.jPanelCartasJugador2;
-            case "Jugador1NuevoMazo":
-                return ventanaPrincipal.panel2Jugador1;
-            case "Jugador2NuevoMazo":
-                return ventanaPrincipal.panel2Jugador2;
+                if ("".equals(turnoMazoJugador2)) {
+                    return ventanaPrincipal.panelMesa.jPanelCartasJugador2; // Cambiado a jPanelCartasJugador2
+                } else if ("Jugador2".equals(turnoMazoJugador2)) {
+                    return ventanaPrincipal.panel1Jugador2; // O el panel correspondiente para el nuevo mazo
+                } else if ("Jugador2NuevoMazo".equals(turnoMazoJugador2)) {
+                    return ventanaPrincipal.panel2Jugador2; // O el panel correspondiente para el nuevo mazo
+                }
+                break;
             case "Crupier":
                 return ventanaPrincipal.panelMesa.jPanelCartasCrupier;
             default:
                 return null; // Manejar caso no válido
         }
+        return null; // Retorno por defecto si no se cumple ninguna condición
     }
 
     /**
@@ -600,7 +696,7 @@ public class ControlGrafico implements ActionListener {
      *
      * @return el archivo que es necesario
      */
-    public File pedirArchivoSerializado() throws IOException, NullPointerException{
+    public File pedirArchivoSerializado() throws IOException, NullPointerException {
         return ventanaPrincipal.pedirArchivoPersonaSerializado();
     }
 
