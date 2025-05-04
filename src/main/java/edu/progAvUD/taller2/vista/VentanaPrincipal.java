@@ -246,6 +246,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelMesa.jPanelCartasJugador1.setLayout(new GridLayout(1, 2));
         panel1Jugador1 = new JPanel(new FlowLayout());
         panel2Jugador1 = new JPanel(new FlowLayout());
+        
+        panel1Jugador1.setBackground(new Color(28,111,65));
+        panel2Jugador1.setBackground(new Color(28,111,65));
 
         panelMesa.jPanelCartasJugador1.add(panel1Jugador1);
         panelMesa.jPanelCartasJugador1.add(panel2Jugador1);
@@ -263,6 +266,9 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         panelMesa.jPanelCartasJugador2.setLayout(new GridLayout(1, 2));
         panel1Jugador2 = new JPanel(new FlowLayout());
         panel2Jugador2 = new JPanel(new FlowLayout());
+        
+        panel1Jugador2.setBackground(new Color(28,111,65));
+        panel2Jugador2.setBackground(new Color(28,111,65));
 
         panelMesa.jPanelCartasJugador2.add(panel1Jugador2);
         panelMesa.jPanelCartasJugador2.add(panel2Jugador2);
