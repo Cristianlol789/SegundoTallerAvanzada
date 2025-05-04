@@ -662,7 +662,45 @@ public class ControlGrafico implements ActionListener {
         }
         return -1;
     }
+    
+    public void limpiarEspacioInicioDeRonda() {
+        ventanaPrincipal.panelMesa.jPanelCartasCrupier.removeAll();
+        ventanaPrincipal.panelMesa.jPanelCartasJugador1.removeAll();
+        ventanaPrincipal.panelMesa.jPanelCartasJugador2.removeAll();
 
+        ventanaPrincipal.panelMesa.jButtonSeguroJugador1.setVisible(false);
+        ventanaPrincipal.panelMesa.jButtonSeguroJugador2.setVisible(false);
+        ventanaPrincipal.panelMesa.jButtonRepartir.setEnabled(false);
+        ventanaPrincipal.panelMesa.jButtonPedir.setEnabled(false);
+        ventanaPrincipal.panelMesa.jButtonPlantarse.setEnabled(false);
+        ventanaPrincipal.panelMesa.jButtonDoblar.setEnabled(false);
+        ventanaPrincipal.panelMesa.jButtonDividir.setEnabled(false);
+        ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada1.setVisible(false);
+        ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada2.setVisible(false);
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setVisible(false);
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setVisible(false);
+
+        ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar1.setVisible(true);
+        ventanaPrincipal.panelMesa.jLabelTextoApostar1.setVisible(true);
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador1.setVisible(true);
+        ventanaPrincipal.panelMesa.jLabeltTextoCantidadFichasJugador1.setVisible(true);
+        ventanaPrincipal.panelMesa.jButtonApostarFichasJugador1.setVisible(true);
+
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador1.setVisible(false);
+        ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada1.setVisible(false);
+
+        ventanaPrincipal.panelMesa.jSpinnerCantidadFichasApostar2.setVisible(true);
+        ventanaPrincipal.panelMesa.jLabelTextoApostar2.setVisible(true);
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasJugador2.setVisible(true);
+        ventanaPrincipal.panelMesa.jLabeltTextoCantidadFichasJugador2.setVisible(true);
+        ventanaPrincipal.panelMesa.jButtonApostarFichasJugador2.setVisible(true);
+
+        ventanaPrincipal.panelMesa.jLabelCantidadFichasApostadasJugador2.setVisible(false);
+        ventanaPrincipal.panelMesa.jLabelTextoCantidadApostada2.setVisible(false);
+
+    }
+    
+    
     /**
      * Este es el metodo que muestra los errores que suceden durante la
      * ejecucion o los errores que este cometiendo el usuario en el momento

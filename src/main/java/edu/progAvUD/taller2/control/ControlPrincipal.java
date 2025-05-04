@@ -453,11 +453,19 @@ public class ControlPrincipal {
         ganadorRonda.put(contadorRondas, resultado);
         controlGrafico.mostrarMensajeError(resultado);
         contadorRondas += 1;
-        crearArchivoAleatorio();
-        controlPersona.crearSerializacion("crearDocumento");
-        controlPersona.escribirArchivoSerializado();
-        controlPersona.cerrarArchivoSerializadoIn();
-        System.exit(0);
+        
+        controlGrafico.limpiarEspacioInicioDeRonda();
+        limpiarVariableInicioDeRonda();
+        conteoJugadores();
+        seleccionarJugadores();
+        
+        
+        if(contadorRondas==4){
+            crearArchivoAleatorio();
+            controlPersona.crearSerializacion("crearDocumento");
+            System.exit(0);
+        }
+        
     }
 
     /**
@@ -695,6 +703,10 @@ public class ControlPrincipal {
      * @return
      */
     public boolean verificarCartasIguales(String jugador) {
+        if(cartasJugador1.isEmpty() || cartasJugador2.isEmpty()){
+            return false;
+        }
+        
         String carta1, carta2;
         if ("Jugador1".equals(jugador)) {
             carta1 = cartasJugador1.get(0).getDenominacion().name();
@@ -759,6 +771,9 @@ public class ControlPrincipal {
     }
 
     public boolean verificarBotonSeguro() {
+        if(cartasCrupier.isEmpty()){
+            return false;
+        }
         if ("A".equals(cartasCrupier.get(0).getDenominacion().name())) {
             return true;
         }
@@ -885,6 +900,10 @@ public class ControlPrincipal {
         dividirCartasJugador2.clear();
         fichasApostadasJugador1 = 0;
         fichasApostadasJugador2 = 0;
+        fichasAseguradasJugador1 =0;
+        fichasAseguradasJugador2 =0;
+        turnoMazoJugador1="";
+        turnoMazoJugador2="";
     }
 
     /**
